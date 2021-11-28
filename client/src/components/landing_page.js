@@ -1,33 +1,4 @@
 import React from "react";
-import { useState, useContext, useEffect, useRef } from "react";
-
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-// import { styled } from '@mui/styles';
-
-// const card = styled(Card)({
-//     fontFamily: "Manrope, sans-serif",
-//       fontSize: "70px",
-//       left: "30%",
-//       position: "absolute",
-//       top: "50%",
-//       transform: "translate(-50%, -50%)",
-//       borderStyle: "none",
-//       borderWidth: 0,
-//       width: "30%",
-//       height: "50%",
-//       textAlign: "left",
-//       padding: "60px",
-//       backgroundColor: theme.palette.background.default,
-//       boxShadow: "none",
-// });
-
-// const font = styled(Font)({
-//     fontColor: theme.typography.fontColor,
-//     fontFamily: theme.typography.fontFamily,
-//   })
 
 const LandingPage = () => {
 
