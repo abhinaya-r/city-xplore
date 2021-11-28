@@ -57,6 +57,7 @@ const LandingPage = () => {
                 <p>
                 City Explorer helps you find personalized things to do in your city.
                 </p>
+                <p>{!data ? "Loading..." : data}</p>
                 </div>
             </div>
             </div>
