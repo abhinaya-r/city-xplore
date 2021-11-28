@@ -128,7 +128,7 @@ const Login = () => {
               Login
             </Button>
           </Grid>
-          <Grid item xs={8}>
+          {/* <Grid item xs={8}>
             <Typography
               style={{
                 fontFamily: "Manrope, sans-serif",
@@ -141,7 +141,7 @@ const Login = () => {
             >
               Don't have an account? Sign up here!
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Card>
       <img
