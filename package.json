@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "history": "^5.1.0",
+    "react-router-dom": "^6.0.2"
   }
 }
