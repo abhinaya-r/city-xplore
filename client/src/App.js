@@ -40,7 +40,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         {/* <Route path="/getrecommendations"
               element={<RecommendationPage/>}/>
-            <Route exact path="/about" element={<AboutPage/>} /> */}
+            <Route exact path="/about" element={<AboutPage/>} />
       </Routes>
     </BrowserRouter>
   );
