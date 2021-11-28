@@ -23,9 +23,9 @@ app.get('*', (req, res) => {
 });
 
 /* GET React App */
-router.get(['/client', '/client/*'], function(req, res, next) {
-  res.sendFile(path.join(__dirname, '../public', 'app.html'));
- });
+// router.get(['/client', '/client/*'], function(req, res, next) {
+//   res.sendFile(path.join(__dirname, '../public', 'app.html'));
+//  });
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
