@@ -11,7 +11,7 @@ import {
 import LandingPage from "./pages/landing_page";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
-// import MainPage from "./pages/mainpage"
+import DashboardPage from "./pages/dashboard";
 // import RecommendationPage from "./pages/recommendations"
 // import AboutPage from "./pages/about"
 
@@ -37,8 +37,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        {/* <Route path="/dashboard" element={<MainPage/>} />
-        <Route path="/getrecommendations"
+        <Route path="/dashboard" element={<DashboardPage />} />
+        {/* <Route path="/getrecommendations"
               element={<RecommendationPage/>}/>
             <Route exact path="/about" element={<AboutPage/>} /> */}
       </Routes>
