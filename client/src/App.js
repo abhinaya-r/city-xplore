@@ -5,11 +5,11 @@ import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./components/landing_page";
-import LoginPage from "./components/login";
-import SignupPage from "./components/signup";
-import MainPage from "./components/mainpage"
-import RecommendationPage from "./components/recommendations"
-import AboutPage from "./components/about"
+// import LoginPage from "./components/login";
+// import SignupPage from "./components/signup";
+// import MainPage from "./components/mainpage"
+// import RecommendationPage from "./components/recommendations"
+// import AboutPage from "./components/about"
 
 
 function App() {
@@ -32,12 +32,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage/>} />
-        <Route path="/login" element={<LoginPage/>} />
+        {/* <Route path="/login" element={<LoginPage/>} />
         <Route path="/signup" element={<SignupPage/>} />
         <Route path="/dashboard" element={<MainPage/>} />
         <Route path="/getrecommendations"
               element={<RecommendationPage/>}/>
-            <Route exact path="/about" element={<AboutPage/>} />
+            <Route exact path="/about" element={<AboutPage/>} /> */}
       </Routes>
   </BrowserRouter>
   );
