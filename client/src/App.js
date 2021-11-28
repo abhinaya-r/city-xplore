@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import LandingPage from "./pages/landing_page";
 import LoginPage from "./pages/login";
-// import SignupPage from "./pages/signup";
+import SignupPage from "./pages/signup";
 // import MainPage from "./pages/mainpage"
 // import RecommendationPage from "./pages/recommendations"
 // import AboutPage from "./pages/about"
@@ -36,8 +36,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage/>} />
-        {/* <Route path="/signup" element={<SignupPage/>} />
-        <Route path="/dashboard" element={<MainPage/>} />
+        <Route path="/signup" element={<SignupPage/>} />
+        {/* <Route path="/dashboard" element={<MainPage/>} />
         <Route path="/getrecommendations"
               element={<RecommendationPage/>}/>
             <Route exact path="/about" element={<AboutPage/>} /> */}
