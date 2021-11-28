@@ -11,9 +11,9 @@ import {
 import LandingPage from "./pages/landing_page";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
-// import MainPage from "./pages/mainpage"
-// import RecommendationPage from "./pages/recommendations"
-// import AboutPage from "./pages/about"
+import MainPage from "./pages/mainpage"
+import RecommendationPage from "./pages/recommendations"
+import AboutPage from "./pages/about"
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -37,10 +37,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/signup" element={<SignupPage/>} />
-        {/* <Route path="/dashboard" element={<MainPage/>} />
+        <Route path="/dashboard" element={<MainPage/>} />
         <Route path="/getrecommendations"
               element={<RecommendationPage/>}/>
-            <Route exact path="/about" element={<AboutPage/>} /> */}
+            <Route exact path="/about" element={<AboutPage/>} />
       </Routes>
     </BrowserRouter>
   );
