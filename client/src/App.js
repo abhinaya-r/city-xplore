@@ -12,8 +12,8 @@ import LandingPage from "./pages/landing_page";
 import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 import DashboardPage from "./pages/dashboard";
-import RecommendationPage from "./pages/recommendations"
-import AboutPage from "./pages/about"
+import ItineraryPage from "./pages/itinerary_page";
+import AboutPage from "./pages/about";
 
 function App() {
   const [data, setData] = React.useState(null);
@@ -38,9 +38,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-         <Route path="/getrecommendations"
-              element={<RecommendationPage/>}/>
-          <Route exact path="/about" element={<AboutPage/>} />
+        <Route path="/getitinerary" element={<ItineraryPage />} />
+        <Route exact path="/about" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   );
