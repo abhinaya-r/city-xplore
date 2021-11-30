@@ -8,9 +8,19 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
 
-const Login = () => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+// async function loginUser(credentials) {
+//   return fetch("http://localhost:3001/api", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
+// }
+
+const Login = ({ setToken }) => {
+  // const [username, setUserName] = useState();
+  // const [password, setPassword] = useState();
 
   // const handleSubmit = async (e) => {
   //   console.log("submitting");
@@ -89,7 +99,7 @@ const Login = () => {
               id="filled"
               variant="outlined"
               size="small"
-              onChange={(e) => setUserName(e.target.value)}
+              // onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
           <Grid item xs={8}>
@@ -99,7 +109,7 @@ const Login = () => {
             <TextField
               variant="outlined"
               size="small"
-              onChange={(e) => setPassword(e.target.value)}
+              // onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid
