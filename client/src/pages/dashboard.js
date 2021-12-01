@@ -19,7 +19,7 @@ const Mainpage = () => {
   return (
     <div style={{ height: "100vh" }}>
       <Header />
-      <Grid container justifyContent="center" spacing={0}>
+      <Grid container justifyContent="center" spacing={3}>
         <Grid
           item
           xs={12}
@@ -33,10 +33,13 @@ const Mainpage = () => {
             Past Itineraries:
           </Typography>
         </Grid>
-        <Grid item xs={10} style={{ paddingTop: "30px" }}>
+        <Grid item xs={12} style={{ paddingTop: "30px", paddingLeft: "200px" }}>
           <Itinerary></Itinerary>
         </Grid>
-        <Grid item xs={12} style={{ textAlign: "center", paddingTop: "30px" }}>
+        {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
+          <Itinerary></Itinerary>
+        </Grid> */}
+        <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
           <Link
             to="/getitinerary"
             style={{
