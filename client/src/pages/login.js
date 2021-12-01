@@ -7,10 +7,22 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+// async function loginUser(credentials) {
+//   return fetch("http://localhost:3001/api", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
+// }
+
+const Login = ({ setToken }) => {
+  // const [username, setUserName] = useState();
+  // const [password, setPassword] = useState();
 
   // const handleSubmit = async (e) => {
   //   console.log("submitting");
@@ -89,7 +101,7 @@ const Login = () => {
               id="filled"
               variant="outlined"
               size="small"
-              onChange={(e) => setUserName(e.target.value)}
+              // onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
           <Grid item xs={8}>
@@ -99,7 +111,9 @@ const Login = () => {
             <TextField
               variant="outlined"
               size="small"
-              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              // onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid
@@ -112,21 +126,29 @@ const Login = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
-              as="input"
-              type="submit"
-              value="Submit"
-              // onClick={handleSubmit}
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Login
-            </Button>
+              <Button
+                as="input"
+                type="submit"
+                value="Submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                }}
+              >
+                Login
+              </Button>
+            </Link>
           </Grid>
           {/* <Grid item xs={8}>
             <Typography
