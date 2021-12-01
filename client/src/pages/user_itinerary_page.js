@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
 
 const UserItinerary = () => {
   const cardStyle = {
@@ -30,7 +31,63 @@ const UserItinerary = () => {
     <div style={{ height: "100vh" }} style={background}>
       <Header />
       <Card style={cardStyle}>
-        <Grid container spacing={0}></Grid>
+        <Grid container spacing={0}>
+          <Typography
+            style={{
+              color: "white",
+              fontSize: "40px",
+              fontWeight: "bold",
+              marginBottom: "30px",
+              marginTop: "-30px",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            Date
+          </Typography>
+          <Box
+            component="span"
+            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
+            style={{
+              width: "100%",
+              color: "#919E6A",
+              fontSize: "25px",
+              fontWeight: "bold",
+              padding: "20px",
+              marginBottom: "25px",
+            }}
+          >
+            Activity 1
+          </Box>
+          <Box
+            component="span"
+            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
+            style={{
+              width: "100%",
+              color: "#919E6A",
+              fontSize: "25px",
+              fontWeight: "bold",
+              padding: "20px",
+              marginBottom: "25px",
+            }}
+          >
+            Activity 2
+          </Box>
+          <Box
+            component="span"
+            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
+            style={{
+              width: "100%",
+              color: "#919E6A",
+              fontSize: "25px",
+              fontWeight: "bold",
+              padding: "20px",
+              marginBottom: "25px",
+            }}
+          >
+            Activity 3
+          </Box>
+        </Grid>
       </Card>
     </div>
   );
