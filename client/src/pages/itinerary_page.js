@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
+import { Link } from "react-router-dom";
 
 const Recommendations = () => {
   const cardStyle = {
@@ -187,21 +188,30 @@ const Recommendations = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
-              as="input"
-              type="submit"
-              value="Submit"
+            <Link
+              to="/itinerary"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "7px",
-                justifyContent: "center",
-                fontSize: "15px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Get Itinerary
-            </Button>
+              <Button
+                as="input"
+                type="submit"
+                value="Submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "7px",
+                  justifyContent: "center",
+                  fontSize: "15px",
+                }}
+              >
+                Get Itinerary
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Card>

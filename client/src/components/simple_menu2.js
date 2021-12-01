@@ -18,9 +18,16 @@ export default function SimpleMenu() {
           <Button style={{ color: "white" }}>About</Button>
         </Link>
       </Tooltip>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <Button style={{ color: "white" }}>Sign out</Button>
-      </Link>
+      <Tooltip title="Log in" style={{ color: "white" }}>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <Button style={{ color: "white" }}>Log in</Button>
+        </Link>
+      </Tooltip>
+      <Tooltip title="Sign up" style={{ color: "white" }}>
+        <Link to="/signup" style={{ textDecoration: "none" }}>
+          <Button style={{ color: "white" }}>Sign up</Button>
+        </Link>
+      </Tooltip>
     </div>
   );
 }
