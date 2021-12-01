@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import SimpleMenu from "./simple_menu";
+import SimpleMenu2 from "./simple_menu2";
 
 export default function Header(props) {
   const grow = {
@@ -33,7 +33,7 @@ export default function Header(props) {
             </Link>
           </div>
           <div style={grow} />
-          <SimpleMenu></SimpleMenu>
+          <SimpleMenu2></SimpleMenu2>
         </Toolbar>
       </AppBar>
       <Toolbar />
