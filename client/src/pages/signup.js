@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [username, setUserName] = useState();
@@ -216,17 +217,26 @@ const Login = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Sign up
-            </Button>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                }}
+              >
+                Sign up
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Card>
