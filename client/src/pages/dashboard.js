@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
 import Itinerary from "../components/itinerary";
+import { Link } from "react-router-dom";
 
 const Mainpage = () => {
   const typeStyle = {
@@ -36,21 +37,30 @@ const Mainpage = () => {
           <Itinerary></Itinerary>
         </Grid>
         <Grid item xs={12} style={{ textAlign: "center", paddingTop: "30px" }}>
-          <Button
-            as="input"
-            type="submit"
-            value="Submit"
+          <Link
+            to="/getitinerary"
             style={{
               color: "white",
-              backgroundColor: "orange",
-              fontFamily: "Manrope, sans-serif",
-              padding: "30px",
-              justifyContent: "center",
-              fontSize: "15px",
+              font: "Manrope, sans-serif",
+              textDecoration: "none",
             }}
           >
-            Create a new Itinerary!
-          </Button>
+            <Button
+              as="input"
+              type="submit"
+              value="Submit"
+              style={{
+                color: "white",
+                backgroundColor: "orange",
+                fontFamily: "Manrope, sans-serif",
+                padding: "30px",
+                justifyContent: "center",
+                fontSize: "15px",
+              }}
+            >
+              Create a new Itinerary!
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </div>
