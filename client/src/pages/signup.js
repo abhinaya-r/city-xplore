@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [username, setUserName] = useState();
@@ -45,12 +46,22 @@ const Login = () => {
     textAlign: "left",
   };
 
+  const textboxStyle = {
+    paddingTop: "0px", 
+    paddingBottom: "0px", 
+    background: "#FFFFFF",
+    border: "#FFFFFF",
+    borderRadius:"10px",
+    paddingTop: "0px", 
+    paddingBottom: "0px"
+  }
   return (
     <div style={{ height: "100vh" }}>
       <Header />
       <Card style={cardStyle}>
         <Typography
           style={{
+            fontFamily: "Manrope, sans-serif",
             color: "white",
             fontSize: "30px",
             marginTop: "-40px",
@@ -58,6 +69,7 @@ const Login = () => {
             paddingTop: "0px",
             paddingBottom: "0px",
             textAlign: "center",
+            fontWeight: "bold"
           }}
         >
           Get Started Today!
@@ -65,7 +77,7 @@ const Login = () => {
         <Grid
           container
           spacing={6}
-          padding="10px"
+          padding="5px"
           style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
           columns={2}
         >
@@ -85,18 +97,19 @@ const Login = () => {
                 paddingTop: "0px",
                 paddingBottom: "0px",
                 textAlign: "left",
+                fontFamily: "Manrope, sans-serif"
               }}
             >
               First Name
             </Typography>
             <TextField
-              id="filled-basic"
+              variant="outlined"
               // label="Outlined"
-              variant="filled"
+              id="filled"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
               margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
+              style={textboxStyle}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -126,10 +139,10 @@ const Login = () => {
               Last Name
             </Typography>
             <TextField
-              id="filled-basic"
-              variant="filled"
+              id="filled"
+              variant="outlined"
               margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
+              style={textboxStyle}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -141,7 +154,7 @@ const Login = () => {
         <Grid id="second-row" container spacing={0}>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -162,7 +175,7 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -170,12 +183,13 @@ const Login = () => {
             }}
           >
             <TextField
-              id="filled-basic"
+              id="filled"
               // label="Outlined"
-              variant="filled"
+              variant="outlined"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
               margin="normal"
+              style={textboxStyle}
               InputProps={{
                 disableUnderline: true,
               }}
@@ -185,7 +199,7 @@ const Login = () => {
         <Grid id="third-row" spacing={2} style={{ border: "0px" }}>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "10px",
@@ -206,7 +220,7 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -214,12 +228,15 @@ const Login = () => {
             }}
           >
             <TextField
-              id="filled-basic"
+              id="filled"
+              type="password"
+              name="password"
               // label="Outlined"
-              variant="filled"
+              variant="outlined"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
               margin="normal"
+              style={textboxStyle}
               InputProps={{
                 disableUnderline: true,
               }}
@@ -227,7 +244,7 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={4}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -235,17 +252,31 @@ const Login = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Sign up
-            </Button>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
+                }}
+              >
+                Sign up
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Card>
