@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header";
+import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
