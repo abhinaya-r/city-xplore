@@ -8,6 +8,8 @@ const app = express();
 
 const path = require('path');
 
+const db = require('../database/models/index.js');
+
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -15,6 +17,11 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
+});
+
+app.post('/signup', function(req, res) {
+  const url = req.body
+  console.log("post req:", url);
 });
 
 // All other GET requests not handled before will return our React app

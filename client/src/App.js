@@ -15,6 +15,8 @@ import DashboardPage from "./pages/dashboard";
 import RecommendationPage from "./pages/recommendations"
 import AboutPage from "./pages/about"
 
+// const db = require('../../database/models/index.js');
+
 function App() {
   const [data, setData] = React.useState(null);
 
