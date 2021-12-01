@@ -22,6 +22,11 @@ const LandingPage = () => {
     paddingLeft: "30px",
     paddingRight: "30px",
     paddingBottom: "3px",
+    fontWeight: "bold",
+    textTransform: 'none',
+    minWidth: "239px",
+    minHeight: "58px",
+    fontSize: "24px"
   };
 
   const cardStyle = {
@@ -44,9 +49,10 @@ const LandingPage = () => {
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "#919E6A",
-    fontSize: "40px",
+    fontSize: "45px",
     paddingBottom: "0px",
     textAlign: "left",
+    fontWeight: "bold"
   };
 
   const imageStyle = {
