@@ -7,6 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // async function loginUser(credentials) {
 //   return fetch("http://localhost:3001/api", {
@@ -109,6 +111,8 @@ const Login = ({ setToken }) => {
             <TextField
               variant="outlined"
               size="small"
+              type="password"
+              name="password"
               // onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
@@ -122,21 +126,29 @@ const Login = ({ setToken }) => {
               paddingTop: "0px",
             }}
           >
-            <Button
-              as="input"
-              type="submit"
-              value="Submit"
-              // onClick={handleSubmit}
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Login
-            </Button>
+              <Button
+                as="input"
+                type="submit"
+                value="Submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                }}
+              >
+                Login
+              </Button>
+            </Link>
           </Grid>
           {/* <Grid item xs={8}>
             <Typography
