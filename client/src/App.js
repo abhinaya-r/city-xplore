@@ -16,14 +16,29 @@ import ItineraryPage from "./pages/itinerary_page";
 import UserItineraryPage from "./pages/user_itinerary_page";
 import AboutPage from "./pages/about";
 
+// function setToken(userToken) {
+//   sessionStorage.setItem("token", JSON.stringify(userToken));
+// }
+
+// function getToken() {
+//   const tokenString = sessionStorage.getItem("token");
+//   const userToken = JSON.parse(tokenString);
+//   return userToken?.token;
+// }
+
 function App() {
   const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+  // const token = getToken();
+  // if (!token) {
+  //   return <LoginPage setToken={setToken} />;
+  // }
+
+  // React.useEffect(() => {
+  //   fetch("/api")
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data.message));
+  // }, []);
 
   // <div className="App">
   //   <header className="App-header">
