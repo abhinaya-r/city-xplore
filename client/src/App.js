@@ -13,6 +13,7 @@ import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 import DashboardPage from "./pages/dashboard";
 import ItineraryPage from "./pages/itinerary_page";
+import UserItineraryPage from "./pages/user_itinerary_page";
 import AboutPage from "./pages/about";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/getitinerary" element={<ItineraryPage />} />
         <Route exact path="/about" element={<AboutPage />} />
+        <Route exact path="/itinerary" element={<UserItineraryPage />} />
       </Routes>
     </BrowserRouter>
   );
