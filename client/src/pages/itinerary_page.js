@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 let activities = []
 
@@ -15,19 +16,30 @@ let activities = []
 const Recommendations = () => {
   const addRestaurant = () => {
     activities.push("restaurant");
-    console.log("restaurant");
+    console.log(activities);
   }
   const addBar = () => {
     activities.push("bar");
-    console.log("bar");
+    console.log(activities);
   }
   const addMuseum = () => {
     activities.push("museum");
-    console.log("museum");
+    console.log(activities);
   }
   const addDessert = () => {
     activities.push("dessert");
-    console.log("dessert");
+    console.log(activities);
+  }
+  const createItinerary = () => {
+    const activityList = new FormData();
+
+    activities.forEach((item) => {
+        activityList.append('activities[]', item);
+    });
+    axios.post("/api/new_itinerary", activityList)
+    .then((response) => {
+     console.log(response.data);
+    });
   }
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -45,6 +57,10 @@ const Recommendations = () => {
 
   const background = {
     backgroundColor: "#FFF6F1",
+  };
+
+  const handleClick = async (e) => {
+    console.log("restaurant");
   };
   return (
     <div style={{ height: "100vh" }} style={background}>
@@ -73,7 +89,7 @@ const Recommendations = () => {
             }}
           >
             <Button
-                onClick={() => {console.log("restaurant");}}
+              onClick={addRestaurant}
               value={"Restaurants"}
               style={{
                 color: "white",
@@ -97,6 +113,7 @@ const Recommendations = () => {
             }}
           >
             <Button
+            onClick={addBar}
               style={{
                 color: "white",
                 backgroundColor: "orange",
@@ -119,6 +136,7 @@ const Recommendations = () => {
             }}
           >
             <Button
+            onClick={addDessert}
               style={{
                 color: "white",
                 backgroundColor: "orange",
@@ -141,6 +159,7 @@ const Recommendations = () => {
             }}
           >
             <Button
+            onClick={addMuseum}
               style={{
                 color: "white",
                 backgroundColor: "orange",
@@ -217,6 +236,7 @@ const Recommendations = () => {
               }}
             >
               <Button
+                onClick={createItinerary}
                 as="input"
                 type="submit"
                 value="Submit"

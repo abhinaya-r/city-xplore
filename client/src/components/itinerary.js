@@ -13,6 +13,7 @@ export default function Itinerary() {
     marginBottom: "50px",
   };
 
+
   return (
     <div>
       <Grid container>
