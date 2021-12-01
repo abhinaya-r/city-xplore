@@ -90,19 +90,12 @@ const Login = () => {
               First Name
             </Typography>
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              id="filled"
+              variant="outlined"
+              size="small"
               margin="none"
               style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                paddingTop: "0px",
-                paddingBottom: "0px",
-              }}
+              // onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
           <Grid
@@ -126,15 +119,11 @@ const Login = () => {
               Last Name
             </Typography>
             <TextField
-              id="filled-basic"
-              variant="filled"
+              id="filled"
+              variant="outlined"
+              size="small"
               margin="none"
               style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                padding: "0px",
-              }}
             />
           </Grid>
         </Grid>
@@ -170,15 +159,10 @@ const Login = () => {
             }}
           >
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              id="filled"
+              variant="outlined"
+              size="small"
               margin="normal"
-              InputProps={{
-                disableUnderline: true,
-              }}
             />
           </Grid>
         </Grid>
@@ -214,15 +198,12 @@ const Login = () => {
             }}
           >
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              id="filled"
+              variant="outlined"
+              size="small"
               margin="normal"
-              InputProps={{
-                disableUnderline: true,
-              }}
+              type="password"
+              name="password"
             />
           </Grid>
           <Grid
