@@ -16,7 +16,7 @@ import DashboardPage from "./pages/dashboard";
 import ProfilePage from "./pages/profile_page";
 import ItineraryPage from "./pages/itinerary_page";
 import AboutPage from "./pages/about";
-import PrivateRoute from './components/PrivateRoute';
+// import PrivateRoute from './components/PrivateRoute';
 
 
 function setToken(userToken) {
