@@ -40,7 +40,7 @@ const LandingPage = () => {
     borderStyle: "none",
     borderWidth: 0,
     width: "35%",
-    height: "50%",
+    height: "60%",
     textAlign: "left",
     padding: "60px",
     backgroundColor: "white",
