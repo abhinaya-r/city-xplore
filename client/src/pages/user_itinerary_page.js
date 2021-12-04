@@ -9,6 +9,8 @@ import Header from "../components/header";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 
+import axios from "axios";
+
 const UserItinerary = () => {
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -27,6 +29,26 @@ const UserItinerary = () => {
   const background = {
     backgroundColor: "#FFF6F1",
   };
+
+  const [itinerary, getItinerary] = React.useState('');
+
+  const getNewItinerary = () => {
+    axios.get("/api/new_itinerary")
+    .then((response) => {
+      const allActivities = response.data;
+      getItinerary(allActivities);
+    })
+    .catch(error => console.error(`Error: ${error}`))
+  }
+
+  React.useEffect(() => {
+    getNewItinerary();
+  }, [])
+
+// let itinerary = fetchData();
+// const itinerary = fetchData().then((data) => data[0]);
+console.log("itinerary: ");
+
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
@@ -43,7 +65,7 @@ const UserItinerary = () => {
             }}
           >
             {" "}
-            Date
+            12/1/2021
           </Typography>
           <Box
             component="span"
@@ -52,12 +74,12 @@ const UserItinerary = () => {
               width: "100%",
               color: "#919E6A",
               fontSize: "25px",
-              fontWeight: "bold",
+              fontWeighßt: "bold",
               padding: "20px",
               marginBottom: "25px",
             }}
           >
-            Activity 1
+            {itinerary[0].name}
           </Box>
           <Box
             component="span"
@@ -71,7 +93,7 @@ const UserItinerary = () => {
               marginBottom: "25px",
             }}
           >
-            Activity 2
+            Magnolia Bakery -- Rockefeller Center 
           </Box>
           <Box
             component="span"
@@ -85,7 +107,7 @@ const UserItinerary = () => {
               marginBottom: "25px",
             }}
           >
-            Activity 3
+            Connolly's
           </Box>
         </Grid>
       </Card>
