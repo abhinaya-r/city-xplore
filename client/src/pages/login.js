@@ -10,30 +10,30 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-// async function loginUser(credentials) {
-//   return fetch("http://localhost:3001/api", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
+async function loginUser(credentials) {
+  return fetch("http://localhost:3001/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  }).then((data) => data.json());
+}
 
 const Login = ({ setToken }) => {
-  // const [username, setUserName] = useState();
-  // const [password, setPassword] = useState();
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
 
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await loginUser({
-  //     username,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  // };
+  const handleSubmit = async (e) => {
+    console.log("submitting");
+    e.preventDefault();
+    const token = await loginUser({
+      username,
+      password,
+    });
+    console.log(token);
+    setToken(token);
+  };
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -101,7 +101,16 @@ const Login = ({ setToken }) => {
               id="filled"
               variant="outlined"
               size="small"
+<<<<<<< Updated upstream
               // onChange={(e) => setUserName(e.target.value)}
+=======
+              onChange={(e) => setUserName(e.target.value)}
+              style={{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
+              }}
+>>>>>>> Stashed changes
             />
           </Grid>
           <Grid item xs={8}>
@@ -113,7 +122,16 @@ const Login = ({ setToken }) => {
               size="small"
               type="password"
               name="password"
+<<<<<<< Updated upstream
               // onChange={(e) => setPassword(e.target.value)}
+=======
+              style={{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
+              }}
+              onChange={(e) => setPassword(e.target.value)}
+>>>>>>> Stashed changes
             />
           </Grid>
           <Grid
@@ -126,17 +144,10 @@ const Login = ({ setToken }) => {
               paddingTop: "0px",
             }}
           >
-            <Link
-              to="/dashboard"
-              style={{
-                color: "white",
-                font: "Manrope, sans-serif",
-                textDecoration: "none",
-              }}
-            >
               <Button
                 as="input"
                 type="submit"
+                onClick={handleSubmit}
                 value="Submit"
                 style={{
                   color: "white",
@@ -148,7 +159,6 @@ const Login = ({ setToken }) => {
               >
                 Login
               </Button>
-            </Link>
           </Grid>
           {/* <Grid item xs={8}>
             <Typography

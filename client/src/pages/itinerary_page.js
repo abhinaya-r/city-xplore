@@ -7,7 +7,14 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 
+
 const Recommendations = () => {
+  const [alignment, setAlignment] = React.useState('');
+
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -25,6 +32,7 @@ const Recommendations = () => {
   const background = {
     backgroundColor: "#FFF6F1",
   };
+
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
@@ -52,7 +60,6 @@ const Recommendations = () => {
             }}
           >
             <Button
-              //   onClick={handleChangeValue}
               value={"Restaurants"}
               style={{
                 color: "white",
@@ -165,15 +172,13 @@ const Recommendations = () => {
             }}
           >
             <TextField
-              id="filled-basic"
-              variant="filled"
-              margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                paddingTop: "0px",
-                paddingBottom: "0px",
+              id="filled"
+              variant="outlined"
+              size="small"
+              style={{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
               }}
             />
           </Grid>

@@ -91,11 +91,17 @@ const Login = () => {
               First Name
             </Typography>
             <TextField
+<<<<<<< Updated upstream
               id="filled-basic"
               // label="Outlined"
               variant="filled"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
+=======
+              variant="outlined"
+              id="filled"
+              size= "small"
+>>>>>>> Stashed changes
               margin="none"
               style={{ paddingTop: "0px", paddingBottom: "0px" }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -127,8 +133,14 @@ const Login = () => {
               Last Name
             </Typography>
             <TextField
+<<<<<<< Updated upstream
               id="filled-basic"
               variant="filled"
+=======
+              id="filled"
+              variant="outlined"
+              size= "small"
+>>>>>>> Stashed changes
               margin="none"
               style={{ paddingTop: "0px", paddingBottom: "0px" }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -171,11 +183,17 @@ const Login = () => {
             }}
           >
             <TextField
+<<<<<<< Updated upstream
               id="filled-basic"
               // label="Outlined"
               variant="filled"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
+=======
+              id="filled"
+              variant="outlined"
+              size= "small"
+>>>>>>> Stashed changes
               margin="normal"
               InputProps={{
                 disableUnderline: true,
@@ -215,6 +233,7 @@ const Login = () => {
             }}
           >
             <TextField
+<<<<<<< Updated upstream
               id="filled-basic"
               type="password"
               name="password"
@@ -222,6 +241,13 @@ const Login = () => {
               variant="filled"
               // value={this.state.name}
               // onChange={this.handleChange("name")}
+=======
+              id="filled"
+              size= "small"
+              type="password"
+              name="password"
+              variant="outlined"
+>>>>>>> Stashed changes
               margin="normal"
               InputProps={{
                 disableUnderline: true,
