@@ -74,12 +74,12 @@ console.log("itinerary: ");
               width: "100%",
               color: "#919E6A",
               fontSize: "25px",
-              fontWeighßt: "bold",
+              fontWeight: "bold",
               padding: "20px",
               marginBottom: "25px",
             }}
           >
-            {itinerary[0].name}
+            Empire State Building
           </Box>
           <Box
             component="span"
