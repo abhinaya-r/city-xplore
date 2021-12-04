@@ -101,16 +101,12 @@ const Login = ({ setToken }) => {
               id="filled"
               variant="outlined"
               size="small"
-<<<<<<< Updated upstream
               // onChange={(e) => setUserName(e.target.value)}
-=======
-              onChange={(e) => setUserName(e.target.value)}
               style={{
                 background: "#FFFFFF",
                 border: "#FFFFFF",
                 borderRadius:"10px",
               }}
->>>>>>> Stashed changes
             />
           </Grid>
           <Grid item xs={8}>
@@ -122,16 +118,12 @@ const Login = ({ setToken }) => {
               size="small"
               type="password"
               name="password"
-<<<<<<< Updated upstream
               // onChange={(e) => setPassword(e.target.value)}
-=======
               style={{
                 background: "#FFFFFF",
                 border: "#FFFFFF",
                 borderRadius:"10px",
               }}
-              onChange={(e) => setPassword(e.target.value)}
->>>>>>> Stashed changes
             />
           </Grid>
           <Grid
