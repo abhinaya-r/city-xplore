@@ -39,7 +39,7 @@ const LandingPage = () => {
     transform: "translate(-50%, -50%)",
     borderStyle: "none",
     borderWidth: 0,
-    width: "30%",
+    width: "35%",
     height: "50%",
     textAlign: "left",
     padding: "60px",

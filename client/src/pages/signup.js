@@ -5,11 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header2";
+import Header from "../components/header";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -46,30 +46,19 @@ const Login = () => {
     textAlign: "left",
   };
 
-  const textboxStyle = {
-    paddingTop: "0px", 
-    paddingBottom: "0px", 
-    background: "#FFFFFF",
-    border: "#FFFFFF",
-    borderRadius:"10px",
-    paddingTop: "0px", 
-    paddingBottom: "0px"
-  }
   return (
     <div style={{ height: "100vh" }}>
       <Header />
       <Card style={cardStyle}>
         <Typography
           style={{
-            fontFamily: "Manrope, sans-serif",
             color: "white",
             fontSize: "30px",
             marginTop: "-40px",
-            marginBottom: "20px",
+            marginBottom: "10px",
             paddingTop: "0px",
             paddingBottom: "0px",
             textAlign: "center",
-            fontWeight: "bold"
           }}
         >
           Get Started Today!
@@ -77,7 +66,7 @@ const Login = () => {
         <Grid
           container
           spacing={6}
-          padding="5px"
+          padding="10px"
           style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
           columns={2}
         >
@@ -97,19 +86,18 @@ const Login = () => {
                 paddingTop: "0px",
                 paddingBottom: "0px",
                 textAlign: "left",
-                fontFamily: "Manrope, sans-serif"
               }}
             >
               First Name
             </Typography>
             <TextField
               variant="outlined"
-              // label="Outlined"
               id="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              size= "small"
               margin="none"
-              style={textboxStyle}
+              style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px" }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -141,8 +129,11 @@ const Login = () => {
             <TextField
               id="filled"
               variant="outlined"
+              size= "small"
               margin="none"
-              style={textboxStyle}
+              style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",}}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -154,10 +145,10 @@ const Login = () => {
         <Grid id="second-row" container spacing={0}>
           <Grid
             item
-            xs={12}
+            xs={8}
             style={{
               border: "0px",
-              marginTop: "0px",
+              marginTop: "-20px",
               marginBottom: "-15px",
             }}
           >
@@ -175,7 +166,7 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={12}
+            xs={8}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -184,14 +175,16 @@ const Login = () => {
           >
             <TextField
               id="filled"
-              // label="Outlined"
               variant="outlined"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              size= "small"
               margin="normal"
-              style={textboxStyle}
               InputProps={{
                 disableUnderline: true,
+              }}
+              style= {{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
               }}
             />
           </Grid>
@@ -199,10 +192,10 @@ const Login = () => {
         <Grid id="third-row" spacing={2} style={{ border: "0px" }}>
           <Grid
             item
-            xs={12}
+            xs={8}
             style={{
               border: "0px",
-              marginTop: "10px",
+              marginTop: "0px",
               marginBottom: "-15px",
             }}
           >
@@ -220,31 +213,33 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={12}
+            xs={8}
             style={{
               border: "0px",
               marginTop: "0px",
-              marginBottom: "-25px",
+              marginBottom: "-50px",
             }}
           >
             <TextField
               id="filled"
+              size= "small"
               type="password"
               name="password"
-              // label="Outlined"
               variant="outlined"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
               margin="normal"
-              style={textboxStyle}
               InputProps={{
                 disableUnderline: true,
+              }}
+              style= {{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
               }}
             />
           </Grid>
           <Grid
             item
-            xs={12}
+            xs={4}
             style={{
               border: "0px",
               marginTop: "0px",
@@ -263,15 +258,10 @@ const Login = () => {
               <Button
                 style={{
                   color: "white",
-                  backgroundColor: "#E6AA52",
+                  backgroundColor: "orange",
                   fontFamily: "Manrope, sans-serif",
                   paddingTop: "3px",
                   paddingBottom: "3px",
-                  fontWeight: "bold",
-                  textTransform: 'none',
-                  minWidth: "239px",
-                  minHeight: "58px",
-                  fontSize: "24px"
                 }}
               >
                 Sign up
@@ -294,4 +284,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
