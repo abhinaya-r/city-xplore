@@ -34,11 +34,81 @@ const ProfilePage = () => {
     backgroundColor: "#FFF6F1",
   };
 
+   const typeStyle = {
+    fontFamily: "Manrope, sans-serif",
+    color: "#FFFFFF",
+    fontSize: "20px",
+    paddingTop: "10px",
+    paddingBottom: "0px",
+    textAlign: "left",
+  };
+
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
       <Card style={cardStyle}>
-        
+        <Typography style={typeStyle}>
+          Name: Ishani Kulkarni 
+        </Typography>
+        <Typography style={typeStyle}>
+          Email: isk@princeton.edu
+        </Typography>
+        <Typography style={typeStyle}>
+          Subscription Type: Free Trial
+        </Typography>
+        <Grid
+          container
+          spacing={0}
+          padding="10px"
+          style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
+          columns={2}
+        >
+          <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              marginTop: "0px",
+              marginBottom: "-20px",
+            }}
+          >
+        <Button
+            style={{
+                color: "white",
+                backgroundColor: "orange",
+                fontFamily: "Manrope, sans-serif",
+                paddingTop: "0px",
+                paddingBottom: "0px",
+                marginBottom: "0px",
+                textAlign: "left"
+            }}
+            >
+            Change Subscription Type
+        </Button>
+        </Grid>
+         <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              marginTop: "0px",
+              marginBottom: "-30px",
+            }}
+          >
+        <Button
+            style={{
+                color: "white",
+                backgroundColor: "orange",
+                fontFamily: "Manrope, sans-serif",
+                paddingTop: "0px",
+                paddingBottom: "0px",
+                textAlign: "left"
+            }}
+            >
+            Delete Account
+        </Button>
+        </Grid>
+        </Grid>
       </Card>
     </div>
   );
