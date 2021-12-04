@@ -30,7 +30,8 @@ app.get("/api/new_itinerary", (req, res) => {
   console.log("in get")
   console.log(req);
   let itinerary = [];
-  let prev_latlong = '40.748817%2C-73.985428';
+  // let prev_latlong = '40.748817%2C-73.985428';
+  let prev_latlong = '40.741112%2C-73.989723'
   activities = ['bakery', 'museum', 'restaurant'];
   let place_id = '';
   for (let i = 0; i < activities.length; i+=1) {

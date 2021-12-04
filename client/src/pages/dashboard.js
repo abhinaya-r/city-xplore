@@ -54,11 +54,15 @@ const Mainpage = () => {
               value="Submit"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                padding: "30px",
-                justifyContent: "center",
-                fontSize: "15px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Create a new Itinerary!

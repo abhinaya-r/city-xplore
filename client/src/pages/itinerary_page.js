@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 let activities = []
@@ -27,7 +28,7 @@ const Recommendations = () => {
     console.log(activities);
   }
   const addDessert = () => {
-    activities.push("dessert");
+    activities.push("bakery");
     console.log(activities);
   }
   const createItinerary = () => {
@@ -93,10 +94,15 @@ const Recommendations = () => {
               value={"Restaurants"}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Restaurants
@@ -116,10 +122,15 @@ const Recommendations = () => {
             onClick={addBar}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Bars (21+)
@@ -130,7 +141,7 @@ const Recommendations = () => {
             xs={6}
             style={{
               border: "0px",
-              marginTop: "-20px",
+              marginTop: "-5px",
               marginBottom: "-20px",
               paddingTop: "0px",
             }}
@@ -139,10 +150,15 @@ const Recommendations = () => {
             onClick={addDessert}
               style={{
                 color: "white",
-                backgroundColor: "orange",
+                backgroundColor: "#E6AA52",
                 fontFamily: "Manrope, sans-serif",
                 paddingTop: "3px",
                 paddingBottom: "3px",
+                fontWeight: "bold",
+                textTransform: 'none',
+                minWidth: "239px",
+                minHeight: "58px",
+                fontSize: "24px"
               }}
             >
               Desserts
@@ -153,7 +169,7 @@ const Recommendations = () => {
             xs={6}
             style={{
               border: "0px",
-              marginTop: "-20px",
+              marginTop: "-5px",
               marginBottom: "-20px",
               paddingTop: "0px",
             }}
@@ -162,10 +178,15 @@ const Recommendations = () => {
             onClick={addMuseum}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Museums
@@ -242,11 +263,15 @@ const Recommendations = () => {
                 value="Submit"
                 style={{
                   color: "white",
-                  backgroundColor: "orange",
+                  backgroundColor: "#919E6A",
                   fontFamily: "Manrope, sans-serif",
-                  paddingTop: "7px",
-                  justifyContent: "center",
-                  fontSize: "15px",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
                 }}
               >
                 Get Itinerary
