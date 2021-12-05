@@ -32,7 +32,6 @@ export default function Itinerary() {
                 </Typography>
               }
             />
-
             <CardContent style={{ paddingBottom: "0px" }}>
               <Box
                 component="span"
@@ -41,17 +40,41 @@ export default function Itinerary() {
                   bgcolor: "#FFF6F1",
                   borderRadius: "10px",
                 }}
-                style={{
-                  width: "100%",
-                  color: "#919E6A",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "5px",
-                  marginTop: "-20px",
-                  marginBottom: "10px",
-                }}
               >
-                Empire State Building
+                  <Box sx= {{alignItems: 'left'}} style={{
+                    width: "50%",
+                    color: "#919E6A",
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    padding: "5px",
+                    marginTop: "-20px",
+                    marginBottom: "10px",
+                  }}>
+                  Empire State Building
+                  </Box>
+                   <Box sx= {{ alignItems: 'right'}} style={{
+                    width: "50%",
+                    color: "#919E6A",
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    padding: "5px",
+                    marginTop: "-20px",
+                    marginBottom: "10px",
+                  }}>
+                  Rating
+                  </Box>
+                  <Box sx= {{}} style={{
+                    width: "100%",
+                    color: "#919E6A",
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    padding: "5px",
+                    marginTop: "-20px",
+                    marginBottom: "10px",
+                  }}>
+                  Address
+                  </Box>
+                 
               </Box>
               <Box
                 component="span"
