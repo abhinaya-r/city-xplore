@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-let activities = []
 
+let activities = []
 
 
 const Recommendations = () => {
@@ -32,12 +32,13 @@ const Recommendations = () => {
     console.log(activities);
   }
   const createItinerary = () => {
+    console.log("create itinerary")
     const activityList = new FormData();
 
     activities.forEach((item) => {
         activityList.append('activities[]', item);
     });
-    axios.post("/api/new_itinerary", activityList)
+    axios.post("/api/new_itinerary", activities)
     .then((response) => {
      console.log(response.data);
     });
@@ -79,6 +80,8 @@ const Recommendations = () => {
           >
             Choose one or more of the categories in order:
           </Typography>
+          <Form>
+          
           <Grid
             item
             xs={6}

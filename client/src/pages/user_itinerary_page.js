@@ -11,6 +11,17 @@ import Box from "@mui/material/Box";
 
 import axios from "axios";
 
+
+const getDate = () => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+  return today;
+}
+
 const UserItinerary = () => {
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -30,7 +41,7 @@ const UserItinerary = () => {
     backgroundColor: "#FFF6F1",
   };
 
-  const [itinerary, getItinerary] = React.useState('');
+  const [itinerary, getItinerary] = React.useState(null);
 
   const getNewItinerary = () => {
     axios.get("/api/new_itinerary")
@@ -47,7 +58,7 @@ const UserItinerary = () => {
 
 // let itinerary = fetchData();
 // const itinerary = fetchData().then((data) => data[0]);
-console.log("itinerary: ");
+// console.log("itinerary: ", itinerary[0].name);
 
   return (
     <div style={{ height: "100vh" }} style={background}>
@@ -65,7 +76,7 @@ console.log("itinerary: ");
             }}
           >
             {" "}
-            12/1/2021
+            {getDate()}
           </Typography>
           <Box
             component="span"
@@ -79,7 +90,7 @@ console.log("itinerary: ");
               marginBottom: "25px",
             }}
           >
-            Empire State Building
+            {!itinerary ? "Loading..." : itinerary[0]['name']}
           </Box>
           <Box
             component="span"
@@ -93,7 +104,7 @@ console.log("itinerary: ");
               marginBottom: "25px",
             }}
           >
-            Magnolia Bakery -- Rockefeller Center 
+            {!itinerary ? "Loading..." : itinerary[1]['name']}
           </Box>
           <Box
             component="span"
@@ -107,7 +118,7 @@ console.log("itinerary: ");
               marginBottom: "25px",
             }}
           >
-            Connolly's
+            {!itinerary ? "Loading..." : itinerary[2]['name']}
           </Box>
         </Grid>
       </Card>
