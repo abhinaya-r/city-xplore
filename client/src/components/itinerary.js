@@ -6,8 +6,10 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@mui/material/Box";
+import axios from "axios"
 
 export default function Itinerary() {
+  const [data, setData] = React.useState(null);
   const cardStyle = {
     backgroundColor: "#ACD7AB",
     paddingBottom: "60px",
@@ -26,7 +28,7 @@ export default function Itinerary() {
                   variant="h6"
                   style={{ color: "white" }}
                 >
-                  Date
+                  11/13/2021
                 </Typography>
               }
             />
@@ -49,7 +51,7 @@ export default function Itinerary() {
                   marginBottom: "10px",
                 }}
               >
-                Activity 1
+                Empire State Building
               </Box>
               <Box
                 component="span"
@@ -67,7 +69,7 @@ export default function Itinerary() {
                   marginBottom: "10px",
                 }}
               >
-                Activity 2
+                Baked by Melissa
               </Box>
               <Box
                 component="span"
@@ -85,7 +87,7 @@ export default function Itinerary() {
                   marginBottom: "-15px",
                 }}
               >
-                Activity 3
+                The 40/40 Club
               </Box>
             </CardContent>
           </Card>

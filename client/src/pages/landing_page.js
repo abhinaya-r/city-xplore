@@ -40,7 +40,7 @@ const LandingPage = () => {
     borderStyle: "none",
     borderWidth: 0,
     width: "35%",
-    height: "50%",
+    height: "60%",
     textAlign: "left",
     padding: "60px",
     backgroundColor: "white",
@@ -69,7 +69,7 @@ const LandingPage = () => {
       <Header />
       <Card style={cardStyle}>
         <Typography style={typeStyle}>
-          CityXplore helps you find personalized things to do in your city.
+          City Explorer helps you find personalized activities to do in your city.
         </Typography>
         <Link to="/signup" style={{ textDecoration: "none" }}>
           <Button style={buttonStyle}>Sign up!</Button>
