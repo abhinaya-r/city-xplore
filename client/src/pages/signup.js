@@ -8,21 +8,44 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+const axios = require('axios')
+const crypto = require('crypto');
 
 const Signup = () => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await loginUser({
-  //     username,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let axiosConfig = {
+      headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+      }
+    };
+
+
+  let hash = crypto.createHash('md5').update(password).digest('hex');
+
+    let formInfo = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hash,
+    }
+    console.log("submit");
+    console.log(formInfo);
+    const res = axios.post('api/signup/', formInfo, axiosConfig)
+    .then((response) => {
+      if(response.status == 'SUCCESS') {
+        console.log(response);
+        window.location.href = '/dashboard';
+      }
+  });
+
+  };
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -63,6 +86,7 @@ const Signup = () => {
         >
           Get Started Today!
         </Typography>
+        <form onSubmit={handleSubmit}>
         <Grid
           container
           spacing={6}
@@ -95,6 +119,8 @@ const Signup = () => {
               id="filled"
               size= "small"
               margin="none"
+              value={firstName}
+              onInput={ e=>setFirstName(e.target.value)}
               style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
                 border: "#FFFFFF",
                 borderRadius:"10px" }}
@@ -131,6 +157,8 @@ const Signup = () => {
               variant="outlined"
               size= "small"
               margin="none"
+              value={lastName}
+              onInput={ e=>setLastName(e.target.value)}
               style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
                 border: "#FFFFFF",
                 borderRadius:"10px",}}
@@ -178,6 +206,8 @@ const Signup = () => {
               variant="outlined"
               size= "small"
               margin="normal"
+              value={email}
+              onInput={ e=>setEmail(e.target.value)}
               InputProps={{
                 disableUnderline: true,
               }}
@@ -227,6 +257,8 @@ const Signup = () => {
               name="password"
               variant="outlined"
               margin="normal"
+              value={password}
+              onInput={ e=>setPassword(e.target.value)}
               InputProps={{
                 disableUnderline: true,
               }}
@@ -256,6 +288,7 @@ const Signup = () => {
               }}
             >
               <Button
+              type="submit"
                 style={{
                   color: "white",
                   backgroundColor: "orange",
@@ -269,6 +302,7 @@ const Signup = () => {
             </Link>
           </Grid>
         </Grid>
+        </form>
       </Card>
       <img
         src={loginImage}

@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import axios from "axios";
 
@@ -15,6 +16,7 @@ let activities = []
 
 
 const Recommendations = () => {
+  const [address, setAddress] = useState("");
   const addRestaurant = () => {
     activities.push("restaurant");
     console.log(activities);
@@ -33,12 +35,8 @@ const Recommendations = () => {
   }
   const createItinerary = () => {
     console.log("create itinerary")
-    const activityList = new FormData();
 
-    activities.forEach((item) => {
-        activityList.append('activities[]', item);
-    });
-    axios.post("/api/new_itinerary", activities)
+    axios.post("api/new_itinerary", {activities: activities, address: address})
     .then((response) => {
      console.log(response.data);
     });
@@ -80,8 +78,6 @@ const Recommendations = () => {
           >
             Choose one or more of the categories in order:
           </Typography>
-          <Form>
-          
           <Grid
             item
             xs={6}
@@ -232,6 +228,8 @@ const Recommendations = () => {
               id="filled-basic"
               variant="filled"
               margin="none"
+              value={address}
+              onInput={ e=>setAddress(e.target.value)}
               style={{ paddingTop: "0px", paddingBottom: "0px" }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{

@@ -16,6 +16,9 @@ const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 const db = require('../database/models/index.js');
 
 app.use(cors());
+// middleware
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
@@ -33,8 +36,8 @@ app.post("api/new_itinerary", (req, res) => {
 })
 
 app.get("/api/new_itinerary", (req, res) => {
-  console.log("in get")
-  console.log(req);
+  console.log("get new itinerary");
+  console.log(req.body);
   let itinerary = [];
   // let prev_latlong = '40.748817%2C-73.985428';
   let prev_latlong = '40.741112%2C-73.989723'
@@ -96,10 +99,17 @@ app.get("/api/new_itinerary", (req, res) => {
 })
 
 
-app.post('/signup', function(req, res) {
-  const url = req.body;
-  console.log("post req:", url);
+app.post('/api/signup', function(req, res) {
+  const user = req.body;
+  console.log("post req:", user);
+
+  db.Users.findOrCreate({where: {email: user.email}})
+    .then(([user, created]) => {
+      res.json({ user:user, status: 'SUCCESS', created: created});
+      res.end();
+    });
 });
+    
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
