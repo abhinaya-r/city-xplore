@@ -20,7 +20,7 @@ app.get("/api", (req, res) => {
 });
 
 app.post('/signup', function(req, res) {
-  const url = req.body
+  const url = req.body;
   console.log("post req:", url);
 });
 
