@@ -8,7 +8,41 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
+
+let activities = []
+
+
 const Recommendations = () => {
+  const addRestaurant = () => {
+    activities.push("restaurant");
+    console.log(activities);
+  }
+  const addBar = () => {
+    activities.push("bar");
+    console.log(activities);
+  }
+  const addMuseum = () => {
+    activities.push("museum");
+    console.log(activities);
+  }
+  const addDessert = () => {
+    activities.push("bakery");
+    console.log(activities);
+  }
+  const createItinerary = () => {
+    console.log("create itinerary")
+    const activityList = new FormData();
+
+    activities.forEach((item) => {
+        activityList.append('activities[]', item);
+    });
+    axios.post("/api/new_itinerary", activities)
+    .then((response) => {
+     console.log(response.data);
+    });
+  }
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -26,6 +60,10 @@ const Recommendations = () => {
   const background = {
     backgroundColor: "#FFF6F1",
   };
+
+  const handleClick = async (e) => {
+    console.log("restaurant");
+  };
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
@@ -42,6 +80,8 @@ const Recommendations = () => {
           >
             Choose one or more of the categories in order:
           </Typography>
+          {/* <Form> */}
+          
           <Grid
             item
             xs={6}
@@ -53,14 +93,19 @@ const Recommendations = () => {
             }}
           >
             <Button
-              //   onClick={handleChangeValue}
+              onClick={addRestaurant}
               value={"Restaurants"}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Restaurants
@@ -77,12 +122,18 @@ const Recommendations = () => {
             }}
           >
             <Button
+            onClick={addBar}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Bars (21+)
@@ -93,18 +144,24 @@ const Recommendations = () => {
             xs={6}
             style={{
               border: "0px",
-              marginTop: "-20px",
+              marginTop: "-5px",
               marginBottom: "-20px",
               paddingTop: "0px",
             }}
           >
             <Button
+            onClick={addDessert}
               style={{
                 color: "white",
-                backgroundColor: "orange",
+                backgroundColor: "#E6AA52",
                 fontFamily: "Manrope, sans-serif",
                 paddingTop: "3px",
                 paddingBottom: "3px",
+                fontWeight: "bold",
+                textTransform: 'none',
+                minWidth: "239px",
+                minHeight: "58px",
+                fontSize: "24px"
               }}
             >
               Desserts
@@ -115,18 +172,24 @@ const Recommendations = () => {
             xs={6}
             style={{
               border: "0px",
-              marginTop: "-20px",
+              marginTop: "-5px",
               marginBottom: "-20px",
               paddingTop: "0px",
             }}
           >
             <Button
+            onClick={addMuseum}
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
               }}
             >
               Museums
@@ -197,22 +260,28 @@ const Recommendations = () => {
               }}
             >
               <Button
+                onClick={createItinerary}
                 as="input"
                 type="submit"
                 value="Submit"
                 style={{
                   color: "white",
-                  backgroundColor: "orange",
+                  backgroundColor: "#919E6A",
                   fontFamily: "Manrope, sans-serif",
-                  paddingTop: "7px",
-                  justifyContent: "center",
-                  fontSize: "15px",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
                 }}
               >
                 Get Itinerary
               </Button>
             </Link>
           </Grid>
+          {/* </Form> */}
         </Grid>
       </Card>
     </div>
