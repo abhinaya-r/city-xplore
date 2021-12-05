@@ -5,12 +5,24 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header";
+import Header from "../components/header2";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+// async function loginUser(credentials) {
+//   return fetch("http://localhost:3001/api", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
+// }
+
+const Login = ({ setToken }) => {
+  // const [username, setUserName] = useState();
+  // const [password, setPassword] = useState();
 
   // const handleSubmit = async (e) => {
   //   console.log("submitting");
@@ -43,6 +55,8 @@ const Login = () => {
     paddingTop: "0px",
     paddingBottom: "0px",
     textAlign: "left",
+    fontWeight: "bold"
+
   };
 
   return (
@@ -67,6 +81,8 @@ const Login = () => {
                 fontSize: "40px",
                 paddingBottom: "30px",
                 textAlign: "center",
+                textTransform: 'none',
+                fontWeight: "bold"
               }}
             >
               Login
@@ -74,7 +90,7 @@ const Login = () => {
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "-10px",
@@ -84,27 +100,39 @@ const Login = () => {
           >
             <Typography style={typeStyle}>Email</Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <TextField
               id="filled"
               variant="outlined"
               size="small"
-              onChange={(e) => setUserName(e.target.value)}
+              style={{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
+              }}
+              // onChange={(e) => setUserName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Typography style={typeStyle}>Password</Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <TextField
               variant="outlined"
               size="small"
-              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              style={{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
+              }}
+              // onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "-20px",
@@ -112,21 +140,34 @@ const Login = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
-              as="input"
-              type="submit"
-              value="Submit"
-              // onClick={handleSubmit}
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Login
-            </Button>
+              <Button
+                as="input"
+                type="submit"
+                value="Submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "#E6AA52",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  fontWeight: "bold",
+                  textTransform: 'none',
+                  minWidth: "239px",
+                  minHeight: "58px",
+                  fontSize: "24px"
+                }}
+              >
+                Login
+              </Button>
+            </Link>
           </Grid>
           {/* <Grid item xs={8}>
             <Typography

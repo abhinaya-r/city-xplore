@@ -7,8 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -54,7 +55,7 @@ const Login = () => {
             color: "white",
             fontSize: "30px",
             marginTop: "-40px",
-            marginBottom: "20px",
+            marginBottom: "10px",
             paddingTop: "0px",
             paddingBottom: "0px",
             textAlign: "center",
@@ -90,13 +91,13 @@ const Login = () => {
               First Name
             </Typography>
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              variant="outlined"
+              id="filled"
+              size= "small"
               margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
+              style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px" }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -126,10 +127,13 @@ const Login = () => {
               Last Name
             </Typography>
             <TextField
-              id="filled-basic"
-              variant="filled"
+              id="filled"
+              variant="outlined"
+              size= "small"
               margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
+              style={{ paddingTop: "0px", paddingBottom: "0px", background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",}}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -144,7 +148,7 @@ const Login = () => {
             xs={8}
             style={{
               border: "0px",
-              marginTop: "0px",
+              marginTop: "-20px",
               marginBottom: "-15px",
             }}
           >
@@ -170,14 +174,17 @@ const Login = () => {
             }}
           >
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              id="filled"
+              variant="outlined"
+              size= "small"
               margin="normal"
               InputProps={{
                 disableUnderline: true,
+              }}
+              style= {{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
               }}
             />
           </Grid>
@@ -188,7 +195,7 @@ const Login = () => {
             xs={8}
             style={{
               border: "0px",
-              marginTop: "10px",
+              marginTop: "0px",
               marginBottom: "-15px",
             }}
           >
@@ -210,18 +217,23 @@ const Login = () => {
             style={{
               border: "0px",
               marginTop: "0px",
-              marginBottom: "-25px",
+              marginBottom: "-50px",
             }}
           >
             <TextField
-              id="filled-basic"
-              // label="Outlined"
-              variant="filled"
-              // value={this.state.name}
-              // onChange={this.handleChange("name")}
+              id="filled"
+              size= "small"
+              type="password"
+              name="password"
+              variant="outlined"
               margin="normal"
               InputProps={{
                 disableUnderline: true,
+              }}
+              style= {{
+                background: "#FFFFFF",
+                border: "#FFFFFF",
+                borderRadius:"10px",
               }}
             />
           </Grid>
@@ -235,17 +247,26 @@ const Login = () => {
               paddingTop: "0px",
             }}
           >
-            <Button
+            <Link
+              to="/dashboard"
               style={{
                 color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingTop: "3px",
-                paddingBottom: "3px",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
               }}
             >
-              Sign up
-            </Button>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                }}
+              >
+                Sign up
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Card>
@@ -263,4 +284,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
