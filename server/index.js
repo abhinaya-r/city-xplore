@@ -26,6 +26,10 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
+app.post("api/new_itinerary", (req, res) => {
+  console.log("request data: ", req.body);
+})
+
 app.get("/api/new_itinerary", (req, res) => {
   console.log("in get")
   console.log(req);
