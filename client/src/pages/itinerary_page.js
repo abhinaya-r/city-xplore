@@ -80,8 +80,6 @@ const Recommendations = () => {
           >
             Choose one or more of the categories in order:
           </Typography>
-          <Form>
-          
           <Grid
             item
             xs={6}
