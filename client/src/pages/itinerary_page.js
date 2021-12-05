@@ -80,7 +80,7 @@ const Recommendations = () => {
           >
             Choose one or more of the categories in order:
           </Typography>
-          <Form>
+          {/* <Form> */}
           
           <Grid
             item
@@ -281,6 +281,7 @@ const Recommendations = () => {
               </Button>
             </Link>
           </Grid>
+          {/* </Form> */}
         </Grid>
       </Card>
     </div>
