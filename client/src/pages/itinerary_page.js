@@ -17,7 +17,7 @@ const Recommendations = () => {
     top: "55%",
     transform: "translate(-50%, -50%)",
     width: "50%",
-    height: "50%",
+    height: "60%",
     textAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
@@ -146,7 +146,7 @@ const Recommendations = () => {
               style={{
                 fontFamily: "Manrope, sans-serif",
                 color: "white",
-                fontSize: "30px",
+                fontSize: "25px",
                 paddingTop: "30px",
                 paddingBottom: "10px",
                 textAlign: "center",
@@ -183,7 +183,7 @@ const Recommendations = () => {
             xs={12}
             style={{
               border: "0px",
-              marginTop: "-20px",
+              marginTop: "-60px",
               marginBottom: "-20px",
               paddingTop: "0px",
             }}
