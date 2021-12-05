@@ -43,7 +43,7 @@ const UserItinerary = () => {
             }}
           >
             {" "}
-            Date
+            12/4/2021
           </Typography>
           <Box
             component="span"
