@@ -51,7 +51,7 @@ app.get("/api/new_itinerary", (req, res) => {
   for (let i = 0; i < activities.length; i+=1) {
     console.log(activities[i])
     let latlong = prev_latlong;
-    const radius = '1500';
+    const radius = '2414';
     const type = activities[i];
 
     var config = {
