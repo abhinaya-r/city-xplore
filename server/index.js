@@ -13,7 +13,12 @@ const path = require("path");
 const axios = require('axios')
 const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 
+// const db = require('../database/models/index.js');
+
 app.use(cors());
+// middleware
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
@@ -30,13 +35,18 @@ app.post("api/new_itinerary", (req, res) => {
   console.log("request data: ", req.body);
 })
 
+let startpoint = '';
+let activities  = [];
+
 app.get("/api/new_itinerary", (req, res) => {
-  console.log("in get")
-  console.log(req);
+  console.log("get new itinerary");
+  console.log(activities)
+  console.log("startpoint:", startpoint);
   let itinerary = [];
   // let prev_latlong = '40.748817%2C-73.985428';
-  let prev_latlong = '40.741112%2C-73.989723'
-  activities = ['bakery', 'museum', 'restaurant'];
+  // let prev_latlong = '40.741112%2C-73.989723'
+  let prev_latlong = startpoint;
+  // activities = ['bakery', 'museum', 'restaurant'];
   let place_id = '';
   for (let i = 0; i < activities.length; i+=1) {
     console.log(activities[i])
@@ -51,10 +61,10 @@ app.get("/api/new_itinerary", (req, res) => {
       };
       axios(config)
       .then(function (response) {
-        // console.log("name: ", response.data["results"][0]["name"]);
-        // console.log("location: ", response.data["results"][0]["geometry"]["location"]);
-        // console.log("place id: ", response.data["results"][0]["place_id"]);
-        // console.log("rating: ", response.data["results"][0]["rating"]);
+        console.log("name: ", response.data["results"][0]["name"]);
+        console.log("location: ", response.data["results"][0]["geometry"]["location"]);
+        console.log("place id: ", response.data["results"][0]["place_id"]);
+        console.log("rating: ", response.data["results"][0]["rating"]);
 
 
         prev_latlong = response.data["results"][0]["geometry"]["location"];
@@ -93,6 +103,44 @@ app.get("/api/new_itinerary", (req, res) => {
       
 })
 
+
+app.post('/api/signup', function(req, res) {
+  const user = req.body;
+  console.log("post req:", user);
+
+  // db.Users.findOrCreate({where: {email: user.email}})
+  //   .then(([user, created]) => {
+  //     res.json({ user:user, status: 'SUCCESS', created: created});
+  //     res.end();
+  //   });
+});
+
+app.post("/api/new_itinerary", function(req, res) {
+  const itinerary = req.body;
+  console.log("post req:", itinerary);
+  let address = itinerary.address;
+  activities = itinerary.activities;
+
+  config = {
+    method: 'get',
+    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
+    headers: { }
+  };
+  axios(config)
+        .then(function (response) {
+          console.log("response: ", response.data['results'][0]['geometry']);
+          let location = response.data['results'][0]['geometry']['location'];
+          startpoint = location['lat'] + "%2C" + location['lng'];
+        })
+        .catch(function (error) {
+          console.log("error");
+          console.log(error);
+        });
+  res.send({status: "SUCCESS"});
+  res.end();
+
+
+})   
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
