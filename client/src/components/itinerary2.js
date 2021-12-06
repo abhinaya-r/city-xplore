@@ -74,6 +74,9 @@ const UserItinerary = () => {
             {" "}
             {getDate()}
           </Typography>
+          <Activity name= {!itinerary ? "Loading..." : itinerary[0]['name']} 
+          rating="4.5 stars" address="20 W 34th St, New York, NY 10001"/>
+
           <Box
             component="span"
             sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
@@ -86,7 +89,7 @@ const UserItinerary = () => {
               marginBottom: "25px",
             }}
           >
-            {!itinerary ? "Loading..." : itinerary[0]['name']}
+            
           </Box>
           <Box
             component="span"
