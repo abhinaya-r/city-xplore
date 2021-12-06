@@ -8,6 +8,7 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
+import Activity from "../components/activity2";
 
 import axios from "axios";
 
@@ -56,11 +57,24 @@ const UserItinerary = () => {
     getNewItinerary();
   }, [])
 
+  const itineraryObjects = []
+
+if (itinerary) {
+  console.log(itinerary)
+  for (const [index, value] of itinerary.entries()) {
+    itineraryObjects.push(<Activity name= {!itinerary ? "Loading..." : value['name']} 
+            rating={!itinerary ? "" : value['rating']}
+            address={!itinerary ? "" : value['address']}/>)
+  }
+}
+  
+
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
       <Card style={cardStyle}>
         <Grid container spacing={0}>
+          <Grid item xs={12}>
           <Typography
             style={{
               color: "white",
@@ -74,48 +88,10 @@ const UserItinerary = () => {
             {" "}
             {getDate()}
           </Typography>
-          <Box
-            component="span"
-            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
-            style={{
-              width: "100%",
-              color: "#919E6A",
-              fontSize: "25px",
-              fontWeight: "bold",
-              padding: "20px",
-              marginBottom: "25px",
-            }}
-          >
-            {!itinerary ? "Loading..." : itinerary[0]['name']}
-          </Box>
-          <Box
-            component="span"
-            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
-            style={{
-              width: "100%",
-              color: "#919E6A",
-              fontSize: "25px",
-              fontWeight: "bold",
-              padding: "20px",
-              marginBottom: "25px",
-            }}
-          >
-            {!itinerary ? "Loading..." : itinerary[1]['name']}
-          </Box>
-          <Box
-            component="span"
-            sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
-            style={{
-              width: "100%",
-              color: "#919E6A",
-              fontSize: "25px",
-              fontWeight: "bold",
-              padding: "20px",
-              marginBottom: "25px",
-            }}
-          >
-            {!itinerary ? "Loading..." : itinerary[2]['name']}
-          </Box>
+           </Grid>
+           <Grid item xs= {12}>
+            {itineraryObjects}
+          </Grid>
         </Grid>
       </Card>
     </div>
