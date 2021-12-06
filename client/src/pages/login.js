@@ -55,8 +55,7 @@ const Login = ({ setToken }) => {
     paddingTop: "0px",
     paddingBottom: "0px",
     textAlign: "left",
-    fontWeight: "bold"
-
+    fontWeight: "bold",
   };
 
   return (
@@ -81,8 +80,8 @@ const Login = ({ setToken }) => {
                 fontSize: "40px",
                 paddingBottom: "30px",
                 textAlign: "center",
-                textTransform: 'none',
-                fontWeight: "bold"
+                textTransform: "none",
+                fontWeight: "bold",
               }}
             >
               Login
@@ -108,7 +107,7 @@ const Login = ({ setToken }) => {
               style={{
                 background: "#FFFFFF",
                 border: "#FFFFFF",
-                borderRadius:"10px",
+                borderRadius: "10px",
               }}
               // onChange={(e) => setUserName(e.target.value)}
             />
@@ -125,7 +124,7 @@ const Login = ({ setToken }) => {
               style={{
                 background: "#FFFFFF",
                 border: "#FFFFFF",
-                borderRadius:"10px",
+                borderRadius: "10px",
               }}
               // onChange={(e) => setPassword(e.target.value)}
             />
@@ -159,10 +158,10 @@ const Login = ({ setToken }) => {
                   paddingTop: "3px",
                   paddingBottom: "3px",
                   fontWeight: "bold",
-                  textTransform: 'none',
+                  textTransform: "none",
                   minWidth: "239px",
                   minHeight: "58px",
-                  fontSize: "24px"
+                  fontSize: "24px",
                 }}
               >
                 Login
