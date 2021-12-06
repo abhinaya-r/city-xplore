@@ -24,10 +24,10 @@ const LandingPage = () => {
     paddingRight: "30px",
     paddingBottom: "3px",
     fontWeight: "bold",
-    textTransform: 'none',
+    textTransform: "none",
     minWidth: "239px",
     minHeight: "58px",
-    fontSize: "24px"
+    fontSize: "24px",
   };
 
   const cardStyle = {
@@ -53,7 +53,7 @@ const LandingPage = () => {
     fontSize: "45px",
     paddingBottom: "0px",
     textAlign: "left",
-    fontWeight: "bold"
+    fontWeight: "bold",
   };
 
   const imageStyle = {
@@ -69,7 +69,7 @@ const LandingPage = () => {
       <Header />
       <Card style={cardStyle}>
         <Typography style={typeStyle}>
-          City Explorer helps you find personalized activities to do in your city.
+          CityXplore helps you find personalized activities to do in your city.
         </Typography>
         <Link to="/signup" style={{ textDecoration: "none" }}>
           <Button style={buttonStyle}>Sign up!</Button>

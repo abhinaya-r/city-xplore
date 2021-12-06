@@ -28,7 +28,7 @@ export default function Header(props) {
               }}
             >
               <Typography variant="h5" style={{ font: "Manrope, sans-serif" }}>
-                City-Xplore
+                CityXplore
               </Typography>
             </Link>
           </div>
