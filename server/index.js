@@ -61,17 +61,18 @@ app.get("/api/new_itinerary", (req, res) => {
       };
       axios(config)
       .then(function (response) {
-        console.log("name: ", response.data["results"][0]["name"]);
-        console.log("location: ", response.data["results"][0]["geometry"]["location"]);
-        console.log("place id: ", response.data["results"][0]["place_id"]);
-        console.log("rating: ", response.data["results"][0]["rating"]);
+        // console.log("name: ", response.data["results"][0]["name"]);
+        // console.log("location: ", response.data["results"][0]["geometry"]["location"]);
+        // console.log("place id: ", response.data["results"][0]["place_id"]);
+        // console.log("rating: ", response.data["results"][0]["rating"]);
 
+        let ind = Math.floor(Math.random() * (response.data["results"].length));
+        console.log("index: ", ind);
+        prev_latlong = response.data["results"][ind]["geometry"]["location"];
+        let place_name = response.data["results"][ind]["name"];
+        let rating = response.data["results"][ind]["rating"];
 
-        prev_latlong = response.data["results"][0]["geometry"]["location"];
-        let place_name = response.data["results"][0]["name"];
-        let rating = response.data["results"][0]["rating"];
-
-        place_id = response.data["results"][0]["place_id"];
+        place_id = response.data["results"][ind]["place_id"];
 
         config = {
           method: 'get',
@@ -100,7 +101,6 @@ app.get("/api/new_itinerary", (req, res) => {
         });
         console.log("itinerary: ", itinerary);
       }
-      
 })
 
 
