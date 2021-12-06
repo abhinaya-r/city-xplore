@@ -5,24 +5,46 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header";
+import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+const axios = require("axios");
+const crypto = require("crypto");
 
-const Login = () => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+const Signup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await loginUser({
-  //     username,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    let hash = crypto.createHash("md5").update(password).digest("hex");
+
+    let formInfo = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hash,
+    };
+    console.log("submit");
+    console.log(formInfo);
+    const res = axios
+      .post("api/signup/", formInfo, axiosConfig)
+      .then((response) => {
+        if (response.status == "SUCCESS") {
+          console.log(response);
+          window.location.href = "/dashboard";
+        }
+      });
+  };
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -55,7 +77,7 @@ const Login = () => {
             color: "white",
             fontSize: "30px",
             marginTop: "-40px",
-            marginBottom: "20px",
+            marginBottom: "10px",
             paddingTop: "0px",
             paddingBottom: "0px",
             textAlign: "center",
@@ -63,198 +85,231 @@ const Login = () => {
         >
           Get Started Today!
         </Typography>
-        <Grid
-          container
-          spacing={6}
-          padding="10px"
-          style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
-          columns={2}
-        >
+        <form onSubmit={handleSubmit}>
           <Grid
-            item
-            xs={6}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "-20px",
-            }}
+            container
+            spacing={6}
+            padding="10px"
+            style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
+            columns={2}
           >
-            <Typography
+            <Grid
+              item
+              xs={6}
               style={{
-                color: "white",
-                fontSize: "20px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
-                textAlign: "left",
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "-20px",
               }}
             >
-              First Name
-            </Typography>
-            <TextField
-              variant="outlined"
-              id="filled"
-              size= "small"
-              margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                paddingTop: "0px",
-                paddingBottom: "0px",
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "-20px",
-            }}
-          >
-            <Typography
-              style={{
-                color: "white",
-                fontSize: "20px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
-                textAlign: "left",
-              }}
-            >
-              Last Name
-            </Typography>
-            <TextField
-              id="filled"
-              variant="outlined"
-              size= "small"
-              margin="none"
-              style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                padding: "0px",
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid id="second-row" container spacing={0}>
-          <Grid
-            item
-            xs={8}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "-15px",
-            }}
-          >
-            <Typography
-              style={{
-                color: "white",
-                fontSize: "20px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
-                textAlign: "left",
-              }}
-            >
-              Email
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={8}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "-10px",
-            }}
-          >
-            <TextField
-              id="filled"
-              variant="outlined"
-              size= "small"
-              margin="normal"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid id="third-row" spacing={2} style={{ border: "0px" }}>
-          <Grid
-            item
-            xs={8}
-            style={{
-              border: "0px",
-              marginTop: "10px",
-              marginBottom: "-15px",
-            }}
-          >
-            <Typography
-              style={{
-                color: "white",
-                fontSize: "20px",
-                paddingTop: "0px",
-                paddingBottom: "0px",
-                textAlign: "left",
-              }}
-            >
-              Password
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={8}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "-25px",
-            }}
-          >
-            <TextField
-              id="filled"
-              size= "small"
-              type="password"
-              name="password"
-              variant="outlined"
-              margin="normal"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            style={{
-              border: "0px",
-              marginTop: "0px",
-              marginBottom: "0px",
-              paddingTop: "0px",
-            }}
-          >
-            <Link
-              to="/dashboard"
-              style={{
-                color: "white",
-                font: "Manrope, sans-serif",
-                textDecoration: "none",
-              }}
-            >
-              <Button
+              <Typography
                 style={{
                   color: "white",
-                  backgroundColor: "orange",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingTop: "3px",
-                  paddingBottom: "3px",
+                  fontSize: "20px",
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  textAlign: "left",
                 }}
               >
-                Sign up
-              </Button>
-            </Link>
+                First Name
+              </Typography>
+              <TextField
+                variant="outlined"
+                id="filled"
+                size="small"
+                margin="none"
+                value={firstName}
+                onInput={(e) => setFirstName(e.target.value)}
+                style={{
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              style={{
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "-20px",
+              }}
+            >
+              <Typography
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  textAlign: "left",
+                }}
+              >
+                Last Name
+              </Typography>
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                margin="none"
+                value={lastName}
+                onInput={(e) => setLastName(e.target.value)}
+                style={{
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  padding: "0px",
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+          <Grid id="second-row" container spacing={0}>
+            <Grid
+              item
+              xs={8}
+              style={{
+                border: "0px",
+                marginTop: "-20px",
+                marginBottom: "-15px",
+              }}
+            >
+              <Typography
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  textAlign: "left",
+                }}
+              >
+                Email
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={8}
+              style={{
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "-10px",
+              }}
+            >
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                margin="normal"
+                value={email}
+                onInput={(e) => setEmail(e.target.value)}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid id="third-row" spacing={2} style={{ border: "0px" }}>
+            <Grid
+              item
+              xs={8}
+              style={{
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "-15px",
+              }}
+            >
+              <Typography
+                style={{
+                  color: "white",
+                  fontSize: "20px",
+                  paddingTop: "0px",
+                  paddingBottom: "0px",
+                  textAlign: "left",
+                }}
+              >
+                Password
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={8}
+              style={{
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "-50px",
+              }}
+            >
+              <TextField
+                id="filled"
+                size="small"
+                type="password"
+                name="password"
+                variant="outlined"
+                margin="normal"
+                value={password}
+                onInput={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={4}
+              style={{
+                border: "0px",
+                marginTop: "0px",
+                marginBottom: "0px",
+                paddingTop: "0px",
+              }}
+            >
+              <Link
+                to="/dashboard"
+                style={{
+                  color: "white",
+                  font: "Manrope, sans-serif",
+                  textDecoration: "none",
+                }}
+              >
+                <Button
+                  type="submit"
+                  style={{
+                    color: "white",
+                    backgroundColor: "orange",
+                    fontFamily: "Manrope, sans-serif",
+                    paddingTop: "3px",
+                    paddingBottom: "3px",
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
       </Card>
       <img
         src={loginImage}
@@ -270,4 +325,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

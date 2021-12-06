@@ -6,6 +6,18 @@ import { Link } from "react-router-dom";
 export default function SimpleMenu() {
   return (
     <div>
+      <Tooltip title="Dashboard" style={{ color: "white" }}>
+        <Link
+          to="/dashboard"
+          style={{
+            color: "white",
+            font: "Manrope, sans-serif",
+            textDecoration: "none",
+          }}
+        >
+          <Button style={{ color: "white" }}>My Dashboard</Button>
+        </Link>
+      </Tooltip>
       <Tooltip title="About" style={{ color: "white" }}>
         <Link
           to="/about"
@@ -16,16 +28,6 @@ export default function SimpleMenu() {
           }}
         >
           <Button style={{ color: "white" }}>About</Button>
-        </Link>
-      </Tooltip>
-      <Tooltip title="Log in" style={{ color: "white" }}>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button style={{ color: "white" }}>Log in</Button>
-        </Link>
-      </Tooltip>
-      <Tooltip title="Sign up" style={{ color: "white" }}>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button style={{ color: "white" }}>Sign up</Button>
         </Link>
       </Tooltip>
       <Tooltip title="Profile" style={{ color: "white" }}>

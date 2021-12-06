@@ -7,7 +7,8 @@ import {
   BrowserRouter as BrowserRouter,
   Route,
   Routes,
-  Link, Navigate
+  Link,
+  Navigate,
 } from "react-router-dom";
 import LandingPage from "./pages/landing_page";
 import LoginPage from "./pages/login";
@@ -15,9 +16,9 @@ import SignupPage from "./pages/signup";
 import DashboardPage from "./pages/dashboard";
 import ProfilePage from "./pages/profile_page";
 import ItineraryPage from "./pages/itinerary_page";
+import UserItineraryPage from "./pages/user_itinerary_page";
 import AboutPage from "./pages/about";
 // import PrivateRoute from './components/PrivateRoute';
-
 
 function setToken(userToken) {
   sessionStorage.setItem("token", JSON.stringify(userToken));
@@ -60,7 +61,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      {/* <PrivateRoute path="/" element = {<LandingPage/>} token = {token}/> */}
+        {/* <PrivateRoute path="/" element = {<LandingPage/>} token = {token}/> */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -68,6 +69,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/getitinerary" element={<ItineraryPage />} />
         <Route exact path="/about" element={<AboutPage />} />
+        <Route exact path="/itinerary" element={<UserItineraryPage />} />
       </Routes>
     </BrowserRouter>
   );
