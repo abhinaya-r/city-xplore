@@ -7,12 +7,13 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@mui/material/Box";
 import axios from "axios"
+import Activity from "./activity";
 
 export default function Itinerary() {
   const [data, setData] = React.useState(null);
   const cardStyle = {
     backgroundColor: "#ACD7AB",
-    paddingBottom: "60px",
+    paddingBottom: "10px",
     marginBottom: "50px",
   };
 
@@ -33,85 +34,9 @@ export default function Itinerary() {
               }
             />
             <CardContent style={{ paddingBottom: "0px" }}>
-              <Box
-                component="span"
-                sx={{
-                  display: "block",
-                  bgcolor: "#FFF6F1",
-                  borderRadius: "10px",
-                }}
-              >
-                  <Box sx= {{alignItems: 'left'}} style={{
-                    width: "50%",
-                    color: "#919E6A",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    padding: "5px",
-                    marginTop: "-20px",
-                    marginBottom: "10px",
-                  }}>
-                  Empire State Building
-                  </Box>
-                   <Box sx= {{ alignItems: 'right'}} style={{
-                    width: "50%",
-                    color: "#919E6A",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    padding: "5px",
-                    marginTop: "-20px",
-                    marginBottom: "10px",
-                  }}>
-                  Rating
-                  </Box>
-                  <Box sx= {{}} style={{
-                    width: "100%",
-                    color: "#919E6A",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    padding: "5px",
-                    marginTop: "-20px",
-                    marginBottom: "10px",
-                  }}>
-                  Address
-                  </Box>
-                 
-              </Box>
-              <Box
-                component="span"
-                sx={{
-                  display: "block",
-                  bgcolor: "#FFF6F1",
-                  borderRadius: "10px",
-                }}
-                style={{
-                  width: "100%",
-                  color: "#919E6A",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "5px",
-                  marginBottom: "10px",
-                }}
-              >
-                Baked by Melissa
-              </Box>
-              <Box
-                component="span"
-                sx={{
-                  display: "block",
-                  bgcolor: "#FFF6F1",
-                  borderRadius: "10px",
-                }}
-                style={{
-                  width: "100%",
-                  color: "#919E6A",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "5px",
-                  marginBottom: "-15px",
-                }}
-              >
-                The 40/40 Club
-              </Box>
+              <Activity name= "Thompson Central Park New York" rating="4.3 stars" address="119 W 56th St, New York, NY 10019"/>
+              <Activity name= "The Museum of Modern Art" rating="4.6 stars" address="11 W 53rd St, New York, NY 10019"/>
+              <Activity name= "Magnolia Bakery - Rockefeller Center" rating="4.4 stars" address="1240 6th Ave, New York, NY 10020"/>
             </CardContent>
           </Card>
         </Grid>
