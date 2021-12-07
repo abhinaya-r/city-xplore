@@ -9,6 +9,7 @@ import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import useAuth from "./../hooks/useAuth";
 
 async function loginUser(credentials) {
   return fetch("http://localhost:3001/api", {
@@ -21,14 +22,14 @@ async function loginUser(credentials) {
 }
 
 const Login = ({ setToken }) => {
-  const [username, setUserName] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
     const token = await loginUser({
-      username,
+      email,
       password,
     });
     console.log(token);
@@ -56,6 +57,14 @@ const Login = ({ setToken }) => {
     paddingBottom: "0px",
     textAlign: "left",
     fontWeight: "bold",
+  };
+
+  const { registerUser, error } = useAuth();
+  const handleRegister = async (e) => {
+    let values = { email: email, password: password };
+
+    e.preventDefault();
+    await registerUser(values);
   };
 
   return (
@@ -87,68 +96,71 @@ const Login = ({ setToken }) => {
               Login
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "-10px",
-              marginBottom: "0px",
-              paddingTop: "0px",
-            }}
-          >
-            <Typography style={typeStyle}>Email</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="filled"
-              variant="outlined"
-              size="small"
+          <form onSubmit={handleSubmit}>
+            <Grid
+              item
+              xs={12}
               style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius: "10px",
+                border: "0px",
+                marginTop: "-10px",
+                marginBottom: "0px",
+                paddingTop: "0px",
               }}
-              // onChange={(e) => setUserName(e.target.value)}
+            >
+              <Typography style={typeStyle}>Email</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography style={typeStyle}>Password</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                type="password"
+                name="password"
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
               style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius:"10px",
+                border: "0px",
+                marginTop: "-20px",
+                marginBottom: "-20px",
+                paddingTop: "0px",
               }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={typeStyle}>Password</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              size="small"
-              type="password"
-              name="password"
-              style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius: "10px",
-              }}
-              // onChange={(e) => setPassword(e.target.value)}
-              style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius:"10px",
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "-20px",
-              marginBottom: "-20px",
-              paddingTop: "0px",
-            }}
-          >
+            >
               <Button
                 as="input"
                 type="submit"
@@ -169,8 +181,8 @@ const Login = ({ setToken }) => {
               >
                 Login
               </Button>
-          </Grid>
-          {/* <Grid item xs={8}>
+            </Grid>
+            {/* <Grid item xs={8}>
             <Typography
               style={{
                 fontFamily: "Manrope, sans-serif",
@@ -184,6 +196,7 @@ const Login = ({ setToken }) => {
               Don't have an account? Sign up here!
             </Typography>
           </Grid> */}
+          </form>
         </Grid>
       </Card>
       <img

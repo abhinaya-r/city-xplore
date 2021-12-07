@@ -20,6 +20,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.use("/", viewRouter);
+app.use("/auth/", authRouter);
+
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
@@ -27,8 +30,8 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+app.get("/user", (req, res) => {
+  res.json({ currentUser: "test123" });
 });
 
 app.post("api/new_itinerary", (req, res) => {

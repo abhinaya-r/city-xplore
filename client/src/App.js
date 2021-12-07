@@ -7,6 +7,7 @@ import {
   BrowserRouter as BrowserRouter,
   Route,
   Routes,
+  Switch,
   Link,
   Navigate,
 } from "react-router-dom";
@@ -18,7 +19,9 @@ import ProfilePage from "./pages/profile_page";
 import ItineraryPage from "./pages/itinerary_page";
 import UserItineraryPage from "./pages/user_itinerary_page";
 import AboutPage from "./pages/about";
-// import PrivateRoute from './components/PrivateRoute';
+import useFindUser from "./hooks/useFindUser";
+import { UserContext } from "./hooks/UserContext";
+import PrivateRoute from "./pages/PrivateRoute";
 
 function setToken(userToken) {
   sessionStorage.setItem("token", JSON.stringify(userToken));
@@ -32,10 +35,21 @@ function getToken() {
 
 function App() {
   const [data, setData] = React.useState(null);
+  const { user, setUser, isLoading } = useFindUser();
+
+  React.useEffect(() => {
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => setData(data.message));
+  }, []);
 
   const token = getToken();
-  //   if(!token) {
-  //   return <LoginPage setToken={setToken} />
+  // if (!token) {
+  //   <BrowserRouter>
+  //     <Switch>
+  //       return <LoginPage setToken={setToken} />;
+  //     </Switch>
+  //   </BrowserRouter>;
   // }
   // if (!token) {
   //   return (
@@ -45,12 +59,6 @@ function App() {
   //   );
   // }
 
-  // React.useEffect(() => {
-  //   fetch("/api")
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data.message));
-  // }, []);
-
   // <div className="App">
   //   <header className="App-header">
   //     <img src={logo} className="App-logo" alt="logo" />
@@ -58,18 +66,21 @@ function App() {
   //   </header>
   // </div>
   console.log(data);
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* <PrivateRoute path="/" element = {<LandingPage/>} token = {token}/> */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/getitinerary" element={<ItineraryPage />} />
-        <Route exact path="/about" element={<AboutPage />} />
-        <Route exact path="/itinerary" element={<UserItineraryPage />} />
+        <UserContext.Provider value={{ user, setUser, isLoading }}>
+          {/* <PrivateRoute path="/" element = {<LandingPage/>} token = {token}/> */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <PrivateRoute path="/dashboard" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/getitinerary" element={<ItineraryPage />} />
+          <Route exact path="/about" element={<AboutPage />} />
+          <Route exact path="/itinerary" element={<UserItineraryPage />} />
+        </UserContext.Provider>
       </Routes>
     </BrowserRouter>
   );
