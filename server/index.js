@@ -13,7 +13,7 @@ const path = require("path");
 const axios = require("axios");
 const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
 const viewRouter = require("./viewRouter");
-
+const authRouter = require("./authRouter");
 // const db = require('../database/models/index.js');
 
 app.use(cors());
