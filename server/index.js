@@ -1,5 +1,4 @@
 // server/index.js
-
 const express = require("express");
 
 const cors = require("cors");
@@ -11,6 +10,7 @@ const app = express();
 const path = require("path");
 
 const axios = require('axios')
+
 const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 
 // const db = require('../database/models/index.js');
@@ -20,16 +20,29 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-// Have Node serve the files for our built React app
+// Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-// Handle GET requests to /api route
+
+//DATABASE
+
+const Pool = require("pg").Pool;
+require("dotenv").config();
+const isProduction = process.env.NODE_ENV === "production";
+const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
+const pool = new Pool({
+    connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+module.exports = pool;
+
+
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
+
 
 app.post("api/new_itinerary", (req, res) => {
   console.log("request data: ", req.body);
