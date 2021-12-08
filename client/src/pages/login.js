@@ -9,31 +9,34 @@ import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
-// async function loginUser(credentials) {
-//   return fetch("http://localhost:3001/api", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
+async function loginUser(credentials) {
+  return fetch("http://localhost:3001/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  }).then((data) => data.json());
+}
 
 const Login = ({ setToken }) => {
-  // const [username, setUserName] = useState();
-  // const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await loginUser({
-  //     username,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  // };
+  const handleSubmit = async (e) => {
+    console.log("submitting");
+    e.preventDefault();
+    const token = await loginUser({
+      email,
+      password,
+    });
+    console.log(token);
+    setToken(token);
+    window.location.href = "/dashboard";
+  };
+
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -87,64 +90,57 @@ const Login = ({ setToken }) => {
               Login
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "-10px",
-              marginBottom: "0px",
-              paddingTop: "0px",
-            }}
-          >
-            <Typography style={typeStyle}>Email</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="filled"
-              variant="outlined"
-              size="small"
+          <form onSubmit={handleSubmit}>
+            <Grid
+              item
+              xs={12}
               style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius: "10px",
+                border: "0px",
+                marginTop: "-10px",
+                marginBottom: "0px",
+                paddingTop: "0px",
               }}
-              // onChange={(e) => setUserName(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={typeStyle}>Password</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              size="small"
-              type="password"
-              name="password"
+            >
+              <Typography style={typeStyle}>Email</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography style={typeStyle}>Password</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                size="small"
+                type="password"
+                name="password"
+                style={{
+                  background: "#FFFFFF",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                }}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
               style={{
-                background: "#FFFFFF",
-                border: "#FFFFFF",
-                borderRadius: "10px",
-              }}
-              // onChange={(e) => setPassword(e.target.value)}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "-20px",
-              marginBottom: "-20px",
-              paddingTop: "0px",
-            }}
-          >
-            <Link
-              to="/dashboard"
-              style={{
-                color: "white",
-                font: "Manrope, sans-serif",
-                textDecoration: "none",
+                border: "0px",
+                marginTop: "-20px",
+                marginBottom: "-20px",
+                paddingTop: "0px",
               }}
             >
               <Button
@@ -166,9 +162,8 @@ const Login = ({ setToken }) => {
               >
                 Login
               </Button>
-            </Link>
-          </Grid>
-          {/* <Grid item xs={8}>
+            </Grid>
+            {/* <Grid item xs={8}>
             <Typography
               style={{
                 fontFamily: "Manrope, sans-serif",
@@ -182,6 +177,7 @@ const Login = ({ setToken }) => {
               Don't have an account? Sign up here!
             </Typography>
           </Grid> */}
+          </form>
         </Grid>
       </Card>
       <img
@@ -196,6 +192,10 @@ const Login = ({ setToken }) => {
       />
     </div>
   );
+};
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired,
 };
 
 export default Login;

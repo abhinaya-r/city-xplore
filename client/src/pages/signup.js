@@ -8,43 +8,71 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
 const axios = require("axios");
 const crypto = require("crypto");
 
-const Signup = () => {
+async function signupUser(credentials) {
+  return fetch("http://localhost:3001/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  }).then((data) => data.json());
+}
+
+// async function signupUser(credentials) {
+//   let axiosConfig = {
+//     headers: {
+//       "Content-Type": "application/json;charset=UTF-8",
+//       "Access-Control-Allow-Origin": "*",
+//     },
+//   };
+//   return axios
+//     .post("api/signup/", JSON.stringify(credentials))
+//     .then((response) => response.json());
+// }
+
+const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const gender = "female";
+  const birthday = "09/30/1999";
+  const created_on = Date.now();
+  const password_hash = crypto.createHash("md5").update(password).digest("hex");
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const token = await signupUser({
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     password,
+  //     birthday,
+  //     gender,
+  //     created_on,
+  //   });
+  //   setToken(token);
+  //   console.log(token);
+  //   window.location.href = "/dashboard";
+  // };
 
   const handleSubmit = async (e) => {
+    console.log("submitting");
     e.preventDefault();
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
-
-    let hash = crypto.createHash("md5").update(password).digest("hex");
-
-    let formInfo = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: hash,
-    };
-    console.log("submit");
-    console.log(formInfo);
-    const res = axios
-      .post("api/signup/", formInfo, axiosConfig)
-      .then((response) => {
-        if (response.status == "SUCCESS") {
-          console.log(response);
-          window.location.href = "/dashboard";
-        }
-      });
+    const token = await signupUser({
+      email,
+      password,
+    });
+    console.log(token);
+    setToken(token);
+    window.location.href = "/dashboard";
   };
+
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -286,27 +314,19 @@ const Signup = () => {
                 paddingTop: "0px",
               }}
             >
-              <Link
-                to="/dashboard"
+              <Button
+                as="input"
+                type="submit"
                 style={{
                   color: "white",
-                  font: "Manrope, sans-serif",
-                  textDecoration: "none",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
                 }}
               >
-                <Button
-                  type="submit"
-                  style={{
-                    color: "white",
-                    backgroundColor: "orange",
-                    fontFamily: "Manrope, sans-serif",
-                    paddingTop: "3px",
-                    paddingBottom: "3px",
-                  }}
-                >
-                  Sign up
-                </Button>
-              </Link>
+                Sign up
+              </Button>
             </Grid>
           </Grid>
         </form>
@@ -323,6 +343,10 @@ const Signup = () => {
       />
     </div>
   );
+};
+
+Signup.propTypes = {
+  setToken: PropTypes.func.isRequired,
 };
 
 export default Signup;
