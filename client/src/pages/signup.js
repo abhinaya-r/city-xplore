@@ -40,6 +40,7 @@ const Signup = ({ setToken }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const gender = "female";
   const birthday = "09/30/1999";
   const created_on = Date.now();
@@ -80,20 +81,35 @@ const Signup = ({ setToken }) => {
     position: "absolute",
     top: "50%",
     transform: "translate(-50%, -50%)",
-    width: "25%",
+    width: "35%",
     height: "50%",
     textAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
+    overflow: "auto",
   };
 
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "white",
-    fontSize: "20px",
+    fontSize: "18px",
     paddingTop: "0px",
     paddingBottom: "0px",
     textAlign: "left",
+  };
+
+  const gridStyle = {
+    border: "0px",
+    marginTop: "0px",
+    marginBottom: "-60px",
+  };
+
+  const textfieldStyle = {
+    paddingTop: "0px",
+    paddingBottom: "0px",
+    background: "#FFFFFF",
+    border: "#FFFFFF",
+    borderRadius: "10px",
   };
 
   return (
@@ -121,26 +137,8 @@ const Signup = ({ setToken }) => {
             style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
             columns={2}
           >
-            <Grid
-              item
-              xs={6}
-              style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "-20px",
-              }}
-            >
-              <Typography
-                style={{
-                  color: "white",
-                  fontSize: "20px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  textAlign: "left",
-                }}
-              >
-                First Name
-              </Typography>
+            <Grid item xs={6} style={gridStyle}>
+              <Typography style={typeStyle}>First Name</Typography>
               <TextField
                 variant="outlined"
                 id="filled"
@@ -148,13 +146,7 @@ const Signup = ({ setToken }) => {
                 margin="none"
                 value={firstName}
                 onInput={(e) => setFirstName(e.target.value)}
-                style={{
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
-                }}
+                style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
@@ -163,26 +155,8 @@ const Signup = ({ setToken }) => {
                 }}
               />
             </Grid>
-            <Grid
-              item
-              xs={6}
-              style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "-20px",
-              }}
-            >
-              <Typography
-                style={{
-                  color: "white",
-                  fontSize: "20px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  textAlign: "left",
-                }}
-              >
-                Last Name
-              </Typography>
+            <Grid item xs={6} style={gridStyle}>
+              <Typography style={typeStyle}>Last Name</Typography>
               <TextField
                 id="filled"
                 variant="outlined"
@@ -190,13 +164,7 @@ const Signup = ({ setToken }) => {
                 margin="none"
                 value={lastName}
                 onInput={(e) => setLastName(e.target.value)}
-                style={{
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
-                }}
+                style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
@@ -205,129 +173,128 @@ const Signup = ({ setToken }) => {
               />
             </Grid>
           </Grid>
-          <Grid id="second-row" container spacing={0}>
-            <Grid
-              item
-              xs={8}
-              style={{
-                border: "0px",
-                marginTop: "-20px",
-                marginBottom: "-15px",
+          <Grid item xs={12} style={gridStyle}>
+            <Typography style={typeStyle}>Email</Typography>
+            <TextField
+              id="filled"
+              variant="outlined"
+              size="small"
+              margin="none"
+              value={email}
+              onInput={(e) => setEmail(e.target.value)}
+              style={textfieldStyle}
+              fullWidth
+              muifilledinput={{ borderBottomLeftRadius: "0px" }}
+              InputProps={{
+                disableUnderline: true,
+                padding: "0px",
               }}
-            >
-              <Typography
-                style={{
-                  color: "white",
-                  fontSize: "20px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  textAlign: "left",
-                }}
-              >
-                Email
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "-10px",
-              }}
-            >
+            />
+          </Grid>
+          <Grid id="birthdate-row" container spacing={2}>
+            <Grid item xs={6} style={gridStyle}>
+              <Typography style={typeStyle}>Birthday</Typography>
               <TextField
                 id="filled"
                 variant="outlined"
                 size="small"
-                margin="normal"
-                value={email}
-                onInput={(e) => setEmail(e.target.value)}
+                margin="none"
+                // onInput={(e) => setLastName(e.target.value)}
+                style={textfieldStyle}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
+                  padding: "0px",
                 }}
-                style={{
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
+              />
+            </Grid>
+            <Grid item xs={6} style={gridStyle}>
+              <Typography style={typeStyle}>Gender</Typography>
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                margin="none"
+                // onInput={(e) => setGender(e.target.value)}
+                style={textfieldStyle}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  padding: "0px",
                 }}
               />
             </Grid>
           </Grid>
-          <Grid id="third-row" spacing={2} style={{ border: "0px" }}>
+          <Grid id="third-row" container spacing={2} style={{ border: "0px" }}>
+            <Grid item xs={6} style={gridStyle}>
+              <Typography style={typeStyle}>Password</Typography>
+              <TextField
+                id="filled"
+                variant="outlined"
+                size="small"
+                type="password"
+                name="password"
+                margin="none"
+                onInput={(e) => setPassword(e.target.value)}
+                style={textfieldStyle}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  padding: "0px",
+                }}
+              />
+            </Grid>
             <Grid
               item
-              xs={8}
+              xs={6}
               style={{
                 border: "0px",
                 marginTop: "0px",
                 marginBottom: "-15px",
               }}
             >
-              <Typography
-                style={{
-                  color: "white",
-                  fontSize: "20px",
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  textAlign: "left",
-                }}
-              >
-                Password
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "-50px",
-              }}
-            >
+              <Typography style={typeStyle}>Confirm Password</Typography>
               <TextField
                 id="filled"
+                variant="outlined"
                 size="small"
                 type="password"
                 name="password"
-                variant="outlined"
-                margin="normal"
-                value={password}
-                onInput={(e) => setPassword(e.target.value)}
+                margin="none"
+                onInput={(e) => setConfirmPassword(e.target.value)}
+                style={textfieldStyle}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
-                }}
-                style={{
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
+                  padding: "0px",
                 }}
               />
             </Grid>
-            <Grid
-              item
-              xs={4}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              marginTop: "-70px",
+              marginBottom: "-70px",
+              justifyAlign: "center",
+            }}
+          >
+            <Button
+              type="submit"
               style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "0px",
-                paddingTop: "0px",
+                color: "white",
+                backgroundColor: "orange",
+                fontFamily: "Manrope, sans-serif",
+                paddingLeft: "30px",
+                paddingRight: "30px",
+                paddingTop: "5px",
+                paddingBottom: "5px",
               }}
             >
-              <Button
-                as="input"
-                type="submit"
-                style={{
-                  color: "white",
-                  backgroundColor: "orange",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingTop: "3px",
-                  paddingBottom: "3px",
-                }}
-              >
-                Sign up
-              </Button>
-            </Grid>
+              Sign up
+            </Button>
           </Grid>
         </form>
       </Card>
