@@ -13,30 +13,19 @@ const axios = require('axios')
 
 const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 
+var usersRouter = require('./users');
+
+
 // const db = require('../database/models/index.js');
 
 app.use(cors());
 // middleware
 app.use(express.json());
 app.use(express.urlencoded());
+app.use('/users', usersRouter);
 
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
-
-
-//DATABASE
-
-const Pool = require("pg").Pool;
-require("dotenv").config();
-const isProduction = process.env.NODE_ENV === "production";
-const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
-const pool = new Pool({
-    connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    ssl: {
-        rejectUnauthorized: false,
-    },
-});
-module.exports = pool;
 
 
 app.get("/api", (req, res) => {
