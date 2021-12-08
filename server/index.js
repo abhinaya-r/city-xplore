@@ -1,5 +1,4 @@
 // server/index.js
-
 const express = require("express");
 
 const cors = require("cors");
@@ -10,8 +9,12 @@ const app = express();
 
 const path = require("path");
 
-const axios = require("axios");
-const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
+const axios = require('axios')
+
+const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
+
+var usersRouter = require('./users');
+
 
 // const db = require('../database/models/index.js');
 
@@ -19,8 +22,9 @@ app.use(cors());
 // middleware
 app.use(express.json());
 app.use(express.urlencoded());
+app.use('/users', usersRouter);
 
-// Have Node serve the files for our built React app
+// Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.use("/login", (req, res) => {
@@ -33,6 +37,7 @@ app.use("/login", (req, res) => {
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
+
 
 app.post("api/new_itinerary", (req, res) => {
   console.log("request data: ", req.body);
