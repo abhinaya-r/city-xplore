@@ -33,9 +33,6 @@ app.use("/login", (req, res) => {
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
 
 app.post("api/new_itinerary", (req, res) => {
   console.log("request data: ", req.body);
@@ -114,6 +111,9 @@ app.get("/api/new_itinerary", (req, res) => {
 
 app.post("/api/signup", function (req, res) {
   const user = req.body;
+  res.send({
+    token: "test123",
+  });
   console.log("post req:", user);
 
   // db.Users.findOrCreate({where: {email: user.email}})

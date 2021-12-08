@@ -1,12 +1,18 @@
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export default function SimpleMenu() {
+  const handleSignout = () => {
+    console.log("signing out");
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
   return (
     <div>
-     <Tooltip title="Dashboard" style={{ color: "white" }}>
+      <Tooltip title="Dashboard" style={{ color: "white" }}>
         <Link
           to="/dashboard"
           style={{
@@ -42,9 +48,9 @@ export default function SimpleMenu() {
           <Button style={{ color: "white" }}>My Profile</Button>
         </Link>
       </Tooltip>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <Button style={{ color: "white" }}>Sign out</Button>
-      </Link>
+      <Button onClick={handleSignout} style={{ color: "white" }}>
+        Sign out
+      </Button>
     </div>
   );
 }

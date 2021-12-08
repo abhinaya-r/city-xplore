@@ -34,7 +34,9 @@ const Login = ({ setToken }) => {
     });
     console.log(token);
     setToken(token);
+    window.location.href = "/dashboard";
   };
+
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
