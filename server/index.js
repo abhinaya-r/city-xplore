@@ -23,10 +23,13 @@ app.use(express.urlencoded());
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-// Handle GET requests to /api route
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+app.use("/login", (req, res) => {
+  res.send({
+    token: "test123",
+  });
 });
+
+// Handle GET requests to /api route
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
@@ -108,6 +111,9 @@ app.get("/api/new_itinerary", (req, res) => {
 
 app.post("/api/signup", function (req, res) {
   const user = req.body;
+  res.send({
+    token: "test123",
+  });
   console.log("post req:", user);
 
   // db.Users.findOrCreate({where: {email: user.email}})
