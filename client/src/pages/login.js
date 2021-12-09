@@ -21,14 +21,6 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-var Component = React.createClass({
-  render: function () {
-    var link = <a href={this.makeHref("signup")}>here</a>;
-
-    return <div>Please {link} with your email.</div>;
-  },
-});
-
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
