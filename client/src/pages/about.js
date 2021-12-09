@@ -24,10 +24,10 @@ const About = () => {
     paddingRight: "30px",
     paddingBottom: "3px",
     fontWeight: "bold",
-    textTransform: 'none',
+    textTransform: "none",
     minWidth: "239px",
     minHeight: "58px",
-    fontSize: "24px"
+    fontSize: "24px",
   };
 
   const cardStyle = {
@@ -53,7 +53,7 @@ const About = () => {
     fontSize: "30px",
     paddingBottom: "0px",
     textAlign: "left",
-    fontWeight: "bold"
+    fontWeight: "bold",
   };
 
   const imageStyle = {
@@ -68,23 +68,24 @@ const About = () => {
     <div>
       <Header />
       <Card style={cardStyle}>
+        <Typography style={typeStyle}>Welcome to CityXplore!</Typography>
         <Typography style={typeStyle}>
-          Welcome to CityXplore! 
+          Whether you are a newcomer to NYC, a long-time resident, or a visitor,
+          we hope we can help you plan a fun outing!
         </Typography>
-         <Typography style={typeStyle}>
-          Whether you are a newcomer to NYC, a long-time resident, or a visitor, we 
-          hope we can help you plan a fun outing! 
-        </Typography>
-         <Typography style={{
-           fontFamily: "Manrope, sans-serif",
+        <Typography
+          style={{
+            fontFamily: "Manrope, sans-serif",
             color: "#919E6A",
             fontSize: "30px",
             paddingTop: "30px",
             paddingBottom: "10px",
             textAlign: "left",
-            }}>
-          To begin, go to "My Dashboard" and create a new itinerary. You can browse through past itineraries and
-          provide feedback on the recommendations.
+          }}
+        >
+          To begin, go to "My Dashboard" and create a new itinerary. You can
+          browse through past itineraries and provide feedback on the
+          recommendations.
         </Typography>
       </Card>
     </div>
