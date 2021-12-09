@@ -9,6 +9,7 @@ import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -194,6 +195,12 @@ const Signup = ({ setToken }) => {
           <Grid id="birthdate-row" container spacing={2}>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Birthday</Typography>
+              {/* <DesktopDatePicker
+                label="Date desktop"
+                inputFormat="MM/dd/yyyy"
+                // onChange={handleChange}
+                renderInput={(params) => <TextField {...params} />}
+              /> */}
               <TextField
                 id="filled"
                 variant="outlined"
@@ -287,8 +294,8 @@ const Signup = ({ setToken }) => {
                 color: "white",
                 backgroundColor: "orange",
                 fontFamily: "Manrope, sans-serif",
-                paddingLeft: "30px",
-                paddingRight: "30px",
+                paddingLeft: "40px",
+                paddingRight: "40px",
                 paddingTop: "5px",
                 paddingBottom: "5px",
               }}

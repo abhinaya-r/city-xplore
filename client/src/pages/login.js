@@ -21,6 +21,14 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
+var Component = React.createClass({
+  render: function () {
+    var link = <a href={this.makeHref("signup")}>here</a>;
+
+    return <div>Please {link} with your email.</div>;
+  },
+});
+
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -47,6 +55,7 @@ const Login = ({ setToken }) => {
     width: "25%",
     height: "50%",
     textAlign: "center",
+    justifyAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
   };
@@ -54,11 +63,24 @@ const Login = ({ setToken }) => {
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "white",
-    fontSize: "20px",
+    fontSize: "18px",
     paddingTop: "0px",
     paddingBottom: "0px",
     textAlign: "left",
-    fontWeight: "bold",
+  };
+
+  const textfieldStyle = {
+    paddingTop: "0px",
+    paddingBottom: "0px",
+    background: "#FFFFFF",
+    border: "#FFFFFF",
+    borderRadius: "10px",
+  };
+
+  const gridStyle = {
+    border: "0px",
+    marginTop: "-10px",
+    marginBottom: "-20px",
   };
 
   return (
@@ -91,46 +113,34 @@ const Login = ({ setToken }) => {
             </Typography>
           </Grid>
           <form onSubmit={handleSubmit}>
-            <Grid
-              item
-              xs={12}
-              style={{
-                border: "0px",
-                marginTop: "-10px",
-                marginBottom: "0px",
-                paddingTop: "0px",
-              }}
-            >
+            <Grid item xs={12} style={gridStyle}>
               <Typography style={typeStyle}>Email</Typography>
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 id="filled"
                 variant="outlined"
                 size="small"
-                style={{
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
-                }}
+                fullWidth
+                style={textfieldStyle}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
               <Typography style={typeStyle}>Password</Typography>
-            </Grid>
-            <Grid item xs={12}>
               <TextField
+                id="filled"
                 variant="outlined"
                 size="small"
                 type="password"
                 name="password"
-                style={{
-                  background: "#FFFFFF",
-                  border: "#FFFFFF",
-                  borderRadius: "10px",
+                margin="none"
+                fullWidth
+                onInput={(e) => setPassword(e.target.value)}
+                style={textfieldStyle}
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  padding: "0px",
                 }}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
             <Grid
@@ -138,45 +148,62 @@ const Login = ({ setToken }) => {
               xs={12}
               style={{
                 border: "0px",
-                marginTop: "-20px",
-                marginBottom: "-20px",
-                paddingTop: "0px",
+                marginTop: "-50px",
+                marginBottom: "-10px",
+                justifyAlign: "center",
               }}
             >
               <Button
-                as="input"
                 type="submit"
-                value="Submit"
                 style={{
                   color: "white",
-                  backgroundColor: "#E6AA52",
+                  backgroundColor: "orange",
                   fontFamily: "Manrope, sans-serif",
-                  paddingTop: "3px",
-                  paddingBottom: "3px",
-                  fontWeight: "bold",
-                  textTransform: "none",
-                  minWidth: "239px",
-                  minHeight: "58px",
-                  fontSize: "24px",
+                  fontSize: "15px",
+                  paddingLeft: "50px",
+                  paddingRight: "50px",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
                 }}
               >
                 Login
               </Button>
             </Grid>
-            {/* <Grid item xs={8}>
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "10px",
-                paddingTop: "10px",
-                paddingBottom: "0px",
-                textAlign: "center",
-              }}
-            >
-              Don't have an account? Sign up here!
-            </Typography>
-          </Grid> */}
+            <Grid item xs={12}>
+              <Typography
+                style={{
+                  fontFamily: "Manrope, sans-serif",
+                  color: "white",
+                  fontSize: "10px",
+                  paddingTop: "10px",
+                  paddingBottom: "0px",
+                  textAlign: "center",
+                }}
+              >
+                Don't have an account? Sign up
+              </Typography>
+              <Link
+                to="/signup"
+                style={{
+                  color: "white",
+                  font: "Manrope, sans-serif",
+                  textDecoration: "none",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontFamily: "Manrope, sans-serif",
+                    color: "white",
+                    fontSize: "10px",
+                    paddingTop: "10px",
+                    paddingBottom: "0px",
+                    textAlign: "center",
+                  }}
+                >
+                  here!
+                </Typography>
+              </Link>
+            </Grid>
           </form>
         </Grid>
       </Card>
