@@ -161,7 +161,7 @@ const Login = ({ setToken }) => {
                 Login
               </Button>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Typography
                 style={{
                   fontFamily: "Manrope, sans-serif",
@@ -195,7 +195,7 @@ const Login = ({ setToken }) => {
                   here!
                 </Typography>
               </Link>
-            </Grid>
+            </Grid> */}
           </form>
         </Grid>
       </Card>
