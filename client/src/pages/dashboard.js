@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -16,6 +16,8 @@ const Mainpage = () => {
     paddingTop: "20px",
     fontSize: "30px",
   };
+  const isRefresh = "false";
+
   return (
     <div style={{ height: "100vh" }}>
       <Header />
@@ -34,7 +36,7 @@ const Mainpage = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ paddingTop: "30px", paddingLeft: "200px" }}>
-          <Itinerary></Itinerary>
+          <Itinerary isRefresh={isRefresh}></Itinerary>
         </Grid>
         {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
           <Itinerary></Itinerary>
@@ -54,15 +56,15 @@ const Mainpage = () => {
               value="Submit"
               style={{
                 color: "white",
-                  backgroundColor: "#E6AA52",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingTop: "3px",
-                  paddingBottom: "3px",
-                  fontWeight: "bold",
-                  textTransform: 'none',
-                  minWidth: "239px",
-                  minHeight: "58px",
-                  fontSize: "24px"
+                backgroundColor: "#E6AA52",
+                fontFamily: "Manrope, sans-serif",
+                paddingTop: "3px",
+                paddingBottom: "3px",
+                fontWeight: "bold",
+                textTransform: "none",
+                minWidth: "239px",
+                minHeight: "58px",
+                fontSize: "24px",
               }}
             >
               Create a new Itinerary!

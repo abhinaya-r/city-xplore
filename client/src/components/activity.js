@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 export default function Activity(props) {
   const gridStyle = {
@@ -16,23 +17,31 @@ export default function Activity(props) {
     fontSize: "10px",
     fontWeight: "bold",
     padding: "5px",
-    marginTop: "-20px",
-    marginBottom: "10px",
+    marginTop: "-10px",
+    marginBottom: "0px",
   };
 
   return (
     <div>
       <Box
         component="span"
+        display="flex"
         sx={{
           display: "block",
           bgcolor: "#FFF6F1",
           borderRadius: "10px",
-          marginBottom: "30px",
+          marginBottom: "20px",
+          paddingTop: "0px",
+          paddingBottom: "8px",
         }}
       >
-        <Grid container spacing={0} columns={2}>
-          <Grid item xs={11} style={gridStyle}>
+        <Grid
+          container
+          direction="row"
+          spacing={0}
+          style={{ paddingTop: "10px" }}
+        >
+          <Grid item xs={10} style={gridStyle}>
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>
@@ -43,9 +52,13 @@ export default function Activity(props) {
               {props.address}
             </Box>
           </Grid>
-          {/* <Grid item xs={1} style={gridStyle}>
-            <RefreshIcon sx={{ color: "#919E6A" }}></RefreshIcon>
-          </Grid> */}
+          {props.isRefresh === "false" ? (
+            <></>
+          ) : (
+            <Button style={{ paddingTop: "-20px" }}>
+              <RefreshIcon sx={{ color: "#919E6A" }}></RefreshIcon>
+            </Button>
+          )}
         </Grid>
       </Box>
     </div>
