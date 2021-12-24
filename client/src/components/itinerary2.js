@@ -78,6 +78,7 @@ const UserItinerary = () => {
             name={!itinerary ? "Loading..." : itinerary[0]["name"]}
             rating="4.5 stars"
             address="20 W 34th St, New York, NY 10001"
+            isDashboard={props.isDashboard}
           />
 
           <Box
