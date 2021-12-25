@@ -123,7 +123,7 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("/users", user).then((res) => console.log(res));
+  axios.post("http://localhost:3001/users", user).then((res) => console.log(res)).catch((err) => console.log("error: ", err));
   res.send({
     token: "test123",
   });
