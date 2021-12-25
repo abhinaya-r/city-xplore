@@ -13,27 +13,27 @@ import PropTypes from "prop-types";
 const axios = require("axios");
 const crypto = require("crypto");
 
-async function signupUser(credentials) {
-  return fetch("http://localhost:3001/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-}
-
 // async function signupUser(credentials) {
-//   let axiosConfig = {
+//   return fetch("http://localhost:3001/login", {
+//     method: "POST",
 //     headers: {
-//       "Content-Type": "application/json;charset=UTF-8",
-//       "Access-Control-Allow-Origin": "*",
+//       "Content-Type": "application/json",
 //     },
-//   };
-//   return axios
-//     .post("api/signup/", JSON.stringify(credentials))
-//     .then((response) => response.json());
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
 // }
+
+async function signupUser(credentials) {
+  let axiosConfig = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+  return axios
+    .post("/api/signup/", credentials)
+    .then((response) => response.data);
+}
 
 const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
@@ -45,33 +45,33 @@ const Signup = ({ setToken }) => {
   const created_on = Date.now();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const token = await signupUser({
-  //     firstName,
-  //     lastName,
-  //     email,
-  //     password,
-  //     birthday,
-  //     gender,
-  //     created_on,
-  //   });
-  //   setToken(token);
-  //   console.log(token);
-  //   window.location.href = "/dashboard";
-  // };
-
   const handleSubmit = async (e) => {
-    console.log("submitting");
     e.preventDefault();
     const token = await signupUser({
-      email,
-      password,
+      "first_name": firstName,
+      "last_name":lastName,
+      "email": email,
+      "password":password,
+      "birthday":birthday,
+      "gender":gender,
+      "created_on":created_on,
     });
-    console.log(token);
     setToken(token);
+    console.log(token);
     window.location.href = "/dashboard";
   };
+
+  // const handleSubmit = async (e) => {
+  //   console.log("submitting");
+  //   e.preventDefault();
+  //   const token = await signupUser({
+  //     email,
+  //     password,
+  //   });
+  //   console.log(token);
+  //   setToken(token);
+  //   window.location.href = "/dashboard";
+  // };
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",

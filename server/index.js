@@ -32,6 +32,11 @@ app.use("/login", (req, res) => {
     token: "test123",
   });
 });
+// app.use("/api/signup", (req, res) => {
+//   res.send({
+//     token: "test123",
+//   });
+// });
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
@@ -115,11 +120,14 @@ app.get("/api/new_itinerary", (req, res) => {
 });
 
 app.post("/api/signup", function (req, res) {
+  console.log("request: ", req.body);
   const user = req.body;
+  console.log("post req:", user);
+  axios.post("/users", user).then((res) => console.log(res));
   res.send({
     token: "test123",
   });
-  console.log("post req:", user);
+  
 
   // db.Users.findOrCreate({where: {email: user.email}})
   //   .then(([user, created]) => {
