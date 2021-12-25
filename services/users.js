@@ -16,6 +16,7 @@ async function getMultiple(page = 1) {
   }
 }
 async function create(users) {
+  console.log("creating user: ", users)
     const result = await db.query(
       'INSERT INTO users(first_name, last_name, password, email, created_on, birthday, gender, last_login) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
       [users.first_name, users.last_name, users.password, users.email, users.created_on, users.birthday, users.gender, users.last_login]
