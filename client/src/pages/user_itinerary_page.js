@@ -8,20 +8,19 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Activity from "../components/activity2";
+import Activity from "../components/activity";
 
 import axios from "axios";
 
-
 const getDate = () => {
   var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
 
-  today = mm + '/' + dd + '/' + yyyy;
+  today = mm + "/" + dd + "/" + yyyy;
   return today;
-}
+};
 
 const UserItinerary = () => {
   const cardStyle = {
@@ -45,29 +44,33 @@ const UserItinerary = () => {
   const [itinerary, getItinerary] = React.useState(null);
 
   const getNewItinerary = () => {
-    axios.get("/api/new_itinerary")
-    .then((response) => {
-      const allActivities = response.data;
-      getItinerary(allActivities);
-    })
-    .catch(error => console.error(`Error: ${error}`))
-  }
+    axios
+      .get("/api/new_itinerary")
+      .then((response) => {
+        const allActivities = response.data;
+        getItinerary(allActivities);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+  };
 
   React.useEffect(() => {
     getNewItinerary();
-  }, [])
+  }, []);
 
-  const itineraryObjects = []
+  const itineraryObjects = [];
 
-if (itinerary) {
-  console.log(itinerary)
-  for (const [index, value] of itinerary.entries()) {
-    itineraryObjects.push(<Activity name= {!itinerary ? "Loading..." : value['name']} 
-            rating={!itinerary ? "" : value['rating']}
-            address={!itinerary ? "" : value['address']}/>)
+  if (itinerary) {
+    console.log(itinerary);
+    for (const [index, value] of itinerary.entries()) {
+      itineraryObjects.push(
+        <Activity
+          name={!itinerary ? "Loading..." : value["name"]}
+          rating={!itinerary ? "" : value["rating"]}
+          address={!itinerary ? "" : value["address"]}
+        />
+      );
+    }
   }
-}
-  
 
   return (
     <div style={{ height: "100vh" }} style={background}>
@@ -75,21 +78,21 @@ if (itinerary) {
       <Card style={cardStyle}>
         <Grid container spacing={0}>
           <Grid item xs={12}>
-          <Typography
-            style={{
-              color: "white",
-              fontSize: "40px",
-              fontWeight: "bold",
-              marginBottom: "30px",
-              marginTop: "-30px",
-              justifyContent: "center",
-            }}
-          >
-            {" "}
-            {getDate()}
-          </Typography>
-           </Grid>
-           <Grid item xs= {12}>
+            <Typography
+              style={{
+                color: "white",
+                fontSize: "40px",
+                fontWeight: "bold",
+                marginBottom: "30px",
+                marginTop: "-30px",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              {getDate()}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             {itineraryObjects}
           </Grid>
         </Grid>

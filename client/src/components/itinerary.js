@@ -6,10 +6,10 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@mui/material/Box";
-import axios from "axios"
+import axios from "axios";
 import Activity from "./activity";
 
-export default function Itinerary() {
+export default function Itinerary(props) {
   const [data, setData] = React.useState(null);
   const cardStyle = {
     backgroundColor: "#ACD7AB",
@@ -34,9 +34,24 @@ export default function Itinerary() {
               }
             />
             <CardContent style={{ paddingBottom: "0px" }}>
-              <Activity name= "Thompson Central Park New York" rating="4.3 stars" address="119 W 56th St, New York, NY 10019"/>
-              <Activity name= "The Museum of Modern Art" rating="4.6 stars" address="11 W 53rd St, New York, NY 10019"/>
-              <Activity name= "Magnolia Bakery - Rockefeller Center" rating="4.4 stars" address="1240 6th Ave, New York, NY 10020"/>
+              <Activity
+                name="Thompson Central Park New York"
+                rating="4.3"
+                address="119 W 56th St, New York, NY 10019"
+                isRefresh={props.isRefresh}
+              />
+              <Activity
+                name="The Museum of Modern Art"
+                rating="4.6"
+                address="11 W 53rd St, New York, NY 10019"
+                isRefresh={props.isRefresh}
+              />
+              <Activity
+                name="Magnolia Bakery - Rockefeller Center"
+                rating="4.4"
+                address="1240 6th Ave, New York, NY 10020"
+                isRefresh={props.isRefresh}
+              />
             </CardContent>
           </Card>
         </Grid>
