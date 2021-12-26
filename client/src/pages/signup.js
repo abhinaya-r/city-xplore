@@ -69,6 +69,10 @@ const Signup = ({ setToken }) => {
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(false);
   const [lnDirty, setLnDirty] = useState(false);
+  const [isPasswordValid, setPasswordIsValid] = useState(false);
+  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [isConfirmValid, setConfirmIsValid] = useState(false);
+  const [confirmDirty, setConfirmDirty] = useState(false);
 
   const helperTestClasses = helperTextStyles();
 
@@ -103,6 +107,28 @@ const Signup = ({ setToken }) => {
       setLastNameIsValid(false);
     }
     setLastName(val);
+  };
+
+  const handlePassword = (event) => {
+    const val = event.target.value;
+    if (val.length >= 8) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
+    }
+    setPassword(val);
+  };
+
+  const handleConfirm = (event) => {
+    const val = event.target.value;
+    console.log("password: ", password);
+    console.log("val: ", val);
+    if (val === password) {
+      setConfirmIsValid(true);
+    } else {
+      setConfirmIsValid(false);
+    }
+    setConfirmPassword(val);
   };
 
   const handleSubmit = async (e) => {
@@ -304,7 +330,15 @@ const Signup = ({ setToken }) => {
                 type="password"
                 name="password"
                 margin="none"
-                onInput={(e) => setPassword(e.target.value)}
+                onBlur={() => setPasswordDirty(true)}
+                error={passwordDirty && isPasswordValid === false}
+                helperText={
+                  passwordDirty && isPasswordValid === false
+                    ? "Password must at least 8 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handlePassword}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -330,7 +364,15 @@ const Signup = ({ setToken }) => {
                 type="password"
                 name="password"
                 margin="none"
-                onInput={(e) => setConfirmPassword(e.target.value)}
+                onBlur={() => setConfirmDirty(true)}
+                error={confirmDirty && isConfirmValid === false}
+                helperText={
+                  confirmDirty && isConfirmValid === false
+                    ? "Password mismatch"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleConfirm}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
