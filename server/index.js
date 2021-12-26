@@ -128,7 +128,7 @@ app.post("/api/login", function (req, res) {
   let logged_in = false;
   const user = req.body;
   console.log("post req:", user);
-  axios.get("http://localhost:3001/users",{params: user})
+  axios.get("/users",{params: user})
   .then((res) => {
     result = res.data.result[0];
     console.log("response: ", res.data.result[0]);
@@ -149,7 +149,7 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("http://localhost:3001/users", user)
+  axios.post("/users", user)
   .then((res) => {
     res_token = res.token
   })
