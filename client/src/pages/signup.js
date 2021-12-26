@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -10,9 +11,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { addDays } from "date-fns";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -39,6 +38,20 @@ async function signupUser(credentials) {
 //     .then((response) => response.json());
 // }
 
+const helperTextStyles = makeStyles(() => ({
+  root: {
+    margin: "0px",
+    color: "#ACD7AB",
+  },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      paddingBottom: "0px",
+      backgroundColor: "#ACD7AB",
+      color: "red",
+    },
+  },
+}));
+
 const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -53,49 +66,9 @@ const Signup = ({ setToken }) => {
   const [isValid, setIsValid] = useState(false);
   const [dirty, setDirty] = useState(false);
 
-  // const formValidationSchema = yup.object({
-  //   name: yup
-  //     .string("Enter your name")
-  //     .min(2, "Name should be of minimum 2 characters length")
-  //     .required("Name is required"),
-  //   email: yup
-  //     .string("Enter your email")
-  //     .email("Enter a valid email")
-  //     .required("Email is required"),
-  //   birthday: yup
-  //     .date()
-  //     .min(addDays(new Date(), 1))
-  //     .max(addDays(new Date(), 30))
-  //     .required("Date is required"),
-  // });
+  const helperTestClasses = helperTextStyles();
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     email: "",
-  //     phone: "",
-  //     birthday: null,
-  //   },
-
-  //   validationSchema: formValidationSchema,
-
-  //   onSubmit: (values) => {
-  //     handleFormSubmit();
-  //   },
-  // });
-
-  // const handleFormSubmit = () => {
-  //   var data = {
-  //     Name: formik.values.name,
-  //     Email: formik.values.email,
-  //     Birthday: formik.values.birthday,
-  //   };
-  //   alert(JSON.stringify(data, null, 2));
-  // };
-
-  //Trial 1 of validating emails
   const handleEmail = (event) => {
-    console.log("in handle email");
     const val = event.target.value;
 
     if (isEmail(val)) {
@@ -147,7 +120,7 @@ const Signup = ({ setToken }) => {
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
-    marginBottom: "-60px",
+    marginBottom: "-50px",
   };
 
   const textfieldStyle = {
@@ -179,9 +152,7 @@ const Signup = ({ setToken }) => {
           <Grid
             container
             spacing={6}
-            padding="10px"
             style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
-            columns={2}
           >
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>First Name</Typography>
@@ -223,6 +194,12 @@ const Signup = ({ setToken }) => {
             <Typography style={typeStyle}>Email</Typography>
             <TextField
               id="filled"
+              onBlur={() => setDirty(true)}
+              error={dirty && isValid === false}
+              helperText={
+                dirty && isValid === false ? "Please enter valid email" : ""
+              }
+              FormHelperTextProps={{ classes: helperTestClasses }}
               variant="outlined"
               size="small"
               margin="none"
