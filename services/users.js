@@ -19,7 +19,7 @@ async function getMultiple(page = 1) {
 async function create(users) {
   console.log("creating user: ", users)
   console.log(db);
-  const token = Math.random().toString(36).substring(0,10);
+  const token = Math.random().toString(36).substring(2,12);
   console.log(token);  
   const result = await db.query(
     'INSERT INTO users(first_name, last_name, password, email, created_on, birthday, gender, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
