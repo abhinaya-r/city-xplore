@@ -19,10 +19,10 @@
     "express": "^4.17.1",
     "formik": "^2.2.9",
     "history": "^5.1.0",
-    "validator": "^13.7.0",
-    "yup": "^0.32.11"
     "p": "^0.2.0",
     "pg": "^8.7.1",
-    "react-router-dom": "^6.0.2"
+    "react-datepicker": "^4.5.0",
+    "react-router-dom": "^6.0.2",
+    "validator": "^13.7.0"
   }
 }
