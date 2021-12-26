@@ -16,26 +16,14 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 const axios = require("axios");
 const crypto = require("crypto");
 
-async function signupUser(credentials) {
-  return fetch("http://localhost:3001/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-}
-
 // async function signupUser(credentials) {
-//   let axiosConfig = {
+//   return fetch("http://localhost:3001/login", {
+//     method: "POST",
 //     headers: {
-//       "Content-Type": "application/json;charset=UTF-8",
-//       "Access-Control-Allow-Origin": "*",
+//       "Content-Type": "application/json",
 //     },
-//   };
-//   return axios
-//     .post("api/signup/", JSON.stringify(credentials))
-//     .then((response) => response.json());
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
 // }
 
 const helperTextStyles = makeStyles(() => ({
@@ -51,6 +39,17 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
+async function signupUser(credentials) {
+  let axiosConfig = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+  return axios
+    .post("/api/signup/", credentials)
+    .then((response) => response.data);
+}
 
 const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
@@ -58,9 +57,20 @@ const Signup = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const gender = "female";
-  const birthday = "09/30/1999";
-  const created_on = Date.now();
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
+
+  if (password != confirmPassword) {
+    console.log("PASSWORDS DO NOT MATCH");
+  }
+
+  var currentdate = new Date(); 
+  var created_on = currentdate.getFullYear()  + "-"
+                  + (currentdate.getMonth()+1) + "-" 
+                  + currentdate.getDate() + " "  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   const [value, setValue] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -130,18 +140,33 @@ const Signup = ({ setToken }) => {
     }
     setConfirmPassword(val);
   };
-
   const handleSubmit = async (e) => {
-    console.log("submitting");
     e.preventDefault();
     const token = await signupUser({
-      email,
-      password,
+      "first_name": firstName,
+      "last_name":lastName,
+      "email": email,
+      "password":password_hash,
+      "birthday":birthday,
+      "gender":gender,
+      "created_on":created_on,
     });
-    console.log(token);
     setToken(token);
+    console.log(token);
     window.location.href = "/dashboard";
   };
+
+  // const handleSubmit = async (e) => {
+  //   console.log("submitting");
+  //   e.preventDefault();
+  //   const token = await signupUser({
+  //     email,
+  //     password,
+  //   });
+  //   console.log(token);
+  //   setToken(token);
+  //   window.location.href = "/dashboard";
+  // };
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -294,6 +319,8 @@ const Signup = ({ setToken }) => {
                 variant="outlined"
                 size="small"
                 margin="none"
+                value={birthday}
+                onInput={(e) => setBirthday(e.target.value)}
                 // onInput={(e) => setLastName(e.target.value)}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -310,7 +337,8 @@ const Signup = ({ setToken }) => {
                 variant="outlined"
                 size="small"
                 margin="none"
-                // onInput={(e) => setGender(e.target.value)}
+                value={gender}
+                onInput={(e) => setGender(e.target.value)}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -374,6 +402,7 @@ const Signup = ({ setToken }) => {
                 FormHelperTextProps={{ classes: helperTestClasses }}
                 onInput={handleConfirm}
                 style={textfieldStyle}
+                value={confirmPassword}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
