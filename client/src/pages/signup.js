@@ -65,6 +65,10 @@ const Signup = ({ setToken }) => {
   const [value, setValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const [isFirstNameValid, setFirstNameIsValid] = useState(false);
+  const [fnDirty, setFnDirty] = useState(false);
+  const [isLastNameValid, setLastNameIsValid] = useState(false);
+  const [lnDirty, setLnDirty] = useState(false);
 
   const helperTestClasses = helperTextStyles();
 
@@ -79,6 +83,26 @@ const Signup = ({ setToken }) => {
 
     setValue(val);
     setEmail(val);
+  };
+
+  const handleFirstName = (event) => {
+    const val = event.target.value;
+    if (val.length >= 2) {
+      setFirstNameIsValid(true);
+    } else {
+      setFirstNameIsValid(false);
+    }
+    setFirstName(val);
+  };
+
+  const handleLastName = (event) => {
+    const val = event.target.value;
+    if (val.length >= 2) {
+      setLastNameIsValid(true);
+    } else {
+      setLastNameIsValid(false);
+    }
+    setLastName(val);
   };
 
   const handleSubmit = async (e) => {
@@ -98,10 +122,10 @@ const Signup = ({ setToken }) => {
     fontSize: "70px",
     left: "35%",
     position: "absolute",
-    top: "50%",
+    top: "55%",
     transform: "translate(-50%, -50%)",
     width: "35%",
-    height: "50%",
+    height: "55%",
     textAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
@@ -120,7 +144,7 @@ const Signup = ({ setToken }) => {
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
-    marginBottom: "-50px",
+    marginBottom: "-46px",
   };
 
   const textfieldStyle = {
@@ -152,7 +176,7 @@ const Signup = ({ setToken }) => {
           <Grid
             container
             spacing={6}
-            style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
+            style={{ border: "0px", marginTop: "-30px", marginBottom: "-20px" }}
           >
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>First Name</Typography>
@@ -162,7 +186,15 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={firstName}
-                onInput={(e) => setFirstName(e.target.value)}
+                onBlur={() => setFnDirty(true)}
+                error={fnDirty && isFirstNameValid === false}
+                helperText={
+                  fnDirty && isFirstNameValid === false
+                    ? "Name must at least 2 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleFirstName}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -180,7 +212,15 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={lastName}
-                onInput={(e) => setLastName(e.target.value)}
+                onBlur={() => setLnDirty(true)}
+                error={lnDirty && isLastNameValid === false}
+                helperText={
+                  lnDirty && isLastNameValid === false
+                    ? "Name must at least 2 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleLastName}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
