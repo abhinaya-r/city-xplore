@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const config = require('../config');
-const pool = new Pool(config.db);
+const pool = require('../services/connect.js')
 
 /**
  * Query the database using the pool

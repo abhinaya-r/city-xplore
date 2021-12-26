@@ -42,7 +42,13 @@ const Signup = ({ setToken }) => {
   const [password, setPassword] = useState("");
   const gender = "female";
   const birthday = "09/30/1999";
-  const created_on = Date.now();
+  var currentdate = new Date(); 
+  var created_on = currentdate.getFullYear()  + "-"
+                  + (currentdate.getMonth()+1) + "-" 
+                  + currentdate.getDate() + " "  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
 
   const handleSubmit = async (e) => {
@@ -51,7 +57,7 @@ const Signup = ({ setToken }) => {
       "first_name": firstName,
       "last_name":lastName,
       "email": email,
-      "password":password,
+      "password":password_hash,
       "birthday":birthday,
       "gender":gender,
       "created_on":created_on,
