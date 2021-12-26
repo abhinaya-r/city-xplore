@@ -340,22 +340,21 @@ const Recommendations = () => {
             >
               Max Mile Radius:
             </Typography>
-
-            <FormControl fullWidth>
-              <Select
-                label="Miles"
-                id="filled"
-                variant="outlined"
-                // size="small"
-                // margin="none"
-                // onChange={handleChange}
-              >
-                <MenuItem value={10}>5</MenuItem>
-                <MenuItem value={20}>10</MenuItem>
-                <MenuItem value={30}>20</MenuItem>
-                <MenuItem value={30}>50</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              select
+              variant="outlined"
+              size="small"
+              margin="none"
+              InputProps={{
+                disableUnderline: true,
+                padding: "0px",
+              }}
+            >
+              <MenuItem value={10}>5</MenuItem>
+              <MenuItem value={20}>10</MenuItem>
+              <MenuItem value={30}>20</MenuItem>
+              <MenuItem value={30}>50</MenuItem>
+            </TextField>
           </Grid>
           <Typography
             style={{

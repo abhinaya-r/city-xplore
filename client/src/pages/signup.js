@@ -11,8 +11,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import DatePicker from "react-datepicker";
+import { MenuItem } from "@material-ui/core";
+import validator from "validator";
+import Tooltip from "@mui/material/Tooltip";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -61,6 +62,16 @@ const Signup = ({ setToken }) => {
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  const getDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + "-" + mm + "-" + dd;
+    return today;
+  };
+
   if (password != confirmPassword) {
     console.log("PASSWORDS DO NOT MATCH");
   }
@@ -80,8 +91,8 @@ const Signup = ({ setToken }) => {
     currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [dirty, setDirty] = useState(false);
+  const [isEmailValid, setEmailIsValid] = useState(false);
+  const [emailDirty, setEmailDirty] = useState(false);
   const [isFirstNameValid, setFirstNameIsValid] = useState(false);
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(false);
@@ -90,25 +101,29 @@ const Signup = ({ setToken }) => {
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [isConfirmValid, setConfirmIsValid] = useState(false);
   const [confirmDirty, setConfirmDirty] = useState(false);
+  const [isBirthdayValid, setBirthdayIsValid] = useState(false);
+  const [birthdayDirty, setBirthdayDirty] = useState(false);
+  const [isGenderValid, setGenderIsValid] = useState(false);
+  const [genderDirty, setGenderDirty] = useState(false);
+
   let allValid =
-    isValid &&
+    isEmailValid &&
     isLastNameValid &&
     isFirstNameValid &&
     isPasswordValid &&
-    isConfirmValid;
+    isConfirmValid &&
+    isBirthdayValid &&
+    isGenderValid;
 
   const helperTestClasses = helperTextStyles();
 
   const handleEmail = (event) => {
     const val = event.target.value;
-
     if (isEmail(val)) {
-      setIsValid(true);
+      setEmailIsValid(true);
     } else {
-      setIsValid(false);
+      setEmailIsValid(false);
     }
-
-    setValue(val);
     setEmail(val);
   };
 
@@ -153,7 +168,32 @@ const Signup = ({ setToken }) => {
     }
     setConfirmPassword(val);
   };
+
+  const handleBirthday = (event) => {
+    const val = event.target.value;
+    const validateBday = validator.isDate(val);
+    console.log("validate bday: ", validator.isDate(val));
+    if (val <= getDate() && validateBday) {
+      setBirthdayIsValid(true);
+    } else {
+      setBirthdayIsValid(false);
+    }
+    setBirthday(val);
+  };
+
+  const handleGender = (event) => {
+    const val = event.target.value;
+    console.log("val");
+    if (val.length > 0) {
+      setGenderIsValid(true);
+    } else {
+      setGenderIsValid(false);
+    }
+    setGender(val);
+  };
+
   const handleSubmit = async (e) => {
+    console.log("allValid: ", allValid);
     e.preventDefault();
     const token = await signupUser({
       first_name: firstName,
@@ -164,9 +204,19 @@ const Signup = ({ setToken }) => {
       gender: gender,
       created_on: created_on,
     });
-    setToken(token);
-    console.log(token);
-    window.location.href = "/dashboard";
+    if (allValid) {
+      setToken(token);
+      console.log(token);
+      window.location.href = "/dashboard";
+    } else {
+      if (isFirstNameValid === false) setFnDirty(true);
+      if (isLastNameValid === false) setLnDirty(true);
+      if (isEmailValid === false) setEmailDirty(true);
+      if (isBirthdayValid === false) setBirthdayDirty(true);
+      if (isGenderValid === false) setGenderDirty(true);
+      if (isPasswordValid === false) setPasswordDirty(true);
+      if (isConfirmValid === false) setConfirmDirty(true);
+    }
   };
 
   // const handleSubmit = async (e) => {
@@ -219,6 +269,10 @@ const Signup = ({ setToken }) => {
     borderRadius: "10px",
   };
 
+  const defaultValues = {
+    eventDate: null,
+  };
+
   return (
     <div style={{ height: "100vh" }}>
       <Header />
@@ -250,6 +304,7 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={firstName}
+                autoFocus
                 onBlur={() => setFnDirty(true)}
                 error={fnDirty && isFirstNameValid === false}
                 helperText={
@@ -298,10 +353,12 @@ const Signup = ({ setToken }) => {
             <Typography style={typeStyle}>Email</Typography>
             <TextField
               id="filled"
-              onBlur={() => setDirty(true)}
-              error={dirty && isValid === false}
+              onBlur={() => setEmailDirty(true)}
+              error={emailDirty && isEmailValid === false}
               helperText={
-                dirty && isValid === false ? "Please enter valid email" : ""
+                emailDirty && isEmailValid === false
+                  ? "Please enter valid email"
+                  : ""
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
               variant="outlined"
@@ -321,39 +378,61 @@ const Signup = ({ setToken }) => {
           <Grid id="birthdate-row" container spacing={2}>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Birthday</Typography>
-
               <TextField
-                id="filled"
+                id="date"
+                type="date"
                 variant="outlined"
+                fullWidth
                 size="small"
                 margin="none"
                 value={birthday}
-                onInput={(e) => setBirthday(e.target.value)}
-                // onInput={(e) => setLastName(e.target.value)}
+                onBlur={() => setBirthdayDirty(true)}
+                error={birthdayDirty && isBirthdayValid === false}
+                helperText={
+                  birthdayDirty && isBirthdayValid === false
+                    ? "Please enter valid birthday"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleBirthday}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
+                  inputProps: { max: getDate() },
                 }}
               />
             </Grid>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Gender</Typography>
               <TextField
-                id="filled"
+                select
+                fullWidth
                 variant="outlined"
                 size="small"
                 margin="none"
-                value={gender}
-                onInput={(e) => setGender(e.target.value)}
+                onBlur={() => setGenderDirty(true)}
+                error={genderDirty && isGenderValid === false}
+                helperText={
+                  genderDirty && isGenderValid === false
+                    ? "Please select gender"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onChange={handleGender}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
                 }}
-              />
+              >
+                <MenuItem value={"female"}>Female</MenuItem>
+                <MenuItem value={"male"}>Male</MenuItem>
+                <MenuItem value={"nonbinary"}>Nonbinary</MenuItem>
+                <MenuItem value={"other"}>Other</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
           <Grid id="third-row" container spacing={2} style={{ border: "0px" }}>
@@ -441,26 +520,28 @@ const Signup = ({ setToken }) => {
                   paddingTop: "5px",
                   paddingBottom: "5px",
                 }}
+                error={allValid === false}
               >
                 Sign up
               </Button>
             ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                disabled
-                style={{
-                  color: "white",
-                  backgroundColor: "grey",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingLeft: "40px",
-                  paddingRight: "40px",
-                  paddingTop: "5px",
-                  paddingBottom: "5px",
-                }}
-              >
-                Sign up
-              </Button>
+              <Tooltip title="Please complete form">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    color: "white",
+                    backgroundColor: "grey",
+                    fontFamily: "Manrope, sans-serif",
+                    paddingLeft: "40px",
+                    paddingRight: "40px",
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Tooltip>
             )}
           </Grid>
         </form>
