@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import DatePicker from "react-datepicker";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -64,13 +65,19 @@ const Signup = ({ setToken }) => {
     console.log("PASSWORDS DO NOT MATCH");
   }
 
-  var currentdate = new Date(); 
-  var created_on = currentdate.getFullYear()  + "-"
-                  + (currentdate.getMonth()+1) + "-" 
-                  + currentdate.getDate() + " "  
-                  + currentdate.getHours() + ":"  
-                  + currentdate.getMinutes() + ":" 
-                  + currentdate.getSeconds();
+  var currentdate = new Date();
+  var created_on =
+    currentdate.getFullYear() +
+    "-" +
+    (currentdate.getMonth() + 1) +
+    "-" +
+    currentdate.getDate() +
+    " " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   const [value, setValue] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -83,6 +90,12 @@ const Signup = ({ setToken }) => {
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [isConfirmValid, setConfirmIsValid] = useState(false);
   const [confirmDirty, setConfirmDirty] = useState(false);
+  let allValid =
+    isValid &&
+    isLastNameValid &&
+    isFirstNameValid &&
+    isPasswordValid &&
+    isConfirmValid;
 
   const helperTestClasses = helperTextStyles();
 
@@ -143,13 +156,13 @@ const Signup = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await signupUser({
-      "first_name": firstName,
-      "last_name":lastName,
-      "email": email,
-      "password":password_hash,
-      "birthday":birthday,
-      "gender":gender,
-      "created_on":created_on,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password_hash,
+      birthday: birthday,
+      gender: gender,
+      created_on: created_on,
     });
     setToken(token);
     console.log(token);
@@ -308,12 +321,7 @@ const Signup = ({ setToken }) => {
           <Grid id="birthdate-row" container spacing={2}>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Birthday</Typography>
-              {/* <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="MM/dd/yyyy"
-                // onChange={handleChange}
-                renderInput={(params) => <TextField {...params} />}
-              /> */}
+
               <TextField
                 id="filled"
                 variant="outlined"
@@ -421,7 +429,7 @@ const Signup = ({ setToken }) => {
               justifyAlign: "center",
             }}
           >
-            {isValid === true ? (
+            {allValid === true ? (
               <Button
                 type="submit"
                 style={{
