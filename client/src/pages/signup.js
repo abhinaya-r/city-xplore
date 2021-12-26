@@ -9,6 +9,10 @@ import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import isEmail from "validator/lib/isEmail";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { addDays } from "date-fns";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -45,22 +49,64 @@ const Signup = ({ setToken }) => {
   const birthday = "09/30/1999";
   const created_on = Date.now();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
+  const [value, setValue] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [dirty, setDirty] = useState(false);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const token = await signupUser({
-  //     firstName,
-  //     lastName,
-  //     email,
-  //     password,
-  //     birthday,
-  //     gender,
-  //     created_on,
-  //   });
-  //   setToken(token);
-  //   console.log(token);
-  //   window.location.href = "/dashboard";
+  // const formValidationSchema = yup.object({
+  //   name: yup
+  //     .string("Enter your name")
+  //     .min(2, "Name should be of minimum 2 characters length")
+  //     .required("Name is required"),
+  //   email: yup
+  //     .string("Enter your email")
+  //     .email("Enter a valid email")
+  //     .required("Email is required"),
+  //   birthday: yup
+  //     .date()
+  //     .min(addDays(new Date(), 1))
+  //     .max(addDays(new Date(), 30))
+  //     .required("Date is required"),
+  // });
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     email: "",
+  //     phone: "",
+  //     birthday: null,
+  //   },
+
+  //   validationSchema: formValidationSchema,
+
+  //   onSubmit: (values) => {
+  //     handleFormSubmit();
+  //   },
+  // });
+
+  // const handleFormSubmit = () => {
+  //   var data = {
+  //     Name: formik.values.name,
+  //     Email: formik.values.email,
+  //     Birthday: formik.values.birthday,
+  //   };
+  //   alert(JSON.stringify(data, null, 2));
   // };
+
+  //Trial 1 of validating emails
+  const handleEmail = (event) => {
+    console.log("in handle email");
+    const val = event.target.value;
+
+    if (isEmail(val)) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+
+    setValue(val);
+    setEmail(val);
+  };
 
   const handleSubmit = async (e) => {
     console.log("submitting");
@@ -181,7 +227,7 @@ const Signup = ({ setToken }) => {
               size="small"
               margin="none"
               value={email}
-              onInput={(e) => setEmail(e.target.value)}
+              onInput={handleEmail}
               style={textfieldStyle}
               fullWidth
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -287,20 +333,39 @@ const Signup = ({ setToken }) => {
               justifyAlign: "center",
             }}
           >
-            <Button
-              type="submit"
-              style={{
-                color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingLeft: "40px",
-                paddingRight: "40px",
-                paddingTop: "5px",
-                paddingBottom: "5px",
-              }}
-            >
-              Sign up
-            </Button>
+            {isValid === true ? (
+              <Button
+                type="submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingLeft: "40px",
+                  paddingRight: "40px",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                }}
+              >
+                Sign up
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                variant="contained"
+                disabled
+                style={{
+                  color: "white",
+                  backgroundColor: "grey",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingLeft: "40px",
+                  paddingRight: "40px",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                }}
+              >
+                Sign up
+              </Button>
+            )}
           </Grid>
         </form>
       </Card>

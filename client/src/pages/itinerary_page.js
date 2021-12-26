@@ -9,6 +9,14 @@ import Header from "../components/header";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
+import { ToggleButtonGroup } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import { InputLabel } from "@material-ui/core";
+import { Select } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Tooltip } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 
 import axios from "axios";
 
@@ -17,61 +25,68 @@ let activitesDisplay = [];
 
 const Recommendations = () => {
   const [address, setAddress] = useState("");
-  const [act, setAct] = useState("");
+  const [act, setAct] = useState(0);
   const [nextPage, setNextPage] = useState("/getitinerary");
   const addRestaurant = () => {
     activities.push("restaurant");
-    setAct("restaurant");
     activitesDisplay.push("Restaurant");
+    setAct(act + 1);
     console.log(activities);
   };
   const addBar = () => {
     activities.push("bar");
-    setAct("bar");
     activitesDisplay.push("Bar");
+    setAct(act + 1);
     console.log(activities);
   };
   const addMuseum = () => {
     activities.push("museum");
-    setAct("museum");
     activitesDisplay.push("Museum");
+    setAct(act + 1);
     console.log(activities);
   };
   const addBakery = () => {
     activities.push("bakery");
-    setAct("bakery");
     activitesDisplay.push("Bakery");
+    setAct(act + 1);
     console.log(activities);
   };
   const addTheater = () => {
     activities.push("movie_theater");
-    setAct("movie Theater");
     activitesDisplay.push("Movie Theater");
+    setAct(act + 1);
     console.log(activities);
   };
   const addCafe = () => {
     activities.push("cafe");
-    setAct("cafe");
     activitesDisplay.push("Cafe");
+    setAct(act + 1);
     console.log(activities);
   };
   const addPark = () => {
     activities.push("park");
-    setAct("park");
     activitesDisplay.push("Park");
-    console.log(activities);
+    setAct(act + 1);
+    console.log("display: ", activitesDisplay);
   };
   const addBookstore = () => {
     activities.push("book_store");
-    setAct("book store");
     activitesDisplay.push("Book Store");
+    setAct(act + 1);
     console.log(activities);
   };
   const addAttraction = () => {
     activities.push("tourist_attraction");
-    setAct("attraction");
     activitesDisplay.push("Tourist Attraction");
-    console.log(activities);
+    setAct(act + 1);
+    console.log("display: ", activitesDisplay);
+  };
+
+  const deleteList = () => {
+    activities = [];
+    activitesDisplay = [];
+    setAct(act + 1);
+    console.log("activities in delete list: ", activities);
   };
 
   const isDashboard = "false";
@@ -145,13 +160,12 @@ const Recommendations = () => {
 
   const activityObjects = [];
 
-  console.log(activities);
   for (const [index, value] of activitesDisplay.entries()) {
     activityObjects.push(
       <Typography
         style={{
           fontFamily: "Manrope, sans-serif",
-          color: "white",
+          color: "#919E6A",
           fontSize: "20px",
           paddingTop: "0px",
           paddingBottom: "0px",
@@ -162,6 +176,7 @@ const Recommendations = () => {
       </Typography>
     );
   }
+  console.log("objects: ", activityObjects);
 
   return (
     <div style={{ height: "100vh" }} style={background}>
@@ -171,16 +186,30 @@ const Recommendations = () => {
           style={{
             fontFamily: "Manrope, sans-serif",
             color: "white",
-            fontSize: "30px",
+            fontWeight: 600,
+            fontSize: "35px",
             paddingTop: "0px",
-            paddingBottom: "40px",
-            textAlign: "left",
+            paddingBottom: "50px",
+            textAlign: "center",
           }}
         >
-          Choose one or more of the categories in order:
+          Itinerary Form
         </Typography>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{ paddingBottom: "20px" }}>
           <Grid container xs={9} style={buttonStyle}>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "25px",
+                paddingTop: "0px",
+                paddingBottom: "0px",
+                textAlign: "left",
+              }}
+            >
+              Choose one or more of the categories in order
+            </Typography>
+
             <Grid item xs={4} style={buttonStyle}>
               <Button
                 onClick={addRestaurant}
@@ -235,32 +264,31 @@ const Recommendations = () => {
             <Typography
               style={{
                 fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "25px",
+                color: "#919E6A",
+                fontSize: "20px",
                 paddingTop: "0px",
-                paddingBottom: "10px",
-                textAlign: "center",
+                paddingBottom: "0px",
+                textAlign: "right",
               }}
             >
               Current List:
+              <Tooltip title="Delete list">
+                <IconButton onClick={deleteList}>
+                  <DeleteIcon sx={{ color: "#919E6A" }} />
+                </IconButton>
+              </Tooltip>
             </Typography>
             {activityObjects}
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid container spacing={0}>
           <Grid
             item
-            xs={4}
-            style={buttonStyle}
-            style={{ paddingBottom: "10px" }}
-          ></Grid>
-          <Grid
-            item
-            xs={10}
+            xs={6}
             style={{
               border: "0px",
-              marginTop: "-10px",
-              marginBottom: "-20px",
+              marginTop: "10px",
+              marginBottom: "10px",
               paddingTop: "0px",
             }}
           >
@@ -274,19 +302,8 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Input Address:
+              Starting Address or City:
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "10px",
-              marginBottom: "10px",
-              paddingTop: "0px",
-            }}
-          >
             <TextField
               id="filled"
               variant="outlined"
@@ -303,14 +320,73 @@ const Recommendations = () => {
           </Grid>
           <Grid
             item
-            xs={12}
+            xs={4}
             style={{
               border: "0px",
-              marginTop: "-60px",
-              marginBottom: "-20px",
+              marginTop: "10px",
+              marginBottom: "10px",
               paddingTop: "0px",
             }}
-          ></Grid>
+          >
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "25px",
+                paddingTop: "0px",
+                paddingBottom: "10px",
+                textAlign: "center",
+              }}
+            >
+              Max Mile Radius:
+            </Typography>
+
+            <FormControl fullWidth>
+              <Select
+                label="Miles"
+                id="filled"
+                variant="outlined"
+                // size="small"
+                // margin="none"
+                // onChange={handleChange}
+              >
+                <MenuItem value={10}>5</MenuItem>
+                <MenuItem value={20}>10</MenuItem>
+                <MenuItem value={30}>20</MenuItem>
+                <MenuItem value={30}>50</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Typography
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              color: "white",
+              fontSize: "25px",
+              paddingTop: "0px",
+              paddingBottom: "10px",
+              textAlign: "center",
+            }}
+          >
+            Price Range:
+          </Typography>
+          <ToggleButtonGroup
+            // value={formats}
+            // onChange={handleFormat}
+            aria-label="text formatting"
+          >
+            <ToggleButton aria-label="bold">p1</ToggleButton>
+            <ToggleButton value="p2" aria-label="italic">
+              p2
+            </ToggleButton>
+            <ToggleButton value="p3" aria-label="underlined">
+              p3
+            </ToggleButton>
+            <ToggleButton
+              value="color"
+              aria-label="color"
+              disabled
+            ></ToggleButton>
+          </ToggleButtonGroup>
         </Grid>
         <Grid item xs={12}>
           <Button
