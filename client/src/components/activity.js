@@ -2,7 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/Button";
+import { Tooltip } from "@material-ui/core";
 
 export default function Activity(props) {
   const gridStyle = {
@@ -45,9 +46,15 @@ export default function Activity(props) {
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>
-            <Box sx={{ alignItems: "left" }} style={boxStyle}>
-              {props.rating} stars
-            </Box>
+            {props.rating !== null ? (
+              <Box sx={{ alignItems: "left" }} style={boxStyle}>
+                {props.rating} stars
+              </Box>
+            ) : (
+              <Box sx={{ alignItems: "left" }} style={boxStyle}>
+                "Unknown rating"
+              </Box>
+            )}
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.address}
             </Box>
@@ -55,9 +62,11 @@ export default function Activity(props) {
           {props.isRefresh === "false" ? (
             <></>
           ) : (
-            <Button style={{ paddingTop: "-20px" }}>
-              <RefreshIcon sx={{ color: "#919E6A" }}></RefreshIcon>
-            </Button>
+            <Tooltip title="Refresh">
+              <IconButton style={{ paddingTop: "-20px" }}>
+                <RefreshIcon sx={{ color: "#919E6A" }}></RefreshIcon>
+              </IconButton>
+            </Tooltip>
           )}
         </Grid>
       </Box>
