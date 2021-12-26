@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +10,8 @@ import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import isEmail from "validator/lib/isEmail";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -23,6 +26,19 @@ const crypto = require("crypto");
 //   }).then((data) => data.json());
 // }
 
+const helperTextStyles = makeStyles(() => ({
+  root: {
+    margin: "0px",
+    color: "#ACD7AB",
+  },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      paddingBottom: "0px",
+      backgroundColor: "#ACD7AB",
+      color: "red",
+    },
+  },
+}));
 async function signupUser(credentials) {
   let axiosConfig = {
     headers: {
@@ -56,7 +72,74 @@ const Signup = ({ setToken }) => {
                   + currentdate.getMinutes() + ":" 
                   + currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
+  const [value, setValue] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [isFirstNameValid, setFirstNameIsValid] = useState(false);
+  const [fnDirty, setFnDirty] = useState(false);
+  const [isLastNameValid, setLastNameIsValid] = useState(false);
+  const [lnDirty, setLnDirty] = useState(false);
+  const [isPasswordValid, setPasswordIsValid] = useState(false);
+  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [isConfirmValid, setConfirmIsValid] = useState(false);
+  const [confirmDirty, setConfirmDirty] = useState(false);
 
+  const helperTestClasses = helperTextStyles();
+
+  const handleEmail = (event) => {
+    const val = event.target.value;
+
+    if (isEmail(val)) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+
+    setValue(val);
+    setEmail(val);
+  };
+
+  const handleFirstName = (event) => {
+    const val = event.target.value;
+    if (val.length >= 2) {
+      setFirstNameIsValid(true);
+    } else {
+      setFirstNameIsValid(false);
+    }
+    setFirstName(val);
+  };
+
+  const handleLastName = (event) => {
+    const val = event.target.value;
+    if (val.length >= 2) {
+      setLastNameIsValid(true);
+    } else {
+      setLastNameIsValid(false);
+    }
+    setLastName(val);
+  };
+
+  const handlePassword = (event) => {
+    const val = event.target.value;
+    if (val.length >= 8) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
+    }
+    setPassword(val);
+  };
+
+  const handleConfirm = (event) => {
+    const val = event.target.value;
+    console.log("password: ", password);
+    console.log("val: ", val);
+    if (val === password) {
+      setConfirmIsValid(true);
+    } else {
+      setConfirmIsValid(false);
+    }
+    setConfirmPassword(val);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await signupUser({
@@ -90,10 +173,10 @@ const Signup = ({ setToken }) => {
     fontSize: "70px",
     left: "35%",
     position: "absolute",
-    top: "50%",
+    top: "55%",
     transform: "translate(-50%, -50%)",
     width: "35%",
-    height: "50%",
+    height: "55%",
     textAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
@@ -112,7 +195,7 @@ const Signup = ({ setToken }) => {
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
-    marginBottom: "-60px",
+    marginBottom: "-46px",
   };
 
   const textfieldStyle = {
@@ -144,9 +227,7 @@ const Signup = ({ setToken }) => {
           <Grid
             container
             spacing={6}
-            padding="10px"
-            style={{ border: "0px", marginTop: "-20px", marginBottom: "-20px" }}
-            columns={2}
+            style={{ border: "0px", marginTop: "-30px", marginBottom: "-20px" }}
           >
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>First Name</Typography>
@@ -156,7 +237,15 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={firstName}
-                onInput={(e) => setFirstName(e.target.value)}
+                onBlur={() => setFnDirty(true)}
+                error={fnDirty && isFirstNameValid === false}
+                helperText={
+                  fnDirty && isFirstNameValid === false
+                    ? "Name must at least 2 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleFirstName}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -174,7 +263,15 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={lastName}
-                onInput={(e) => setLastName(e.target.value)}
+                onBlur={() => setLnDirty(true)}
+                error={lnDirty && isLastNameValid === false}
+                helperText={
+                  lnDirty && isLastNameValid === false
+                    ? "Name must at least 2 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleLastName}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -188,11 +285,17 @@ const Signup = ({ setToken }) => {
             <Typography style={typeStyle}>Email</Typography>
             <TextField
               id="filled"
+              onBlur={() => setDirty(true)}
+              error={dirty && isValid === false}
+              helperText={
+                dirty && isValid === false ? "Please enter valid email" : ""
+              }
+              FormHelperTextProps={{ classes: helperTestClasses }}
               variant="outlined"
               size="small"
               margin="none"
               value={email}
-              onInput={(e) => setEmail(e.target.value)}
+              onInput={handleEmail}
               style={textfieldStyle}
               fullWidth
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -255,7 +358,15 @@ const Signup = ({ setToken }) => {
                 type="password"
                 name="password"
                 margin="none"
-                onInput={(e) => setPassword(e.target.value)}
+                onBlur={() => setPasswordDirty(true)}
+                error={passwordDirty && isPasswordValid === false}
+                helperText={
+                  passwordDirty && isPasswordValid === false
+                    ? "Password must at least 8 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handlePassword}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -281,7 +392,15 @@ const Signup = ({ setToken }) => {
                 type="password"
                 name="password"
                 margin="none"
-                onInput={(e) => setConfirmPassword(e.target.value)}
+                onBlur={() => setConfirmDirty(true)}
+                error={confirmDirty && isConfirmValid === false}
+                helperText={
+                  confirmDirty && isConfirmValid === false
+                    ? "Password mismatch"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleConfirm}
                 style={textfieldStyle}
                 value={confirmPassword}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -302,20 +421,39 @@ const Signup = ({ setToken }) => {
               justifyAlign: "center",
             }}
           >
-            <Button
-              type="submit"
-              style={{
-                color: "white",
-                backgroundColor: "orange",
-                fontFamily: "Manrope, sans-serif",
-                paddingLeft: "40px",
-                paddingRight: "40px",
-                paddingTop: "5px",
-                paddingBottom: "5px",
-              }}
-            >
-              Sign up
-            </Button>
+            {isValid === true ? (
+              <Button
+                type="submit"
+                style={{
+                  color: "white",
+                  backgroundColor: "orange",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingLeft: "40px",
+                  paddingRight: "40px",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                }}
+              >
+                Sign up
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                variant="contained"
+                disabled
+                style={{
+                  color: "white",
+                  backgroundColor: "grey",
+                  fontFamily: "Manrope, sans-serif",
+                  paddingLeft: "40px",
+                  paddingRight: "40px",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                }}
+              >
+                Sign up
+              </Button>
+            )}
           </Grid>
         </form>
       </Card>
