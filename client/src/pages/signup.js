@@ -41,8 +41,13 @@ const Signup = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const gender = "female";
-  const birthday = "09/30/1999";
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
+
+  if (password != confirmPassword) {
+    console.log("PASSWORDS DO NOT MATCH");
+  }
+
   var currentdate = new Date(); 
   var created_on = currentdate.getFullYear()  + "-"
                   + (currentdate.getMonth()+1) + "-" 
@@ -211,6 +216,8 @@ const Signup = ({ setToken }) => {
                 variant="outlined"
                 size="small"
                 margin="none"
+                value={birthday}
+                onInput={(e) => setBirthday(e.target.value)}
                 // onInput={(e) => setLastName(e.target.value)}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -227,7 +234,8 @@ const Signup = ({ setToken }) => {
                 variant="outlined"
                 size="small"
                 margin="none"
-                // onInput={(e) => setGender(e.target.value)}
+                value={gender}
+                onInput={(e) => setGender(e.target.value)}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
@@ -275,6 +283,7 @@ const Signup = ({ setToken }) => {
                 margin="none"
                 onInput={(e) => setConfirmPassword(e.target.value)}
                 style={textfieldStyle}
+                value={confirmPassword}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
