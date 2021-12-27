@@ -14,6 +14,11 @@ import isEmail from "validator/lib/isEmail";
 import { MenuItem } from "@material-ui/core";
 import validator from "validator";
 import Tooltip from "@mui/material/Tooltip";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -90,7 +95,6 @@ const Signup = ({ setToken }) => {
     ":" +
     currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
-  const [value, setValue] = useState("");
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
   const [isFirstNameValid, setFirstNameIsValid] = useState(false);
@@ -105,6 +109,9 @@ const Signup = ({ setToken }) => {
   const [birthdayDirty, setBirthdayDirty] = useState(false);
   const [isGenderValid, setGenderIsValid] = useState(false);
   const [genderDirty, setGenderDirty] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const [emailExists, setEmailExists] = React.useState(true);
 
   let allValid =
     isEmailValid &&
@@ -204,6 +211,7 @@ const Signup = ({ setToken }) => {
       gender: gender,
       created_on: created_on,
     });
+    if (emailExists) setOpen(true);
     if (allValid) {
       setToken(token);
       console.log(token);
@@ -218,7 +226,13 @@ const Signup = ({ setToken }) => {
       if (isConfirmValid === false) setConfirmDirty(true);
     }
   };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const handleSubmit = async (e) => {
   //   console.log("submitting");
   //   e.preventDefault();
@@ -361,11 +375,11 @@ const Signup = ({ setToken }) => {
                   : ""
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
+              onInput={handleEmail}
               variant="outlined"
               size="small"
               margin="none"
               value={email}
-              onInput={handleEmail}
               style={textfieldStyle}
               fullWidth
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -449,7 +463,7 @@ const Signup = ({ setToken }) => {
                 error={passwordDirty && isPasswordValid === false}
                 helperText={
                   passwordDirty && isPasswordValid === false
-                    ? "Password must at least 8 characters"
+                    ? "Password must be at least 8 characters"
                     : ""
                 }
                 FormHelperTextProps={{ classes: helperTestClasses }}
@@ -506,6 +520,7 @@ const Signup = ({ setToken }) => {
               marginTop: "-70px",
               marginBottom: "-70px",
               justifyAlign: "center",
+              paddingTop: "10px",
             }}
           >
             {allValid === true ? (
@@ -543,6 +558,53 @@ const Signup = ({ setToken }) => {
                 </Button>
               </Tooltip>
             )}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              PaperProps={{
+                style: {
+                  backgroundColor: "#ACD7AB",
+                  boxShadow: "none",
+                  color: "white",
+                },
+              }}
+            >
+              <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
+                {"Email associated with account"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-description"
+                  style={{ color: "white" }}
+                >
+                  Do you already have an account associated with this email
+                  address? If so, please log in.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} style={{ color: "white" }}>
+                  Close
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  style={{ backgroundColor: "orange", color: "white" }}
+                  autoFocus
+                >
+                  <Link
+                    to="/login"
+                    style={{
+                      color: "white",
+                      font: "Manrope, sans-serif",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Login
+                  </Link>
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         </form>
       </Card>

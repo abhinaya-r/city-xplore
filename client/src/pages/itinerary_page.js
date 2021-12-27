@@ -302,7 +302,7 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Starting Address or City:
+              Starting Address or City
             </Typography>
             <TextField
               id="filled"
@@ -338,7 +338,7 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Max Mile Radius:
+              Max Mile Radius
             </Typography>
             <TextField
               select
@@ -356,37 +356,40 @@ const Recommendations = () => {
               <MenuItem value={30}>50</MenuItem>
             </TextField>
           </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          style={{
+            border: "0px",
+            marginTop: "-40px",
+            marginBottom: "0px",
+            paddingTop: "0px",
+          }}
+        >
           <Typography
             style={{
               fontFamily: "Manrope, sans-serif",
               color: "white",
               fontSize: "25px",
               paddingTop: "0px",
-              paddingBottom: "10px",
+              marginBottom: "-40px",
               textAlign: "center",
             }}
           >
-            Price Range:
+            Price Range
           </Typography>
           <ToggleButtonGroup
             // value={formats}
             // onChange={handleFormat}
-            aria-label="text formatting"
+            style={{ marginTop: "-10px" }}
           >
-            <ToggleButton aria-label="bold">p1</ToggleButton>
-            <ToggleButton value="p2" aria-label="italic">
-              p2
-            </ToggleButton>
-            <ToggleButton value="p3" aria-label="underlined">
-              p3
-            </ToggleButton>
-            <ToggleButton
-              value="color"
-              aria-label="color"
-              disabled
-            ></ToggleButton>
+            <ToggleButton>$</ToggleButton>
+            <ToggleButton value="p2">$$</ToggleButton>
+            <ToggleButton value="p3">$$$</ToggleButton>
           </ToggleButtonGroup>
         </Grid>
+
         <Grid item xs={12}>
           <Button
             onClick={createItinerary}
