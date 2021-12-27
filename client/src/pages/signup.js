@@ -31,7 +31,7 @@ async function signupUser(credentials) {
     },
   };
   return axios
-    .post("/api/signup/", credentials)
+    .post("/api/signup", credentials)
     .then((response) => response.data);
 }
 
