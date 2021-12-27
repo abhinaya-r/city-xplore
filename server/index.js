@@ -39,16 +39,15 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 //     token: "test123",
 //   });
 // });
-const axiosDefaultConfig = {
-  baseURL: 'https://jsonplaceholder.typicode.com/posts',
-  proxy: {
-      host: '142.93.165.82',
-      port: 8080,
-      protocol: 'http'
-  }
-};
-const axios = require('axios').create(axiosDefaultConfig) 
-
+// const axiosDefaultConfig = {
+//   baseURL: 'https://jsonplaceholder.typicode.com/posts',
+//   proxy: {
+//       host: '142.93.165.82',
+//       port: 8080,
+//       protocol: 'http'
+//   }
+// };
+const axios = require('axios')
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
@@ -158,9 +157,9 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("/users", user)
+  axios.post("http://localhost:3001/users", user)
   .then((res) => {
-    console.log(res)
+    console.log("result: ", res)
     res_token = res.token
   })
   .catch((err) =>  err.message);

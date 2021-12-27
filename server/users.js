@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next) {
 
 /* POST quotes */
 router.post('/', async function(req, res, next) {
-  // console.log("posting user: ", req.body)
+   console.log("posting user: ", req.body)
   try {
     res.json(await users.create(req.body));
   } catch (err) {
