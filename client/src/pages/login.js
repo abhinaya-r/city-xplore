@@ -24,17 +24,25 @@ async function loginUser(credentials) {
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const isValid = false;
 
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
+    if (isValid === false) {
+      console.log("in error");
+      setErrorMessage("Invalid email or password. Please try again.");
+    }
     const token = await loginUser({
       email,
       password,
     });
     console.log(token);
-    setToken(token);
-    window.location.href = "/dashboard";
+    if (isValid === true) {
+      setToken(token);
+      window.location.href = "/dashboard";
+    }
   };
 
   const cardStyle = {
@@ -67,19 +75,22 @@ const Login = ({ setToken }) => {
     background: "#FFFFFF",
     border: "#FFFFFF",
     borderRadius: "10px",
+    width: "100%",
   };
 
   const gridStyle = {
     border: "0px",
     marginTop: "-10px",
     marginBottom: "-20px",
+    marginRight: "0px",
+    width: "100%",
   };
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", width: "100%" }}>
       <Header />
       <Card style={cardStyle}>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{ display: "block" }}>
           <Grid
             item
             xs={12}
@@ -111,12 +122,13 @@ const Login = ({ setToken }) => {
                 id="filled"
                 variant="outlined"
                 size="small"
+                margin="normal"
                 fullWidth
                 style={textfieldStyle}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={gridStyle}>
               <Typography style={typeStyle}>Password</Typography>
               <TextField
                 id="filled"
@@ -152,6 +164,7 @@ const Login = ({ setToken }) => {
                   backgroundColor: "orange",
                   fontFamily: "Manrope, sans-serif",
                   fontSize: "15px",
+                  fontWeight: 600,
                   paddingLeft: "50px",
                   paddingRight: "50px",
                   paddingTop: "10px",
@@ -160,6 +173,21 @@ const Login = ({ setToken }) => {
               >
                 Login
               </Button>
+              {errorMessage && (
+                <div
+                  className="error"
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    paddingBottom: "0px",
+                    backgroundColor: "#ACD7AB",
+                    color: "red",
+                  }}
+                >
+                  {" "}
+                  {errorMessage}{" "}
+                </div>
+              )}
             </Grid>
             {/* <Grid item xs={12}>
               <Typography
