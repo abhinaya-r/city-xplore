@@ -158,10 +158,7 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("/users", {user: user, proxy: {
-    host: 'localhost',
-    port: 3001
-  }})
+  axios.post("/users", user)
   .then((res) => {
     res_token = res.token
   })
