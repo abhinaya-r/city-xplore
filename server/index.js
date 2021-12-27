@@ -149,7 +149,7 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("http://localhost:3001/users", user)
+  axios.post("test-xplore.herokuapp.com/users", user)
   .then((res) => {
     res_token = res.token
   })
