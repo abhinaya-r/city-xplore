@@ -9,7 +9,7 @@ const app = express();
 
 const path = require("path");
 
-const axios = require('axios')
+
 
 const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 
@@ -39,6 +39,15 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 //     token: "test123",
 //   });
 // });
+const axiosDefaultConfig = {
+  baseURL: 'https://jsonplaceholder.typicode.com/posts',
+  proxy: {
+      host: '142.93.165.82',
+      port: 8080,
+      protocol: 'http'
+  }
+};
+const axios = require('axios').create(axiosDefaultConfig) 
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
@@ -128,7 +137,7 @@ app.post("/api/login", function (req, res) {
   let logged_in = false;
   const user = req.body;
   console.log("post req:", user);
-  axios.get("http://localhost:3001/users",{params: user})
+  axios.get("/users",{params: user})
   .then((res) => {
     result = res.data.result[0];
     console.log("response: ", res.data.result[0]);
@@ -149,7 +158,10 @@ app.post("/api/signup", function (req, res) {
   console.log("request: ", req.body);
   const user = req.body;
   console.log("post req:", user);
-  axios.post("test-xplore.herokuapp.com/users", user)
+  axios.post("/users", {user: user, proxy: {
+    host: 'localhost',
+    port: 3001
+  }})
   .then((res) => {
     res_token = res.token
   })

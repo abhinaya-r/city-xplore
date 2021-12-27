@@ -8,6 +8,7 @@
     "start": "node server/index.js",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
+  "proxy": "http://127.0.0.1:3001/",
   "keywords": [],
   "author": "",
   "license": "ISC",
