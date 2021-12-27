@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -10,6 +11,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import isEmail from "validator/lib/isEmail";
 
 async function loginUser(credentials) {
   return fetch("http://localhost:3001/api/login", {
@@ -21,11 +23,56 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
+const helperTextStyles = makeStyles(() => ({
+  root: {
+    margin: "0px",
+    color: "#ACD7AB",
+    border: "#ACD7AB",
+  },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      paddingBottom: "0px",
+      backgroundColor: "#ACD7AB",
+      border: "0px #ACD7AB",
+      disableUnderline: true,
+      fontWeight: 400,
+      color: "red",
+    },
+  },
+}));
+
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = React.useState("");
-  const isValid = false;
+  const [isValid, setIsValid] = React.useState(false);
+
+  const [isEmailValid, setEmailIsValid] = useState(false);
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [isPasswordValid, setPasswordIsValid] = useState(false);
+  const [passwordDirty, setPasswordDirty] = useState(false);
+
+  const helperTestClasses = helperTextStyles();
+
+  const handleEmail = (event) => {
+    const val = event.target.value;
+    if (isEmail(val)) {
+      setEmailIsValid(true);
+    } else {
+      setEmailIsValid(false);
+    }
+    setEmail(val);
+  };
+
+  const handlePassword = (event) => {
+    const val = event.target.value;
+    if (val.length >= 8) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
+    }
+    setPassword(val);
+  };
 
   const handleSubmit = async (e) => {
     console.log("submitting");
@@ -120,12 +167,26 @@ const Login = ({ setToken }) => {
               <Typography style={typeStyle}>Email</Typography>
               <TextField
                 id="filled"
+                onBlur={() => setEmailDirty(true)}
+                error={emailDirty && isEmailValid === false}
+                helperText={
+                  emailDirty && isEmailValid === false
+                    ? "Please enter valid email"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
                 variant="outlined"
                 size="small"
-                margin="normal"
-                fullWidth
+                margin="none"
                 style={textfieldStyle}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmail}
+                value={email}
+                fullWidth
+                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                InputProps={{
+                  disableUnderline: true,
+                  padding: "0px",
+                }}
               />
             </Grid>
             <Grid item xs={12} style={gridStyle}>
@@ -137,14 +198,22 @@ const Login = ({ setToken }) => {
                 type="password"
                 name="password"
                 margin="none"
-                fullWidth
-                onInput={(e) => setPassword(e.target.value)}
+                onBlur={() => setPasswordDirty(true)}
+                error={passwordDirty && isPasswordValid === false}
+                helperText={
+                  passwordDirty && isPasswordValid === false
+                    ? "Password must be at least 8 characters"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handlePassword}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
                 }}
+                fullWidth
               />
             </Grid>
             <Grid
