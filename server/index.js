@@ -160,6 +160,7 @@ app.post("/api/signup", function (req, res) {
   console.log("post req:", user);
   axios.post("/users", user)
   .then((res) => {
+    console.log(res)
     res_token = res.token
   })
   .catch((err) =>  err.message);
