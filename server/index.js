@@ -16,7 +16,7 @@ const key = 'AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18';
 const crypto = require("crypto");
 
 var usersRouter = require('./users');
-
+var itinRouter = require('./itineraries');
 
 // const db = require('../database/models/index.js');
 
@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use('/users', usersRouter);
-
+app.use('/itineraries', itinRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
