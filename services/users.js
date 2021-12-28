@@ -31,7 +31,8 @@ async function create(users) {
     message = 'User created successfully';
     console.log(result.length)
   }
-
+  console.log("message:", message)
+  console.log("token:", token)
   return {message: message, token: token};
 }
 
@@ -46,7 +47,7 @@ async function get(user) {
   if (result.length) {
     message = 'Got User successfully';
   }
-  return {result};
+  return result[0];
 }
 
 module.exports = {

@@ -21,6 +21,16 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
+// async function loginUser(credentials) {
+//   return fetch("http://localhost:3001/api/login", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
+// }
+
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
