@@ -280,7 +280,7 @@ const Signup = ({ setToken }) => {
     paddingBottom: "0px",
     background: "#FFFFFF",
     border: "#FFFFFF",
-    borderRadius: "10px",
+    borderRadius: 5,
   };
 
   const defaultValues = {
@@ -329,11 +329,16 @@ const Signup = ({ setToken }) => {
                 FormHelperTextProps={{ classes: helperTestClasses }}
                 onInput={handleFirstName}
                 style={textfieldStyle}
-                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                muifilledinput={{
+                  borderBottomLeftRadius: "0px",
+                }}
                 InputProps={{
                   disableUnderline: true,
                   paddingTop: "0px",
                   paddingBottom: "0px",
+                  border: "#FFFFFF",
+                  // borderRadius: "10px",
+                  // backgroundColor: "white",
                 }}
               />
             </Grid>
@@ -359,6 +364,9 @@ const Signup = ({ setToken }) => {
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
                 }}
               />
             </Grid>
