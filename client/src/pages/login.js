@@ -101,18 +101,17 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
-
+    if (isValid === false) {
+      console.log("in error");
+      setErrorMessage("Invalid email or password. Please try again.");
+    }
+    console.log("before getting token: ");
     const token = await loginUser({
       email,
       password,
     });
- 
-    // if (isValid === false) {
-    //   console.log("in error");
-    //   setErrorMessage("Invalid email or password. Please try again.");
-    // }
-    
-    console.log(token);
+    console.log("after getting token");
+    console.log("token: ", token);
     if (isValid === true) {
       setToken(token);
       // window.location.href = "/dashboard";
