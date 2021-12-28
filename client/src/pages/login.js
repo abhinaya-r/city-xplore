@@ -15,10 +15,24 @@ import isEmail from "validator/lib/isEmail";
 
 const crypto = require("crypto");
 
+// async function loginUser(credentials) {
+//   console.log("credentials:", credentials);
+//   return fetch(
+//     `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   )
+//     .then((data) => data.json())
+//     .catch((err) => console.error("loginUser error: ", err));
+// }
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
-    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
+    `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password}`,
     {
       method: "GET",
       headers: {

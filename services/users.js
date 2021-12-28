@@ -46,7 +46,7 @@ async function create(users) {
 }
 
 async function get(user) {
-  console.log("getting user: ", user.query.email);
+  console.log("getting user: ", user.query);
   const result = await db.query("SELECT * FROM users WHERE email = $1 AND password = $2", [
     user.query.email, user.query.password
   ]);
@@ -54,7 +54,7 @@ async function get(user) {
   console.log("result: ", result);
   if (result.length) {
     message = "Got User successfully";
-    return result[0];
+    return result[0].token;
   }
   return null;
 }
