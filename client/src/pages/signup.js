@@ -59,7 +59,7 @@ async function signupUser(credentials) {
   //   data.json()
   // });
   return axios
-    .post("http://localhost:3000/users", credentials)
+    .post("https://test-xplore.herokuapp.com/users", credentials)
     .then((response) => response.data);
 }
 
