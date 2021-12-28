@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../services/users');
+const users = require('../services/itineraries');
 
 /* GET quotes listing. */
 router.get('/', async function(req, res, next) {
   console.log("hi")
-  console.log("getting user: ", req)
+  console.log("getting itineraries: ", req)
   try {
-    res.json(await users.get(req));
+    res.json(await itineraries.get(req));
   } catch (err) {
-    console.error(`Error while getting users `, err.message);
+    console.error(`Error while getting itineraries `, err.message);
     next(err);
   }
   
@@ -19,9 +19,9 @@ router.get('/', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
   // console.log("posting user: ", req.body)
   try {
-    res.json(await users.create(req.body));
+    res.json(await itineraries.create(req.body));
   } catch (err) {
-    console.error(`Error while posting users `, err.message);
+    console.error(`Error while posting itineraries `, err.message);
     next(err);
   }
 });

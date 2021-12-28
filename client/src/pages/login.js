@@ -13,10 +13,22 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 
+// async function loginUser(credentials) {
+//   console.log("credentials:", credentials);
+//   return fetch(
+//     `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   ).then((data) => data.json());
+// }
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
-    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
+    `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password}`,
     {
       method: "GET",
       headers: {
@@ -57,7 +69,7 @@ const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [isValid, setIsValid] = React.useState(false);
+  const [isValid, setIsValid] = React.useState(true);
 
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
@@ -89,18 +101,21 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
-    if (isValid === false) {
-      console.log("in error");
-      setErrorMessage("Invalid email or password. Please try again.");
-    }
+
     const token = await loginUser({
       email,
       password,
     });
+ 
+    // if (isValid === false) {
+    //   console.log("in error");
+    //   setErrorMessage("Invalid email or password. Please try again.");
+    // }
+    
     console.log(token);
     if (isValid === true) {
       setToken(token);
-      window.location.href = "/dashboard";
+      // window.location.href = "/dashboard";
     }
   };
 
