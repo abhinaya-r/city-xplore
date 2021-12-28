@@ -46,7 +46,7 @@ async function get(user) {
   if (result.length) {
     message = 'Got User successfully';
   }
-  return {result};
+  return result[0];
 }
 
 module.exports = {
