@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 
+const crypto = require("crypto");
+
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
@@ -23,7 +25,9 @@ async function loginUser(credentials) {
         "Content-Type": "application/json",
       },
     }
-  ).then((data) => data.json());
+  )
+    .then((data) => data.json())
+    .catch((err) => console.error("loginUser error: ", err));
 }
 
 const helperTextStyles = makeStyles(() => ({
@@ -55,7 +59,7 @@ const helperTextStyles = makeStyles(() => ({
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  let [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
   // const [isValid, setIsValid] = React.useState(false);
 
@@ -63,6 +67,8 @@ const Login = ({ setToken }) => {
   const [emailDirty, setEmailDirty] = useState(false);
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
+  const password_hash = crypto.createHash("md5").update(password).digest("hex");
+  password = password_hash;
 
   const helperTestClasses = helperTextStyles();
 
