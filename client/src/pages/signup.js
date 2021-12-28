@@ -72,9 +72,6 @@ const Signup = ({ setToken }) => {
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  if (password != confirmPassword) {
-    console.log("PASSWORDS DO NOT MATCH");
-  }
 
   var currentdate = new Date(); 
   var created_on = currentdate.getFullYear()  + "-"
@@ -155,15 +152,6 @@ const Signup = ({ setToken }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const token = await signupUser({
-    //   "first_name": firstName,
-    //   "last_name":lastName,
-    //   "email": email,
-    //   "password":password_hash,
-    //   "birthday":birthday,
-    //   "gender":gender,
-    //   "created_on":created_on,
-    // });
      const token = await signupUser({
       "first_name": firstName,
       "last_name":lastName,
