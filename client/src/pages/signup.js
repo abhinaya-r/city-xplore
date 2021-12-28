@@ -47,7 +47,7 @@ async function signupUser(credentials) {
     },
   };
   return axios
-    .post("/api/signup/", credentials)
+    .post("https://city-xplore.herokuapp.com/users", credentials)
     .then((response) => response.data);
 }
 

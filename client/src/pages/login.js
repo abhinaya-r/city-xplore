@@ -12,8 +12,9 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 async function loginUser(credentials) {
-  return fetch("http://localhost:3001/api/login", {
-    method: "POST",
+  console.log("credentials:", credentials)
+  return fetch(`https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
