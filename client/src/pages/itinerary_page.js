@@ -17,16 +17,55 @@ import { MenuItem } from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
+// import { makeStyles } from "@material-ui/core";
 
 import axios from "axios";
 
 let activities = [];
 let activitesDisplay = [];
 
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  "& .MuiToggleButtonGroup-grouped": {
+    borderRadius: 5,
+    backgroundColor: "white",
+    borderColor: "black",
+    "&.Mui-disabled": {
+      border: 0,
+      color: "white",
+    },
+    //   "&:first-of-type": {
+    //     borderRadius: theme.shape.borderRadius,
+    //   },
+  },
+}));
+
+// const useStyles = makeStyles((theme) => ({
+//   selected: {
+//     "&&": {
+//       backgroundColor: "black",
+//       color: "black",
+//     },
+//     color: "black",
+//   },
+// }));
+
 const Recommendations = () => {
   const [address, setAddress] = useState("");
   const [act, setAct] = useState(0);
   const [nextPage, setNextPage] = useState("/getitinerary");
+  const [formats, setFormats] = React.useState(() => []);
+  const [alignment, setAlignment] = React.useState("left");
+  // const classes = useStyles();
+
+  const handleFormat = (event, newFormats) => {
+    setFormats(newFormats);
+  };
+
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
   const addRestaurant = () => {
     activities.push("restaurant");
     activitesDisplay.push("Restaurant");
@@ -153,9 +192,7 @@ const Recommendations = () => {
   const textfieldStyle = {
     paddingTop: "0px",
     paddingBottom: "0px",
-    background: "",
-    border: "#FFFFFF",
-    borderRadius: "10px",
+    // border: "#FFFFFF",
   };
 
   const activityObjects = [];
@@ -302,7 +339,7 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Starting Address or City:
+              Starting Address or City
             </Typography>
             <TextField
               id="filled"
@@ -311,6 +348,7 @@ const Recommendations = () => {
               margin="none"
               onInput={(e) => setAddress(e.target.value)}
               style={textfieldStyle}
+              style={{ backgroundColor: "white", borderRadius: 5 }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -338,56 +376,99 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Max Mile Radius:
+              Max Mile Radius
             </Typography>
-
-            <FormControl fullWidth>
-              <Select
-                label="Miles"
-                id="filled"
-                variant="outlined"
-                // size="small"
-                // margin="none"
-                // onChange={handleChange}
-              >
-                <MenuItem value={10}>5</MenuItem>
-                <MenuItem value={20}>10</MenuItem>
-                <MenuItem value={30}>20</MenuItem>
-                <MenuItem value={30}>50</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              select
+              variant="outlined"
+              size="small"
+              margin="none"
+              style={{ backgroundColor: "white", borderRadius: 5 }}
+              InputProps={{
+                disableUnderline: true,
+                padding: "0px",
+              }}
+            >
+              <MenuItem value={10}>5</MenuItem>
+              <MenuItem value={20}>10</MenuItem>
+              <MenuItem value={30}>20</MenuItem>
+              <MenuItem value={30}>50</MenuItem>
+            </TextField>
           </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          style={{
+            border: "0px",
+            marginTop: "-40px",
+            marginBottom: "0px",
+            paddingTop: "0px",
+          }}
+        >
           <Typography
             style={{
               fontFamily: "Manrope, sans-serif",
               color: "white",
               fontSize: "25px",
               paddingTop: "0px",
-              paddingBottom: "10px",
+              marginBottom: "-40px",
               textAlign: "center",
             }}
           >
-            Price Range:
+            Price Range
           </Typography>
-          <ToggleButtonGroup
-            // value={formats}
-            // onChange={handleFormat}
-            aria-label="text formatting"
+          <StyledToggleButtonGroup
+            size="small"
+            value={formats}
+            onChange={handleFormat}
+            aria-label="price"
           >
-            <ToggleButton aria-label="bold">p1</ToggleButton>
-            <ToggleButton value="p2" aria-label="italic">
-              p2
-            </ToggleButton>
-            <ToggleButton value="p3" aria-label="underlined">
-              p3
+            {/* <ToggleButtonGroup
+              value={formats}
+              onChange={handleFormat}
+              style={{ marginTop: "-10px" }}
+            > */}
+            <ToggleButton
+              value="p1"
+              style={{
+                fontSize: "15px",
+                outlineColor: "grey",
+                outlineWidth: "1px",
+                outlineStyle: "solid",
+                color: "black",
+              }}
+            >
+              {"  "}$
             </ToggleButton>
             <ToggleButton
-              value="color"
-              aria-label="color"
-              disabled
-            ></ToggleButton>
-          </ToggleButtonGroup>
+              value="p2"
+              style={{
+                fontSize: "15px",
+                outlineColor: "grey",
+                outlineWidth: "1px",
+                outlineStyle: "solid",
+                color: "black",
+              }}
+            >
+              $${" "}
+            </ToggleButton>
+            <ToggleButton
+              value="p3"
+              style={{
+                fontSize: "15px",
+                outlineColor: "grey",
+                outlineWidth: "1px",
+                outlineStyle: "solid",
+                color: "black",
+              }}
+            >
+              $$$
+            </ToggleButton>
+            {/* </ToggleButtonGroup> */}
+          </StyledToggleButtonGroup>
         </Grid>
+
         <Grid item xs={12}>
           <Button
             onClick={createItinerary}

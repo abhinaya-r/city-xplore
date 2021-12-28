@@ -11,7 +11,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import { MenuItem } from "@material-ui/core";
+import validator from "validator";
+import Tooltip from "@mui/material/Tooltip";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const axios = require("axios");
 const crypto = require("crypto");
@@ -60,21 +67,36 @@ const Signup = ({ setToken }) => {
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  const getDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + "-" + mm + "-" + dd;
+    return today;
+  };
+
   if (password != confirmPassword) {
     console.log("PASSWORDS DO NOT MATCH");
   }
 
-  var currentdate = new Date(); 
-  var created_on = currentdate.getFullYear()  + "-"
-                  + (currentdate.getMonth()+1) + "-" 
-                  + currentdate.getDate() + " "  
-                  + currentdate.getHours() + ":"  
-                  + currentdate.getMinutes() + ":" 
-                  + currentdate.getSeconds();
+  var currentdate = new Date();
+  var created_on =
+    currentdate.getFullYear() +
+    "-" +
+    (currentdate.getMonth() + 1) +
+    "-" +
+    currentdate.getDate() +
+    " " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [dirty, setDirty] = useState(false);
+  const [isEmailValid, setEmailIsValid] = useState(false);
+  const [emailDirty, setEmailDirty] = useState(false);
   const [isFirstNameValid, setFirstNameIsValid] = useState(false);
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(false);
@@ -83,19 +105,32 @@ const Signup = ({ setToken }) => {
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [isConfirmValid, setConfirmIsValid] = useState(false);
   const [confirmDirty, setConfirmDirty] = useState(false);
+  const [isBirthdayValid, setBirthdayIsValid] = useState(false);
+  const [birthdayDirty, setBirthdayDirty] = useState(false);
+  const [isGenderValid, setGenderIsValid] = useState(false);
+  const [genderDirty, setGenderDirty] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const [emailExists, setEmailExists] = React.useState(true);
+
+  let allValid =
+    isEmailValid &&
+    isLastNameValid &&
+    isFirstNameValid &&
+    isPasswordValid &&
+    isConfirmValid &&
+    isBirthdayValid &&
+    isGenderValid;
 
   const helperTestClasses = helperTextStyles();
 
   const handleEmail = (event) => {
     const val = event.target.value;
-
     if (isEmail(val)) {
-      setIsValid(true);
+      setEmailIsValid(true);
     } else {
-      setIsValid(false);
+      setEmailIsValid(false);
     }
-
-    setValue(val);
     setEmail(val);
   };
 
@@ -140,22 +175,64 @@ const Signup = ({ setToken }) => {
     }
     setConfirmPassword(val);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = await signupUser({
-      "first_name": firstName,
-      "last_name":lastName,
-      "email": email,
-      "password":password_hash,
-      "birthday":birthday,
-      "gender":gender,
-      "created_on":created_on,
-    });
-    setToken(token);
-    console.log(token);
-    window.location.href = "/dashboard";
+
+  const handleBirthday = (event) => {
+    const val = event.target.value;
+    const validateBday = validator.isDate(val);
+    console.log("validate bday: ", validator.isDate(val));
+    if (val <= getDate() && validateBday) {
+      setBirthdayIsValid(true);
+    } else {
+      setBirthdayIsValid(false);
+    }
+    setBirthday(val);
   };
 
+  const handleGender = (event) => {
+    const val = event.target.value;
+    console.log("val");
+    if (val.length > 0) {
+      setGenderIsValid(true);
+    } else {
+      setGenderIsValid(false);
+    }
+    setGender(val);
+  };
+
+  const handleSubmit = async (e) => {
+    console.log("allValid: ", allValid);
+    e.preventDefault();
+    const token = await signupUser({
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password_hash,
+      birthday: birthday,
+      gender: gender,
+      created_on: created_on,
+    });
+    if (emailExists) setOpen(true);
+    if (allValid) {
+      setToken(token);
+      console.log(token);
+      window.location.href = "/dashboard";
+    } else {
+      if (isFirstNameValid === false) setFnDirty(true);
+      if (isLastNameValid === false) setLnDirty(true);
+      if (isEmailValid === false) setEmailDirty(true);
+      if (isBirthdayValid === false) setBirthdayDirty(true);
+      if (isGenderValid === false) setGenderDirty(true);
+      if (isPasswordValid === false) setPasswordDirty(true);
+      if (isConfirmValid === false) setConfirmDirty(true);
+    }
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const handleSubmit = async (e) => {
   //   console.log("submitting");
   //   e.preventDefault();
@@ -203,7 +280,11 @@ const Signup = ({ setToken }) => {
     paddingBottom: "0px",
     background: "#FFFFFF",
     border: "#FFFFFF",
-    borderRadius: "10px",
+    borderRadius: 5,
+  };
+
+  const defaultValues = {
+    eventDate: null,
   };
 
   return (
@@ -237,6 +318,7 @@ const Signup = ({ setToken }) => {
                 size="small"
                 margin="none"
                 value={firstName}
+                autoFocus
                 onBlur={() => setFnDirty(true)}
                 error={fnDirty && isFirstNameValid === false}
                 helperText={
@@ -247,11 +329,16 @@ const Signup = ({ setToken }) => {
                 FormHelperTextProps={{ classes: helperTestClasses }}
                 onInput={handleFirstName}
                 style={textfieldStyle}
-                muifilledinput={{ borderBottomLeftRadius: "0px" }}
+                muifilledinput={{
+                  borderBottomLeftRadius: "0px",
+                }}
                 InputProps={{
                   disableUnderline: true,
                   paddingTop: "0px",
                   paddingBottom: "0px",
+                  border: "#FFFFFF",
+                  // borderRadius: "10px",
+                  // backgroundColor: "white",
                 }}
               />
             </Grid>
@@ -277,6 +364,9 @@ const Signup = ({ setToken }) => {
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
+                  border: "#FFFFFF",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
                 }}
               />
             </Grid>
@@ -285,17 +375,19 @@ const Signup = ({ setToken }) => {
             <Typography style={typeStyle}>Email</Typography>
             <TextField
               id="filled"
-              onBlur={() => setDirty(true)}
-              error={dirty && isValid === false}
+              onBlur={() => setEmailDirty(true)}
+              error={emailDirty && isEmailValid === false}
               helperText={
-                dirty && isValid === false ? "Please enter valid email" : ""
+                emailDirty && isEmailValid === false
+                  ? "Please enter valid email"
+                  : ""
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
+              onInput={handleEmail}
               variant="outlined"
               size="small"
               margin="none"
               value={email}
-              onInput={handleEmail}
               style={textfieldStyle}
               fullWidth
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -308,44 +400,61 @@ const Signup = ({ setToken }) => {
           <Grid id="birthdate-row" container spacing={2}>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Birthday</Typography>
-              {/* <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="MM/dd/yyyy"
-                // onChange={handleChange}
-                renderInput={(params) => <TextField {...params} />}
-              /> */}
               <TextField
-                id="filled"
+                id="date"
+                type="date"
                 variant="outlined"
+                fullWidth
                 size="small"
                 margin="none"
                 value={birthday}
-                onInput={(e) => setBirthday(e.target.value)}
-                // onInput={(e) => setLastName(e.target.value)}
+                onBlur={() => setBirthdayDirty(true)}
+                error={birthdayDirty && isBirthdayValid === false}
+                helperText={
+                  birthdayDirty && isBirthdayValid === false
+                    ? "Please enter valid birthday"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onInput={handleBirthday}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
+                  inputProps: { max: getDate() },
                 }}
               />
             </Grid>
             <Grid item xs={6} style={gridStyle}>
               <Typography style={typeStyle}>Gender</Typography>
               <TextField
-                id="filled"
+                select
+                fullWidth
                 variant="outlined"
                 size="small"
                 margin="none"
-                value={gender}
-                onInput={(e) => setGender(e.target.value)}
+                onBlur={() => setGenderDirty(true)}
+                error={genderDirty && isGenderValid === false}
+                helperText={
+                  genderDirty && isGenderValid === false
+                    ? "Please select gender"
+                    : ""
+                }
+                FormHelperTextProps={{ classes: helperTestClasses }}
+                onChange={handleGender}
                 style={textfieldStyle}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
                   padding: "0px",
                 }}
-              />
+              >
+                <MenuItem value={"female"}>Female</MenuItem>
+                <MenuItem value={"male"}>Male</MenuItem>
+                <MenuItem value={"nonbinary"}>Nonbinary</MenuItem>
+                <MenuItem value={"other"}>Other</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
           <Grid id="third-row" container spacing={2} style={{ border: "0px" }}>
@@ -362,7 +471,7 @@ const Signup = ({ setToken }) => {
                 error={passwordDirty && isPasswordValid === false}
                 helperText={
                   passwordDirty && isPasswordValid === false
-                    ? "Password must at least 8 characters"
+                    ? "Password must be at least 8 characters"
                     : ""
                 }
                 FormHelperTextProps={{ classes: helperTestClasses }}
@@ -419,9 +528,10 @@ const Signup = ({ setToken }) => {
               marginTop: "-70px",
               marginBottom: "-70px",
               justifyAlign: "center",
+              paddingTop: "10px",
             }}
           >
-            {isValid === true ? (
+            {allValid === true ? (
               <Button
                 type="submit"
                 style={{
@@ -433,27 +543,76 @@ const Signup = ({ setToken }) => {
                   paddingTop: "5px",
                   paddingBottom: "5px",
                 }}
+                error={allValid === false}
               >
                 Sign up
               </Button>
             ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                disabled
-                style={{
-                  color: "white",
-                  backgroundColor: "grey",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingLeft: "40px",
-                  paddingRight: "40px",
-                  paddingTop: "5px",
-                  paddingBottom: "5px",
-                }}
-              >
-                Sign up
-              </Button>
+              <Tooltip title="Please complete form">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    color: "white",
+                    backgroundColor: "grey",
+                    fontFamily: "Manrope, sans-serif",
+                    paddingLeft: "40px",
+                    paddingRight: "40px",
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Tooltip>
             )}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              PaperProps={{
+                style: {
+                  backgroundColor: "#ACD7AB",
+                  boxShadow: "none",
+                  color: "white",
+                },
+              }}
+            >
+              <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
+                {"Email associated with account"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-description"
+                  style={{ color: "white" }}
+                >
+                  Do you already have an account associated with this email
+                  address? If so, please log in.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} style={{ color: "white" }}>
+                  Close
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  style={{ backgroundColor: "orange", color: "white" }}
+                  autoFocus
+                >
+                  <Link
+                    to="/login"
+                    style={{
+                      color: "white",
+                      font: "Manrope, sans-serif",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Login
+                  </Link>
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         </form>
       </Card>
