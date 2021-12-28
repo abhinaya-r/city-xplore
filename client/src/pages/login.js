@@ -57,7 +57,7 @@ const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [isValid, setIsValid] = React.useState(false);
+  // const [isValid, setIsValid] = React.useState(false);
 
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
@@ -89,20 +89,16 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
-    if (isValid === false) {
-      console.log("in error");
-      setErrorMessage("Invalid email or password. Please try again.");
-    }
-    console.log("before getting token: ");
-    const token = await loginUser({
-      email,
-      password,
-    });
-    console.log("after getting token");
-    console.log("token: ", token);
-    if (isValid === true) {
+    try {
+      const token = await loginUser({
+        email,
+        password,
+      });
+      console.log(token);
       setToken(token);
       window.location.href = "/dashboard";
+    } catch {
+      setErrorMessage("Invalid email or password. Please try again.");
     }
   };
 
