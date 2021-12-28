@@ -67,7 +67,8 @@ async function signupUser(credentials) {
   // });
   return axios
     .post("https://city-xplore.herokuapp.com/users", credentials)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((error) => console.error(error));
 }
 
 const Signup = ({ setToken }) => {
@@ -75,7 +76,8 @@ const Signup = ({ setToken }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [unhashedPassword, setUnhashedPassword] = useState("");
+  let [confirmPassword, setConfirmPassword] = useState("");
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
 
@@ -89,9 +91,11 @@ const Signup = ({ setToken }) => {
     return today;
   };
 
-  if (password != confirmPassword) {
-    console.log("PASSWORDS DO NOT MATCH");
-  }
+  // if (unhashedPassword != confirmPassword) {
+  //   console.log("PASSWORDS DO NOT MATCH");
+  //   console.log("unhashedPassword: ", unhashedPassword);
+  //   console.log("confirmPassword: ", confirmPassword);
+  // }
 
   var currentdate = new Date();
   var created_on =
@@ -178,13 +182,12 @@ const Signup = ({ setToken }) => {
       setPasswordIsValid(false);
     }
     setPassword(val);
+    setUnhashedPassword(val);
   };
 
   const handleConfirm = (event) => {
     const val = event.target.value;
-    console.log("password: ", password);
-    console.log("val: ", val);
-    if (val === password) {
+    if (unhashedPassword === val) {
       setConfirmIsValid(true);
     } else {
       setConfirmIsValid(false);
@@ -218,28 +221,32 @@ const Signup = ({ setToken }) => {
   const handleSubmit = async (e) => {
     console.log("allValid: ", allValid);
     e.preventDefault();
-    const token = await signupUser({
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      password: password_hash,
-      birthday: birthday,
-      gender: gender,
-      created_on: created_on,
-    });
-    if (emailExists) setOpen(true);
-    if (allValid) {
-      setToken(token);
-      console.log(token);
-      window.location.href = "/dashboard";
-    } else {
-      if (isFirstNameValid === false) setFnDirty(true);
-      if (isLastNameValid === false) setLnDirty(true);
-      if (isEmailValid === false) setEmailDirty(true);
-      if (isBirthdayValid === false) setBirthdayDirty(true);
-      if (isGenderValid === false) setGenderDirty(true);
-      if (isPasswordValid === false) setPasswordDirty(true);
-      if (isConfirmValid === false) setConfirmDirty(true);
+    try {
+      const token = await signupUser({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password_hash,
+        birthday: birthday,
+        gender: gender,
+        created_on: created_on,
+      });
+
+      if (allValid) {
+        setToken(token);
+        console.log(token);
+        window.location.href = "/dashboard";
+      } else {
+        if (isFirstNameValid === false) setFnDirty(true);
+        if (isLastNameValid === false) setLnDirty(true);
+        if (isEmailValid === false) setEmailDirty(true);
+        if (isBirthdayValid === false) setBirthdayDirty(true);
+        if (isGenderValid === false) setGenderDirty(true);
+        if (isPasswordValid === false) setPasswordDirty(true);
+        if (isConfirmValid === false) setConfirmDirty(true);
+      }
+    } catch (err) {
+      setOpen(true);
     }
   };
   const handleClickOpen = () => {
@@ -527,7 +534,6 @@ const Signup = ({ setToken }) => {
                 FormHelperTextProps={{ classes: helperTestClasses }}
                 onInput={handleConfirm}
                 style={textfieldStyle}
-                value={confirmPassword}
                 muifilledinput={{ borderBottomLeftRadius: "0px" }}
                 InputProps={{
                   disableUnderline: true,
