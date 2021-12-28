@@ -98,7 +98,7 @@ const Login = ({ setToken }) => {
     try {
       const token = await loginUser({
         email,
-        password,
+        password_hash,
       });
       console.log(token);
       setToken(token);
