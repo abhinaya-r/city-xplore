@@ -40,14 +40,26 @@ const helperTextStyles = makeStyles(() => ({
   },
 }));
 async function signupUser(credentials) {
-  let axiosConfig = {
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
+  // let axiosConfig = {
+  //   headers: {
+  //     "Content-Type": "application/json;charset=UTF-8",
+  //     "Access-Control-Allow-Origin": "*",
+  //   },
+  // };
+  console.log("signup credentials: ", credentials.toString());
+  // return fetch(`http://localhost:3000/users`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   },
+  //   body: credentials,
+  // }).then((data) => {
+  //   console.log("response data: ", data);
+  //   data.json()
+  // });
   return axios
-    .post("/api/signup/", credentials)
+    .post("http://localhost:3000/users", credentials)
     .then((response) => response.data);
 }
 
@@ -55,7 +67,7 @@ const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  let [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -72,6 +84,7 @@ const Signup = ({ setToken }) => {
                   + currentdate.getMinutes() + ":" 
                   + currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
+  password = password_hash;
   const [value, setValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -142,7 +155,16 @@ const Signup = ({ setToken }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = await signupUser({
+    // const token = await signupUser({
+    //   "first_name": firstName,
+    //   "last_name":lastName,
+    //   "email": email,
+    //   "password":password_hash,
+    //   "birthday":birthday,
+    //   "gender":gender,
+    //   "created_on":created_on,
+    // });
+     const token = await signupUser({
       "first_name": firstName,
       "last_name":lastName,
       "email": email,

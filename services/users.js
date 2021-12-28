@@ -31,7 +31,8 @@ async function create(users) {
     message = 'User created successfully';
     console.log(result.length)
   }
-
+  console.log("message:", message)
+  console.log("token:", token)
   return {message: message, token: token};
 }
 
