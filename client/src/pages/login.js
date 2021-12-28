@@ -15,24 +15,10 @@ import isEmail from "validator/lib/isEmail";
 
 const crypto = require("crypto");
 
-// async function loginUser(credentials) {
-//   console.log("credentials:", credentials);
-//   return fetch(
-//     `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   )
-//     .then((data) => data.json())
-//     .catch((err) => console.error("loginUser error: ", err));
-// }
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
-    `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password}`,
+    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password_hash}`,
     {
       method: "GET",
       headers: {
@@ -43,6 +29,20 @@ async function loginUser(credentials) {
     .then((data) => data.json())
     .catch((err) => console.error("loginUser error: ", err));
 }
+// async function loginUser(credentials) {
+//   console.log("credentials:", credentials);
+//   return fetch(
+//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   )
+//     .then((data) => data.json())
+//     .catch((err) => console.error("loginUser error: ", err));
+// }
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -73,7 +73,7 @@ const helperTextStyles = makeStyles(() => ({
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
-  let [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
   // const [isValid, setIsValid] = React.useState(false);
 
@@ -82,7 +82,7 @@ const Login = ({ setToken }) => {
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
-  password = password_hash;
+  // password = password_hash;
 
   const helperTestClasses = helperTextStyles();
 
