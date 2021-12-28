@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 
 async function loginUser(credentials) {
   console.log("credentials:", credentials)
-  return fetch(`http://localhost:3001/users?email=${credentials.email}&password=${credentials.password}`, {
+  return fetch(`https://test-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
