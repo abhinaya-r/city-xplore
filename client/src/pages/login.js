@@ -14,13 +14,16 @@ import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 
 async function loginUser(credentials) {
-  return fetch("http://localhost:3001/api/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
+  console.log("credentials:", credentials);
+  return fetch(
+    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((data) => data.json());
 }
 
 const helperTextStyles = makeStyles(() => ({
@@ -40,6 +43,15 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
+// async function loginUser(credentials) {
+//   return fetch("http://localhost:3001/api/login", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(credentials),
+//   }).then((data) => data.json());
+// }
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
