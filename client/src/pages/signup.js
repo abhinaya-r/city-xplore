@@ -47,14 +47,26 @@ const helperTextStyles = makeStyles(() => ({
   },
 }));
 async function signupUser(credentials) {
-  let axiosConfig = {
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
+  // let axiosConfig = {
+  //   headers: {
+  //     "Content-Type": "application/json;charset=UTF-8",
+  //     "Access-Control-Allow-Origin": "*",
+  //   },
+  // };
+  console.log("signup credentials: ", credentials.toString());
+  // return fetch(`http://localhost:3000/users`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   },
+  //   body: credentials,
+  // }).then((data) => {
+  //   console.log("response data: ", data);
+  //   data.json()
+  // });
   return axios
-    .post("/api/signup/", credentials)
+    .post("https://city-xplore.herokuapp.com/users", credentials)
     .then((response) => response.data);
 }
 
@@ -62,7 +74,7 @@ const Signup = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  let [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -97,6 +109,10 @@ const Signup = ({ setToken }) => {
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
+  password = password_hash;
+  const [value, setValue] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [dirty, setDirty] = useState(false);
   const [isFirstNameValid, setFirstNameIsValid] = useState(false);
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(false);
