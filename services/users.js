@@ -54,7 +54,7 @@ async function get(user) {
   console.log("result: ", result);
   if (result.length) {
     message = "Got User successfully";
-    return result[0].token;
+    return {token: result[0].token};
   }
   return null;
 }
