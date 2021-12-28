@@ -47,8 +47,8 @@ async function create(users) {
 
 async function get(user) {
   console.log("getting user: ", user.query.email);
-  const result = await db.query("SELECT * FROM users WHERE email = $1", [
-    user.query.email,
+  const result = await db.query("SELECT * FROM users WHERE email = $1 AND password = $2", [
+    user.query.email, user.query.password
   ]);
   let message = "Error in getting user";
   console.log("result: ", result);
