@@ -13,30 +13,36 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 
-// async function loginUser(credentials) {
-//   console.log("credentials:", credentials);
-//   return fetch(
-//     `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   ).then((data) => data.json());
-// }
+const crypto = require("crypto");
+
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
-    `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password}`,
+    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password_hash}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }
-  ).then((data) => data.json());
+  )
+    .then((data) => data.json())
+    .catch((err) => console.error("loginUser error: ", err));
 }
+// async function loginUser(credentials) {
+//   console.log("credentials:", credentials);
+//   return fetch(
+//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   )
+//     .then((data) => data.json())
+//     .catch((err) => console.error("loginUser error: ", err));
+// }
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -67,14 +73,16 @@ const helperTextStyles = makeStyles(() => ({
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [isValid, setIsValid] = React.useState(true);
+  // const [isValid, setIsValid] = React.useState(false);
 
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
+  const password_hash = crypto.createHash("md5").update(password).digest("hex");
+  // password = password_hash;
 
   const helperTestClasses = helperTextStyles();
 
@@ -101,20 +109,16 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
-    if (isValid === false) {
-      console.log("in error");
-      setErrorMessage("Invalid email or password. Please try again.");
-    }
-    console.log("before getting token: ");
-    const token = await loginUser({
-      email,
-      password,
-    });
-    console.log("after getting token");
-    console.log("token: ", token);
-    if (isValid === true) {
+    try {
+      const token = await loginUser({
+        email,
+        password_hash,
+      });
+      console.log(token);
       setToken(token);
-      // window.location.href = "/dashboard";
+      window.location.href = "/dashboard";
+    } catch {
+      setErrorMessage("Invalid email or password. Please try again.");
     }
   };
 
