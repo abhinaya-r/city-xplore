@@ -66,12 +66,12 @@ async function signupUser(credentials) {
   //   data.json()
   // });
 
-  // return axios
-  //   .post("https://city-xplore.herokuapp.com/users", credentials)
-  //   .then((response) => response.data);
   return axios
-  .post("http://localhost:3001/users", credentials)
-  .then((response) => response.data);
+    .post("https://city-xplore.herokuapp.com/users", credentials)
+    .then((response) => response.data);
+  // return axios
+  // .post("http://localhost:3001/users", credentials)
+  // .then((response) => response.data);
   
 }
 
