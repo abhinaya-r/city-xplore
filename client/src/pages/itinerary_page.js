@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
 import { styled } from "@mui/material/styles";
-// import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import axios from "axios";
 
@@ -50,6 +50,24 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 //   },
 // }));
 
+const helperTextStyles = makeStyles(() => ({
+  root: {
+    margin: "0px",
+    color: "#ACD7AB",
+    border: "#ACD7AB",
+  },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      paddingBottom: "0px",
+      backgroundColor: "#ACD7AB",
+      border: "0px #ACD7AB",
+      disableUnderline: true,
+      // fontWeight: 400,
+      color: "red",
+    },
+  },
+}));
+
 const Recommendations = () => {
   const [address, setAddress] = useState("");
   const [act, setAct] = useState(0);
@@ -57,6 +75,24 @@ const Recommendations = () => {
   const [formats, setFormats] = React.useState(() => []);
   const [alignment, setAlignment] = React.useState("left");
   // const classes = useStyles();
+
+  const helperTestClasses = helperTextStyles();
+  const [isAddressValid, setAddressIsValid] = useState(false);
+  const [addressDirty, setAddressDirty] = useState(false);
+  const [isSelectedValid, setSelectedIsValid] = useState(false);
+  const [selectedDirty, setSelectedDirty] = useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const handleAddress = (event) => {
+    const val = event.target.value;
+    console.log("val: ", val);
+    if (val) {
+      setAddressIsValid(true);
+    } else {
+      setAddressIsValid(false);
+    }
+    setAddress(val);
+  };
 
   const handleFormat = (event, newFormats) => {
     setFormats(newFormats);
@@ -132,21 +168,30 @@ const Recommendations = () => {
 
   const createItinerary = () => {
     console.log("create itinerary");
+    console.log("activities: ", activities.length);
+    if (activities.length == 0) setSelectedIsValid(false);
+    else setSelectedIsValid(true);
 
-    axios
-      .post("api/new_itinerary", {
-        activities: activities,
-        address: address,
-      })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data["status"] == "SUCCESS") {
-          console.log("success");
-          window.location.href = "/itinerary";
-          // setNextPage("/itinerary");
-          // location.href = "/itinerary";
-        }
-      });
+    if (isAddressValid && isSelectedValid) {
+      axios
+        .post("api/new_itinerary", {
+          activities: activities,
+          address: address,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data["status"] == "SUCCESS") {
+            console.log("success");
+            window.location.href = "/itinerary";
+            // setNextPage("/itinerary");
+            // location.href = "/itinerary";
+          }
+        });
+    } else {
+      if (isAddressValid === false) setAddressDirty(true);
+      if (isSelectedValid === false) setSelectedDirty(true);
+      setErrorMessage("Please fix form errors");
+    }
   };
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -244,9 +289,24 @@ const Recommendations = () => {
                 textAlign: "left",
               }}
             >
-              Choose one or more of the categories in order
+              Choose one or more of the categories in order *
             </Typography>
-
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              {selectedDirty && isSelectedValid == false && (
+                <div
+                  className="error"
+                  style={{
+                    fontSize: "15px",
+                    paddingBottom: "0px",
+                    backgroundColor: "#ACD7AB",
+                    color: "red",
+                  }}
+                >
+                  {" "}
+                  {"Please select activities"}{" "}
+                </div>
+              )}
+            </Grid>
             <Grid item xs={4} style={buttonStyle}>
               <Button
                 onClick={addRestaurant}
@@ -321,7 +381,7 @@ const Recommendations = () => {
         <Grid container spacing={0}>
           <Grid
             item
-            xs={6}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "10px",
@@ -334,19 +394,26 @@ const Recommendations = () => {
                 fontFamily: "Manrope, sans-serif",
                 color: "white",
                 fontSize: "25px",
-                paddingTop: "0px",
-                paddingBottom: "10px",
+                paddingTop: "-10px",
                 textAlign: "center",
               }}
             >
-              Starting Address or City
+              Starting Address or City *
             </Typography>
             <TextField
               id="filled"
               variant="outlined"
               size="small"
               margin="none"
-              onInput={(e) => setAddress(e.target.value)}
+              onBlur={() => setAddressDirty(true)}
+              error={addressDirty && isAddressValid === false}
+              helperText={
+                addressDirty && isAddressValid === false
+                  ? "Please enter starting location"
+                  : ""
+              }
+              FormHelperTextProps={{ classes: helperTestClasses }}
+              onInput={handleAddress}
               style={textfieldStyle}
               style={{ backgroundColor: "white", borderRadius: 5 }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -358,11 +425,10 @@ const Recommendations = () => {
           </Grid>
           <Grid
             item
-            xs={4}
+            xs={6}
             style={{
               border: "0px",
-              marginTop: "10px",
-              marginBottom: "10px",
+              marginTop: "-20px",
               paddingTop: "0px",
             }}
           >
@@ -376,7 +442,7 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Max Mile Radius
+              Max Mile Radius{" "}
             </Typography>
             <TextField
               select
@@ -395,80 +461,80 @@ const Recommendations = () => {
               <MenuItem value={30}>50</MenuItem>
             </TextField>
           </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          style={{
-            border: "0px",
-            marginTop: "-40px",
-            marginBottom: "0px",
-            paddingTop: "0px",
-          }}
-        >
-          <Typography
+
+          <Grid
+            item
+            xs={6}
             style={{
-              fontFamily: "Manrope, sans-serif",
-              color: "white",
-              fontSize: "25px",
+              border: "0px",
+              marginTop: "-20px",
+              marginBottom: "0px",
               paddingTop: "0px",
-              marginBottom: "-40px",
-              textAlign: "center",
             }}
           >
-            Price Range
-          </Typography>
-          <StyledToggleButtonGroup
-            size="small"
-            value={formats}
-            onChange={handleFormat}
-            aria-label="price"
-          >
-            {/* <ToggleButtonGroup
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "25px",
+                paddingTop: "0px",
+                marginBottom: "-40px",
+                textAlign: "center",
+              }}
+            >
+              Price Range
+            </Typography>
+            <StyledToggleButtonGroup
+              size="small"
+              value={formats}
+              onChange={handleFormat}
+              aria-label="price"
+            >
+              {/* <ToggleButtonGroup
               value={formats}
               onChange={handleFormat}
               style={{ marginTop: "-10px" }}
             > */}
-            <ToggleButton
-              value="p1"
-              style={{
-                fontSize: "15px",
-                outlineColor: "grey",
-                outlineWidth: "1px",
-                outlineStyle: "solid",
-                color: "black",
-              }}
-            >
-              {"  "}$
-            </ToggleButton>
-            <ToggleButton
-              value="p2"
-              style={{
-                fontSize: "15px",
-                outlineColor: "grey",
-                outlineWidth: "1px",
-                outlineStyle: "solid",
-                color: "black",
-              }}
-            >
-              $${" "}
-            </ToggleButton>
-            <ToggleButton
-              value="p3"
-              style={{
-                fontSize: "15px",
-                outlineColor: "grey",
-                outlineWidth: "1px",
-                outlineStyle: "solid",
-                color: "black",
-              }}
-            >
-              $$$
-            </ToggleButton>
-            {/* </ToggleButtonGroup> */}
-          </StyledToggleButtonGroup>
+              <ToggleButton
+                value="p1"
+                style={{
+                  fontSize: "15px",
+                  outlineColor: "grey",
+                  outlineWidth: "1px",
+                  outlineStyle: "solid",
+                  color: "black",
+                }}
+              >
+                {"  "}$
+              </ToggleButton>
+              <ToggleButton
+                value="p2"
+                style={{
+                  fontSize: "15px",
+                  outlineColor: "grey",
+                  outlineWidth: "1px",
+                  outlineStyle: "solid",
+                  color: "black",
+                }}
+              >
+                $${" "}
+              </ToggleButton>
+              <ToggleButton
+                value="p3"
+                style={{
+                  fontSize: "15px",
+                  outlineColor: "grey",
+                  outlineWidth: "1px",
+                  outlineStyle: "solid",
+                  color: "black",
+                }}
+              >
+                $$$
+              </ToggleButton>
+              {/* </ToggleButtonGroup> */}
+            </StyledToggleButtonGroup>
+          </Grid>
         </Grid>
-
         <Grid item xs={12}>
           <Button
             onClick={createItinerary}
@@ -490,6 +556,32 @@ const Recommendations = () => {
           >
             Get Itinerary
           </Button>
+          {errorMessage && (
+            <div
+              className="error"
+              style={{
+                fontSize: "15px",
+                fontWeight: 600,
+                paddingBottom: "0px",
+                backgroundColor: "#ACD7AB",
+                color: "red",
+              }}
+            >
+              {" "}
+              {errorMessage}{" "}
+            </div>
+          )}
+          <Typography
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              color: "white",
+              fontSize: "15px",
+              paddingTop: "-10px",
+              textAlign: "center",
+            }}
+          >
+            * This indicates these fields are required
+          </Typography>
         </Grid>
       </Card>
     </div>

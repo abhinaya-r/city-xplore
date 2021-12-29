@@ -95,6 +95,27 @@ const UserItinerary = () => {
           <Grid item xs={12}>
             {itineraryObjects}
           </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              marginTop: "0px",
+              textAlign: "center",
+              padding: "10px",
+            }}
+          >
+            <Button
+              style={{
+                color: "white",
+                backgroundColor: "#919E6A",
+                fontFamily: "Manrope, sans-serif",
+                textAlign: "center",
+              }}
+            >
+              Save Itinerary
+            </Button>
+          </Grid>
         </Grid>
       </Card>
     </div>
