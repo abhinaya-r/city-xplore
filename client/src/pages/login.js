@@ -151,7 +151,7 @@ const Login = ({ setToken }) => {
     paddingBottom: "0px",
     background: "#FFFFFF",
     border: "#FFFFFF",
-    borderRadius: "5px",
+    borderRadius: "10px",
     width: "100%",
   };
 
