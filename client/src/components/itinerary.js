@@ -7,7 +7,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import Activity from "./activity";
+import Activity from "./activityDashboard";
 
 export default function Itinerary(props) {
   const [data, setData] = React.useState(null);

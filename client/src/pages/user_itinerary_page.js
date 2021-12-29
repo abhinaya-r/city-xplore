@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +9,15 @@ import Header from "../components/header";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Activity from "../components/activity";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import IconButton from "@material-ui/core/Button";
+import { Tooltip } from "@material-ui/core";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import axios from "axios";
 
@@ -37,11 +46,23 @@ const UserItinerary = () => {
     backgroundColor: "#ACD7AB",
   };
 
-  const background = {
-    backgroundColor: "#FFF6F1",
+  const [itinerary, getItinerary] = React.useState(null);
+
+  const [open, setOpen] = React.useState(false);
+  const [count, setCount] = React.useState(0);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  const [itinerary, getItinerary] = React.useState(null);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleRefresh = () => {
+    setOpen(false);
+    window.location.reload(false);
+  };
 
   const getNewItinerary = () => {
     axios
@@ -73,18 +94,65 @@ const UserItinerary = () => {
   }
 
   return (
-    <div style={{ height: "100vh" }} style={background}>
+    <div style={{ height: "100vh" }}>
       <Header />
       <Card style={cardStyle}>
-        <Grid container spacing={0}>
-          <Grid item xs={12}>
+        <Grid container direction="row" spacing={0}>
+          <Grid
+            item
+            xs={6}
+            style={{
+              border: "0px",
+              marginBottom: "-40px",
+              marginTop: "-80px",
+              textAlign: "left",
+            }}
+          >
+            <Tooltip title="Change parameters">
+              <IconButton>
+                <ArrowBackIcon
+                  sx={{
+                    color: "#919E6A",
+                    fontSize: "30px",
+                  }}
+                ></ArrowBackIcon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            style={{
+              border: "0px",
+              marginBottom: "-40px",
+              marginTop: "-80px",
+              textAlign: "right",
+            }}
+          >
+            <Tooltip title="Refresh Itinerary">
+              <IconButton>
+                <RefreshIcon
+                  onClick={handleClickOpen}
+                  sx={{
+                    color: "#919E6A",
+                    fontSize: "30px",
+                  }}
+                ></RefreshIcon>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{ border: "0px", marginTop: "0px", marginBottom: "0px" }}
+          >
             <Typography
               style={{
                 color: "white",
                 fontSize: "40px",
                 fontWeight: "bold",
                 marginBottom: "30px",
-                marginTop: "-30px",
+                marginTop: "-20px",
                 justifyContent: "center",
               }}
             >
@@ -117,6 +185,40 @@ const UserItinerary = () => {
             </Button>
           </Grid>
         </Grid>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          PaperProps={{
+            style: {
+              backgroundColor: "#ACD7AB",
+              boxShadow: "none",
+              color: "white",
+            },
+          }}
+        >
+          <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
+            {"Confirm Refresh"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              id="alert-dialog-description"
+              style={{ color: "white" }}
+            >
+              Are you sure you want to refresh the itinerary? These activities
+              will be lost, so be sure to favorite the ones you like!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} style={{ color: "white" }}>
+              Cancel
+            </Button>
+            <Button onClick={handleRefresh} style={{ color: "white" }}>
+              Refresh
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Card>
     </div>
   );
