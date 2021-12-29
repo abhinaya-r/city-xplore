@@ -23,7 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 let activities = [];
-let activitesDisplay = [];
+let activitiesDisplay = [];
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -69,11 +69,13 @@ const helperTextStyles = makeStyles(() => ({
 }));
 
 const Recommendations = () => {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = React.useState("");
   const [act, setAct] = useState(0);
   const [nextPage, setNextPage] = useState("/getitinerary");
   const [formats, setFormats] = React.useState(() => []);
   const [alignment, setAlignment] = React.useState("left");
+  // let [activities, setActivities] = React.useState([]);
+  // let [activitiesDisplay, setActivitiesDisplay] = React.useState([]);
   // const classes = useStyles();
 
   const helperTestClasses = helperTextStyles();
@@ -103,63 +105,64 @@ const Recommendations = () => {
   };
 
   const addRestaurant = () => {
+    // setActivities(activities.push("restaurant"));
     activities.push("restaurant");
-    activitesDisplay.push("Restaurant");
+    activitiesDisplay.push("Restaurant");
     setAct(act + 1);
     console.log(activities);
   };
   const addBar = () => {
     activities.push("bar");
-    activitesDisplay.push("Bar");
+    activitiesDisplay.push("Bar");
     setAct(act + 1);
     console.log(activities);
   };
   const addMuseum = () => {
     activities.push("museum");
-    activitesDisplay.push("Museum");
+    activitiesDisplay.push("Museum");
     setAct(act + 1);
     console.log(activities);
   };
   const addBakery = () => {
     activities.push("bakery");
-    activitesDisplay.push("Bakery");
+    activitiesDisplay.push("Bakery");
     setAct(act + 1);
     console.log(activities);
   };
   const addTheater = () => {
     activities.push("movie_theater");
-    activitesDisplay.push("Movie Theater");
+    activitiesDisplay.push("Movie Theater");
     setAct(act + 1);
     console.log(activities);
   };
   const addCafe = () => {
     activities.push("cafe");
-    activitesDisplay.push("Cafe");
+    activitiesDisplay.push("Cafe");
     setAct(act + 1);
     console.log(activities);
   };
   const addPark = () => {
     activities.push("park");
-    activitesDisplay.push("Park");
+    activitiesDisplay.push("Park");
     setAct(act + 1);
-    console.log("display: ", activitesDisplay);
+    console.log("display: ", activitiesDisplay);
   };
   const addBookstore = () => {
     activities.push("book_store");
-    activitesDisplay.push("Book Store");
+    activitiesDisplay.push("Book Store");
     setAct(act + 1);
     console.log(activities);
   };
   const addAttraction = () => {
     activities.push("tourist_attraction");
-    activitesDisplay.push("Tourist Attraction");
+    activitiesDisplay.push("Tourist Attraction");
     setAct(act + 1);
-    console.log("display: ", activitesDisplay);
+    console.log("display: ", activitiesDisplay);
   };
 
   const deleteList = () => {
     activities = [];
-    activitesDisplay = [];
+    activitiesDisplay = [];
     setAct(act + 1);
     console.log("activities in delete list: ", activities);
   };
@@ -187,6 +190,7 @@ const Recommendations = () => {
             // location.href = "/itinerary";
           }
         });
+      setErrorMessage("");
     } else {
       if (isAddressValid === false) setAddressDirty(true);
       if (isSelectedValid === false) setSelectedDirty(true);
@@ -242,7 +246,7 @@ const Recommendations = () => {
 
   const activityObjects = [];
 
-  for (const [index, value] of activitesDisplay.entries()) {
+  for (const [index, value] of activitiesDisplay.entries()) {
     activityObjects.push(
       <Typography
         style={{
@@ -409,7 +413,7 @@ const Recommendations = () => {
               error={addressDirty && isAddressValid === false}
               helperText={
                 addressDirty && isAddressValid === false
-                  ? "Please enter starting location"
+                  ? "Please enter valid starting location"
                   : ""
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
