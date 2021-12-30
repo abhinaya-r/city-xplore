@@ -39,6 +39,7 @@ async function create(users) {
   if (result.length) {
     message = "User created successfully";
     console.log(result.length);
+    return { token };
   }
   console.log("message:", message);
   console.log("token:", token);
@@ -47,14 +48,18 @@ async function create(users) {
 
 async function get(user) {
   console.log("getting user: ", user.query);
-  const result = await db.query("SELECT * FROM users WHERE email = $1 AND password = $2", [
-    user.query.email, user.query.password
-  ]);
+  const result = await db.query(
+    "SELECT * FROM users WHERE email = $1 AND password = $2",
+    [user.query.email, user.query.password]
+  );
   let message = "Error in getting user";
   console.log("result: ", result);
   if (result.length) {
     message = "Got User successfully";
-    return {token: result[0].token};
+    console.log("token: ", result[0].token);
+    let token = result[0].token;
+    console.log(token);
+    return { token };
   }
   return null;
 }

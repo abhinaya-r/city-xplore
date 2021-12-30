@@ -65,10 +65,14 @@ async function signupUser(credentials) {
   //   console.log("response data: ", data);
   //   data.json()
   // });
+
   return axios
     .post("https://city-xplore.herokuapp.com/users", credentials)
     .then((response) => response.data)
     .catch((error) => console.error(error));
+  // return axios
+  // .post("http://localhost:3001/users", credentials)
+  // .then((response) => response.data);
 }
 
 const Signup = ({ setToken }) => {
