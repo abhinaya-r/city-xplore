@@ -66,7 +66,7 @@ export default function Header(props) {
         <Toolbar>
           <div>
             <Link
-              to="/dashboard"
+              to="/homepage"
               style={{
                 color: "white",
                 font: "Manrope, sans-serif",
