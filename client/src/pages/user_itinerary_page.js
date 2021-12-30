@@ -64,6 +64,14 @@ const UserItinerary = () => {
     window.location.reload(false);
   };
 
+  const handleBack = () => {
+    window.location.href = "/getitinerary";
+  };
+
+  const handleSave = () => {
+    //save itinerary
+  };
+
   const getNewItinerary = () => {
     axios
       .get("/api/new_itinerary")
@@ -108,8 +116,8 @@ const UserItinerary = () => {
               textAlign: "left",
             }}
           >
-            <Tooltip title="Change parameters">
-              <IconButton>
+            <Tooltip title="Create new form">
+              <IconButton onClick={handleBack}>
                 <ArrowBackIcon
                   sx={{
                     color: "#919E6A",
@@ -174,6 +182,7 @@ const UserItinerary = () => {
             }}
           >
             <Button
+              onClick={handleSave}
               style={{
                 color: "white",
                 backgroundColor: "#919E6A",
