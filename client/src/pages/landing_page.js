@@ -69,7 +69,7 @@ const LandingPage = () => {
       <Header />
       <Card style={cardStyle}>
         <Typography style={typeStyle}>
-          CityXplore helps you find personalized activities to do in your city.
+          CityXplore helps you find the best activities to do in your city.
         </Typography>
         <Link to="/signup" style={{ textDecoration: "none" }}>
           <Button style={buttonStyle}>Sign up!</Button>
