@@ -19,6 +19,7 @@ import ItineraryPage from "./pages/itinerary_page";
 import UserItineraryPage from "./pages/user_itinerary_page";
 import AboutPage from "./pages/about";
 import useToken from "./hooks/useToken";
+import HomePage from "./pages/homepage";
 
 function PrivateOutlet() {
   const auth = useToken();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/getitinerary" element={<ItineraryPage />} />
           <Route exact path="/itinerary" element={<UserItineraryPage />} />
+          <Route exact path="/homepage" element={<HomePage />} />
         </Route>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage setToken={setToken} />} />
