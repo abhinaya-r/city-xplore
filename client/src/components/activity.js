@@ -6,7 +6,6 @@ import IconButton from "@material-ui/core/Button";
 import Button from "@material-ui/core/Button";
 import { Tooltip } from "@material-ui/core";
 import BlacklistIcon from "@mui/icons-material/DoDisturb";
-import MenuIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Dialog from "@mui/material/Dialog";
@@ -52,11 +51,6 @@ export default function Activity(props) {
     setColor("#808080");
     setOpen(false);
   };
-
-  // React.useEffect(() => {
-  //   setColor("#FFF6F1");
-  // });
-
   return (
     <div>
       <Box
