@@ -22,6 +22,9 @@ const Mainpage = () => {
     <div style={{ height: "100vh" }}>
       <Header />
       <Grid container justifyContent="center" spacing={3}>
+        <Typography variant="h5" style={typeStyle}>
+          Your CityXplore Dashboard!
+        </Typography>
         <Grid
           item
           xs={12}
