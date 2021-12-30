@@ -109,36 +109,42 @@ const Recommendations = () => {
     activities.push("restaurant");
     activitiesDisplay.push("Restaurant");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addBar = () => {
     activities.push("bar");
     activitiesDisplay.push("Bar");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addMuseum = () => {
     activities.push("museum");
     activitiesDisplay.push("Museum");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addBakery = () => {
     activities.push("bakery");
     activitiesDisplay.push("Bakery");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addTheater = () => {
     activities.push("movie_theater");
     activitiesDisplay.push("Movie Theater");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addCafe = () => {
     activities.push("cafe");
     activitiesDisplay.push("Cafe");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addPark = () => {
@@ -151,12 +157,14 @@ const Recommendations = () => {
     activities.push("book_store");
     activitiesDisplay.push("Book Store");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log(activities);
   };
   const addAttraction = () => {
     activities.push("tourist_attraction");
     activitiesDisplay.push("Tourist Attraction");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log("display: ", activitiesDisplay);
   };
 
@@ -164,17 +172,13 @@ const Recommendations = () => {
     activities = [];
     activitiesDisplay = [];
     setAct(act + 1);
+    setSelectedIsValid(false);
     console.log("activities in delete list: ", activities);
   };
 
   const isDashboard = "false";
 
   const createItinerary = () => {
-    console.log("create itinerary");
-    console.log("activities: ", activities.length);
-    if (activities.length == 0) setSelectedIsValid(false);
-    else setSelectedIsValid(true);
-
     if (isAddressValid && isSelectedValid) {
       axios
         .post("api/new_itinerary", {
@@ -190,8 +194,9 @@ const Recommendations = () => {
             // location.href = "/itinerary";
           }
         });
-      setErrorMessage("");
     } else {
+      console.log("isAddressValid: ", isAddressValid);
+      console.log("isSelectedValid: ", isSelectedValid);
       if (isAddressValid === false) setAddressDirty(true);
       if (isSelectedValid === false) setSelectedDirty(true);
       setErrorMessage("Please fix form errors");
@@ -281,6 +286,7 @@ const Recommendations = () => {
         >
           Itinerary Form
         </Typography>
+        {/* <form onSubmit={createItinerary}> */}
         <Grid container spacing={0} style={{ paddingBottom: "20px" }}>
           <Grid container xs={9} style={buttonStyle}>
             <Typography
@@ -321,7 +327,7 @@ const Recommendations = () => {
               </Button>
             </Grid>
             <Grid item xs={4} style={buttonStyle}>
-              <Button onClick={addBar} style={buttonTextStyle}>
+              <Button onClick={addBar} value={"Bars"} style={buttonTextStyle}>
                 Bars (21+)
               </Button>
             </Grid>
@@ -418,6 +424,7 @@ const Recommendations = () => {
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
               onInput={handleAddress}
+              value={address}
               style={textfieldStyle}
               style={{ backgroundColor: "white", borderRadius: 5 }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
@@ -465,7 +472,6 @@ const Recommendations = () => {
               <MenuItem value={30}>50</MenuItem>
             </TextField>
           </Grid>
-
           <Grid
             item
             xs={6}
@@ -587,6 +593,7 @@ const Recommendations = () => {
             * This indicates these fields are required
           </Typography>
         </Grid>
+        {/* </form> */}
       </Card>
     </div>
   );
