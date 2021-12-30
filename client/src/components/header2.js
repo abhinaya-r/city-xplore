@@ -3,7 +3,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import SimpleMenu2 from "./simple_menu2";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
 
 export default function Header(props) {
   const grow = {
@@ -33,7 +34,29 @@ export default function Header(props) {
             </Link>
           </div>
           <div style={grow} />
-          <SimpleMenu2></SimpleMenu2>
+
+          <Tooltip title="About" style={{ color: "white" }}>
+            <Link
+              to="/about"
+              style={{
+                color: "white",
+                font: "Manrope, sans-serif",
+                textDecoration: "none",
+              }}
+            >
+              <Button style={{ color: "white" }}>About</Button>
+            </Link>
+          </Tooltip>
+          <Tooltip title="Log in" style={{ color: "white" }}>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button style={{ color: "white" }}>Log in</Button>
+            </Link>
+          </Tooltip>
+          <Tooltip title="Sign up" style={{ color: "white" }}>
+            <Link to="/signup" style={{ textDecoration: "none" }}>
+              <Button style={{ color: "white" }}>Sign up</Button>
+            </Link>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Toolbar />

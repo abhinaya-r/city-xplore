@@ -70,8 +70,8 @@ const About = () => {
       <Card style={cardStyle}>
         <Typography style={typeStyle}>Welcome to CityXplore!</Typography>
         <Typography style={typeStyle}>
-          Whether you are a newcomer to NYC, a long-time resident, or a visitor,
-          we hope we can help you plan a fun outing!
+          Whether you are a newcomer to a city, a long-time resident, or a
+          visitor, we hope we can help you plan a fun outing!
         </Typography>
         <Typography
           style={{
@@ -84,8 +84,7 @@ const About = () => {
           }}
         >
           To begin, go to "My Dashboard" and create a new itinerary. You can
-          browse through past itineraries and provide feedback on the
-          recommendations.
+          browse through past itineraries and favorited activities.
         </Typography>
       </Card>
     </div>
