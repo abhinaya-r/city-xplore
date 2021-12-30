@@ -116,7 +116,7 @@ const Login = ({ setToken }) => {
       });
       console.log(token);
       setToken(token);
-      window.location.href = "/dashboard";
+      window.location.href = "/homepage";
     } catch {
       setErrorMessage("Invalid email or password. Please try again.");
     }
