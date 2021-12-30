@@ -11,6 +11,6 @@ CREATE TABLE [IF NOT EXISTS] users (
 );
 
 CREATE TABLE itineraries (
-   user_id INTEGER PRIMARY KEY,
-   itineraries JSON []
+   user_id INTEGER,
+   itinerary JSON [],
 );

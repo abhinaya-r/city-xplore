@@ -6,8 +6,14 @@ import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
 import Itinerary from "../components/itinerary";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Mainpage = () => {
+  getPastItineraries = () => {
+    let tk = localStorage.getItem('token')
+    let token = JSON.parse(tk);
+    return axios.get(`https://city-xplore.herokuapp.com/itineraries?token=${token}`).then((res) => res.data)
+  }
   const typeStyle = {
     font: "Manrope, sans-serif",
     color: "#919E6A",
