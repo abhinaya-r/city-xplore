@@ -57,6 +57,9 @@ export default function Header(props) {
   const handleProfile = () => {
     window.location.href = "/profile";
   };
+  const handleItinerary = () => {
+    window.location.href = "/getitinerary";
+  };
   return (
     <div>
       <AppBar style={appBar} style={{ background: "#79C9D6" }}>
@@ -96,14 +99,17 @@ export default function Header(props) {
             anchorEl={anchorEl}
             getContentAnchorEl={null}
           >
-            <MenuItem onClick={handleDashboard} style={{ color: "white" }}>
-              My Dashboard
-            </MenuItem>
             <MenuItem onClick={handleAbout} style={{ color: "white" }}>
               About
             </MenuItem>
+            <MenuItem onClick={handleDashboard} style={{ color: "white" }}>
+              My Dashboard
+            </MenuItem>
             <MenuItem onClick={handleProfile} style={{ color: "white" }}>
               My Profile
+            </MenuItem>
+            <MenuItem onClick={handleItinerary} style={{ color: "white" }}>
+              Create Itinerary
             </MenuItem>
             <MenuItem onClick={handleSignout} style={{ color: "white" }}>
               Sign out

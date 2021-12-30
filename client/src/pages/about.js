@@ -84,7 +84,8 @@ const About = () => {
           }}
         >
           To begin, go to "My Dashboard" and create a new itinerary. You can
-          browse through past itineraries and favorited activities.
+          also browse through past itineraries and favorited activities.We hope
+          you enjoy!
         </Typography>
       </Card>
     </div>
