@@ -242,7 +242,7 @@ const Signup = ({ setToken }) => {
       if (allValid) {
         setToken(token);
         console.log(token);
-        // window.location.href = "/dashboard";
+        window.location.href = "/dashboard";
       } else {
         if (isFirstNameValid === false) setFnDirty(true);
         if (isLastNameValid === false) setLnDirty(true);
