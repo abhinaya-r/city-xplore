@@ -13,7 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
+const axios = require("axios");
 
 let uriBase = 'http://localhost:3000';
 if (process.env.NODE_ENV == 'production') {
@@ -31,13 +31,36 @@ const useStyles = makeStyles({
 const ProfilePage = () => {
   const [alignment, setAlignment] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [name, setName] = React.useState("Ishani Kulkarni");
-  const [email, setEmail] = React.useState("isk@princeton.edu");
-  const [birthday, setBirthday] = React.useState("07/18/2000");
-  const [gender, setGender] = React.useState("Female");
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [birthday, setBirthday] = React.useState("");
+  const [gender, setGender] = React.useState("");
   const [subscription, setSubscription] = React.useState("Premium");
 
   const classes = useStyles();
+
+  const getUserInfo = () => {
+    let token = localStorage.getItem('token')
+    let tk = JSON.parse(token);
+    axios
+      .get(`/users/all_info?token=${tk.token}`)
+      .then((response) => {
+        console.log("response: ", response)
+        const user = response.data.user;
+        setName(user.first_name + " " + user.last_name)
+        setEmail(user.email)
+        setBirthday(user.birthday)
+        setGender(user.gender)
+        
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+ 
+  }
+
+
+  React.useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const handleAlignment = (event, newAlignment) => {
     setAlignment(newAlignment);
