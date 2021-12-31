@@ -16,7 +16,6 @@ const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
 const crypto = require("crypto");
 
 var usersRouter = require("./users");
-
 var itinRouter = require("./itineraries");
 
 console.log("env: ", process.env.NODE_ENV)
@@ -36,7 +35,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/users", usersRouter);
-
+app.use("/itineraries", itinRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
@@ -64,10 +63,9 @@ let startpoint = "";
 let activities = [];
 
 app.get("/api/new_itinerary", (req, res) => {
-  console.log("get new itinerary");
   console.log(activities);
   console.log("startpoint:", startpoint);
-  let itinerary = [];
+  let promises = [];
   // let prev_latlong = '40.748817%2C-73.985428';
   // let prev_latlong = '40.741112%2C-73.989723'
   let prev_latlong = startpoint;
@@ -104,17 +102,17 @@ app.get("/api/new_itinerary", (req, res) => {
           url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address&key=${key}`,
           headers: {},
         };
-        console.log("ind: ", i);
+        // console.log("ind: ", i);
         axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            // console.log(JSON.stringify(response.data));
             let address = response.data["result"]["formatted_address"];
             let curr_event = {
               name: place_name,
               rating: rating,
               address: address,
             };
-            itinerary.push(curr_event);
+            promises.push(curr_event);
             if (i == activities.length - 1) {
               axios.post("http://localhost:3001/itineraries", itinerary);
               res.send(itinerary);
@@ -123,12 +121,12 @@ app.get("/api/new_itinerary", (req, res) => {
           .catch(function (error) {
             console.log(error);
           });
-        console.log("activity: ", activities[i], " itinerary: ", itinerary);
+        // console.log("activity: ", activities[i], " itinerary: ", itinerary);
       })
       .catch(function (error) {
         console.log(error);
       });
-    console.log("itinerary: ", itinerary);
+    // console.log("itinerary: ", itinerary);
   }
 });
 app.post("/api/login", function (req, res) {

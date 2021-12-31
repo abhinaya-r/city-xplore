@@ -4,7 +4,8 @@ const users = require('../services/users');
 
 /* GET quotes listing. */
 router.get('/', async function(req, res, next) {
-  // console.log("getting user: ", req)
+  console.log("hi")
+  console.log("getting user: ", req)
   try {
     res.json(await users.get(req));
   } catch (err) {
@@ -16,7 +17,7 @@ router.get('/', async function(req, res, next) {
 
 /* POST quotes */
 router.post('/', async function(req, res, next) {
-  console.log("posting user: ", req.body)
+  // console.log("posting user: ", req.body)
   try {
     res.json(await users.create(req.body));
   } catch (err) {
