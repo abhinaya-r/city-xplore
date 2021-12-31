@@ -14,6 +14,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
+
 const useStyles = makeStyles({
   input: {
     color: "white",
