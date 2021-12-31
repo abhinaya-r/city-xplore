@@ -8,12 +8,19 @@ import Itinerary from "../components/itineraryDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
+
 const Mainpage = () => {
   const getPastItineraries = () => {
     let tk = localStorage.getItem("token");
     let token = JSON.parse(tk);
     return axios
-      .get(`https://city-xplore.herokuapp.com/itineraries?token=${token}`)
+      .get(`${uriBase}/itineraries?token=${token}`)
       .then((res) => {
         console.log(res.data);
       });

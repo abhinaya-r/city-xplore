@@ -204,8 +204,6 @@ const Recommendations = () => {
           if (response.data["status"] == "SUCCESS") {
             console.log("success");
             window.location.href = "/itinerary";
-            // setNextPage("/itinerary");
-            // location.href = "/itinerary";
           }
         });
     } else {
