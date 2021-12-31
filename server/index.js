@@ -93,16 +93,10 @@ app.get("/api/new_itinerary", (req, res) => {
   console.log(activities);
   console.log("startpoint:", startpoint);
   let itinerary = [];
-  // let prev_latlong = '40.748817%2C-73.985428';
-  // let prev_latlong = '40.741112%2C-73.989723'
   let prev_latlong = startpoint;
-  // activities = ['bakery', 'museum', 'restaurant'];
   let place_id = "";
   for (let i = 0; i < activities.length; i += 1) {
-    console.log(activities[i]);
     let latlong = prev_latlong;
-    // const radius = "3218";
-    console.log("radius: ", radius)
     const type = activities[i];
 
     var config = {

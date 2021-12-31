@@ -69,13 +69,15 @@ const UserItinerary = () => {
   };
 
   const handleSave = () => {
-    //save itinerary
-  };
-
-  const getNewItinerary = () => {
     let token = localStorage.getItem('token')
     let tk = JSON.parse(token);
     console.log(token);
+    axios.post("https://city-xplore.herokuapp.com/itineraries", {date: getDate(), itinerary:itinerary, token:tk.token})
+        .then((res) => console.log("response: ", res))
+        .catch((error) => console.error(`Error: ${error}`));
+  };
+
+  const getNewItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
@@ -84,9 +86,6 @@ const UserItinerary = () => {
         console.log("posting itinerary")
         console.log("message: ", response.data.message)
         console.log("itinerary: ", response.data.itinerary)
-        // axios.post("https://city-xplore.herokuapp.com/itineraries", {date: getDate(), itinerary:response.data, token:tk.token})
-        // .then((res) => console.log("response: ", res))
-        // .catch((error) => console.error(`Error: ${error}`));
       })
       .catch((error) => console.error(`Error: ${error}`));
  
