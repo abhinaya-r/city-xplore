@@ -32,6 +32,12 @@ const crypto = require("crypto");
 //     body: JSON.stringify(credentials),
 //   }).then((data) => data.json());
 // }
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -65,8 +71,9 @@ async function signupUser(credentials) {
   //   console.log("response data: ", data);
   //   data.json()
   // });
+
   return axios
-    .post("https://city-xplore.herokuapp.com/users", credentials)
+    .post(`${uriBase}/users`, credentials)
     .then((response) => response.data)
     .catch((error) => console.error(error));
 }
@@ -235,7 +242,7 @@ const Signup = ({ setToken }) => {
       if (allValid) {
         setToken(token);
         console.log(token);
-        window.location.href = "/dashboard";
+        // window.location.href = "/dashboard";
       } else {
         if (isFirstNameValid === false) setFnDirty(true);
         if (isLastNameValid === false) setLnDirty(true);

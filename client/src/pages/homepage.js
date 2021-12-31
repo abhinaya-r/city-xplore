@@ -14,11 +14,17 @@ import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 
 const crypto = require("crypto");
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
 
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
   return fetch(
-    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password_hash}`,
+    `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
     {
       method: "GET",
       headers: {
