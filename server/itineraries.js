@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../services/itineraries");
+const itineraries = require("../services/itineraries");
 
 /* GET quotes listing. */
 router.get("/", async function (req, res, next) {
-  // console.log("getting user: ", req)
+  console.log("hi");
+  console.log("getting itineraries: ", req);
+  //   res.send("hello world")
   try {
     res.json(await itineraries.get(req));
   } catch (err) {
@@ -15,11 +17,11 @@ router.get("/", async function (req, res, next) {
 
 /* POST quotes */
 router.post("/", async function (req, res, next) {
-  console.log("posting user: ", req.body);
+  console.log("posting itinerary: ", req.body);
   try {
     res.json(await itineraries.create(req.body));
   } catch (err) {
-    console.error(`Error while posting itinerary `, err.message);
+    console.error(`Error while posting itineraries `, err.message);
     next(err);
   }
 });
