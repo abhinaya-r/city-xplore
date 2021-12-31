@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Header from "../components/header2";
 import landingImage from "../images/landingImage.png";
 import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 
 const LandingPage = () => {
   const [data, setData] = React.useState(null);
@@ -23,11 +24,13 @@ const LandingPage = () => {
     paddingLeft: "30px",
     paddingRight: "30px",
     paddingBottom: "3px",
+    marginRight: "10px",
     fontWeight: "bold",
     textTransform: "none",
     minWidth: "239px",
     minHeight: "58px",
     fontSize: "24px",
+    justifyContent: "center",
   };
 
   const cardStyle = {
@@ -40,20 +43,11 @@ const LandingPage = () => {
     borderStyle: "none",
     borderWidth: 0,
     width: "35%",
-    height: "60%",
-    textAlign: "left",
+    height: "65%",
+    textAlign: "center",
     padding: "60px",
     backgroundColor: "white",
     boxShadow: "none",
-  };
-
-  const typeStyle = {
-    fontFamily: "Manrope, sans-serif",
-    color: "#919E6A",
-    fontSize: "45px",
-    paddingBottom: "0px",
-    textAlign: "left",
-    fontWeight: "bold",
   };
 
   const imageStyle = {
@@ -64,16 +58,62 @@ const LandingPage = () => {
     top: 100,
   };
 
+  const handleSignup = () => {
+    window.location.href = "/signup";
+  };
+
+  const handleLogin = () => {
+    window.location.href = "/login";
+  };
+
   return (
     <div>
       <Header />
       <Card style={cardStyle}>
-        <Typography style={typeStyle}>
-          CityXplore helps you find the best activities to do in your city.
+        <Typography
+          style={{
+            fontFamily: "Manrope, sans-serif",
+            color: "#919E6A",
+            fontSize: "55px",
+            paddingBottom: "0px",
+            textAlign: "left",
+            fontWeight: "bold",
+            marginTop: "20px",
+            textAlign: "center",
+          }}
+        >
+          CityXplore
         </Typography>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button style={buttonStyle}>Sign up!</Button>
-        </Link>
+        <Typography
+          style={{
+            fontFamily: "Manrope, sans-serif",
+            color: "#919E6A",
+            fontSize: "35px",
+            paddingBottom: "0px",
+            textAlign: "left",
+            fontStyle: "italic",
+            marginBottom: "30px",
+            textAlign: "center",
+          }}
+        >
+          The Future of Fun
+        </Typography>
+        <Typography
+          style={{
+            fontFamily: "Manrope, sans-serif",
+            color: "#919E6A",
+            fontSize: "25px",
+            paddingBottom: "0px",
+            textAlign: "left",
+            textAlign: "center",
+          }}
+        >
+          We can help you find the best activities to do in your city. Sign up
+          today!
+        </Typography>
+        <Button style={buttonStyle} onClick={handleSignup}>
+          Sign up!
+        </Button>
       </Card>
       <img src={landingImage} style={imageStyle} />
     </div>

@@ -16,7 +16,6 @@ const Mainpage = () => {
     paddingTop: "20px",
     fontSize: "30px",
   };
-  const isRefresh = "false";
 
   return (
     <div style={{ height: "100vh" }}>
@@ -39,7 +38,7 @@ const Mainpage = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ paddingTop: "30px", paddingLeft: "200px" }}>
-          <Itinerary isRefresh={isRefresh}></Itinerary>
+          <Itinerary></Itinerary>
         </Grid>
         {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
           <Itinerary></Itinerary>

@@ -21,7 +21,7 @@ export default function Header(props) {
         <Toolbar>
           <div>
             <Link
-              to="/dashboard"
+              to="/"
               style={{
                 color: "white",
                 font: "Manrope, sans-serif",
@@ -35,18 +35,6 @@ export default function Header(props) {
           </div>
           <div style={grow} />
 
-          <Tooltip title="About" style={{ color: "white" }}>
-            <Link
-              to="/about"
-              style={{
-                color: "white",
-                font: "Manrope, sans-serif",
-                textDecoration: "none",
-              }}
-            >
-              <Button style={{ color: "white" }}>About</Button>
-            </Link>
-          </Tooltip>
           <Tooltip title="Log in" style={{ color: "white" }}>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Button style={{ color: "white" }}>Log in</Button>
