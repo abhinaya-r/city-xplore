@@ -12,13 +12,22 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
+import { letterSpacing } from "@mui/system";
 
 const crypto = require("crypto");
 
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplpre.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
+
 async function loginUser(credentials) {
   console.log("credentials:", credentials);
+  console.log(uriBase)
   return fetch(
-    `https://city-xplore.herokuapp.com/users?email=${credentials.email}&password=${credentials.password_hash}`,
+    `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
     {
       method: "GET",
       headers: {
@@ -116,7 +125,7 @@ const Login = ({ setToken }) => {
       });
       console.log(token);
       setToken(token);
-      window.location.href = "/homepage";
+      // window.location.href = "/homepage";
     } catch {
       setErrorMessage("Invalid email or password. Please try again.");
     }
