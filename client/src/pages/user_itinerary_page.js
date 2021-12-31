@@ -79,13 +79,14 @@ const UserItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
-        const allActivities = response.data;
+        const allActivities = response.data.itinerary;
         getItinerary(allActivities);
         console.log("posting itinerary")
-        console.log("itinerary: ", response.data)
-        axios.post("https://city-xplore.herokuapp.com/itineraries", {date: getDate(), itinerary:response.data, token:tk.token})
-        .then((res) => console.log("response: ", res))
-        .catch((error) => console.error(`Error: ${error}`));
+        console.log("message: ", response.data.message)
+        console.log("itinerary: ", response.data.itinerary)
+        // axios.post("https://city-xplore.herokuapp.com/itineraries", {date: getDate(), itinerary:response.data, token:tk.token})
+        // .then((res) => console.log("response: ", res))
+        // .catch((error) => console.error(`Error: ${error}`));
       })
       .catch((error) => console.error(`Error: ${error}`));
  
