@@ -77,7 +77,7 @@ const UserItinerary = () => {
         .catch((error) => console.error(`Error: ${error}`));
   };
 
-  const getNewItinerary = () => {
+  const getNewItinerary = () => { 
     axios
       .get("/api/new_itinerary")
       .then((response) => {

@@ -64,8 +64,26 @@ async function get(user) {
   return null;
 }
 
+async function getAll(token) {
+  console.log("getting token: ", token.query);
+  const getToken = token.query.token;
+  const result = await db.query(
+    "SELECT * FROM users WHERE token = $1",
+    [getToken]
+  );
+  let message = "Error in getting user";
+  console.log("result: ", result[0]);
+  if (result.length) {
+    message = "Got User successfully";
+    console.log("token: ", result[0].token);
+    return {message: message, user: result[0]};
+  }
+  return null;
+}
+
 module.exports = {
   getMultiple,
   create,
   get,
+  getAll
 };
