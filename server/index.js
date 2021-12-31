@@ -76,7 +76,7 @@ app.post("/api/new_itinerary", function (req, res) {
   };
   axios(config)
     .then(function (response) {
-      console.log("response: ", response.data["results"][0]["geometry"]);
+      // console.log("response: ", response.data["results"][0]["geometry"]);
       let location = response.data["results"][0]["geometry"]["location"];
       startpoint = location["lat"] + "%2C" + location["lng"];
     })
@@ -170,7 +170,7 @@ app.post("/api/login", function (req, res) {
     .get("/users", { params: user })
     .then((res) => {
       result = res.data.result[0];
-      console.log("response: ", res.data.result[0]);
+      // console.log("response: ", res.data.result[0]);
       p_prime = crypto.createHash("md5").update(user.password).digest("hex");
       if (p_prime == result.password) {
         logged_in = true;
