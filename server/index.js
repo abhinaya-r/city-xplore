@@ -19,6 +19,16 @@ var usersRouter = require("./users");
 
 var itinRouter = require("./itineraries");
 
+console.log("env: ", process.env.NODE_ENV)
+axios.default.baseURL = 'http://localhost:3001/';
+if (process.env.NODE_ENV == 'production') {
+  axios.default.baseURL = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  axios.default.baseURL = 'https://test-xplore.herokuapp.com'
+}
+
+
+
 // const db = require('../database/models/index.js');
 
 app.use(cors());
