@@ -18,7 +18,7 @@ const crypto = require("crypto");
 
 let uriBase = 'http://localhost:3000';
 if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplpre.herokuapp.com'
+  uriBase = 'https://city-xplore.herokuapp.com'
 } else if (process.env.NODE_ENV == 'prod-test') {
   uriBase = 'https://test-xplore.herokuapp.com'
 }
