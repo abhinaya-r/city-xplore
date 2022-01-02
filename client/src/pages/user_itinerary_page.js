@@ -21,6 +21,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import axios from "axios";
 
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
+}
+
 const getDate = () => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -72,7 +79,7 @@ const UserItinerary = () => {
     let token = localStorage.getItem('token')
     let tk = JSON.parse(token);
     console.log(token);
-    axios.post("https://city-xplore.herokuapp.com/itineraries", {date: getDate(), itinerary:itinerary, token:tk.token})
+    axios.post(`${uriBase}/itineraries`, {date: getDate(), itinerary:itinerary, token:tk.token})
         .then((res) => console.log("response: ", res))
         .catch((error) => console.error(`Error: ${error}`));
   };

@@ -49,7 +49,7 @@ const ProfilePage = () => {
         const user = response.data.user;
         setName(user.first_name + " " + user.last_name)
         setEmail(user.email)
-        setBirthday(user.birthday)
+        setBirthday(user.birthday.split("T")[0])
         setGender(user.gender)
         
       })
@@ -77,6 +77,28 @@ const ProfilePage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleSubmit = () => {
+    let token = localStorage.getItem('token')
+    let tk = JSON.parse(token);
+    console.log(token);
+    const user = {
+      first_name: name.split(" ")[0],
+      last_name: name.split(" ")[1],
+      email: email,
+      password: "hi",
+      birthday: birthday,
+      token: tk.token,
+      gender: gender
+    }
+    axios.post(`${uriBase}/users/edit`, user)
+        .then((res) => console.log("response: ", res))
+        .catch((error) => console.error(`Error: ${error}`));
+    setOpen(false);
+    getUserInfo();
+    };
+    
+
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -312,7 +334,7 @@ const ProfilePage = () => {
               Cancel
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={handleSubmit}
               style={{ backgroundColor: "#919E6A", color: "white" }}
             >
               Update

@@ -17,6 +17,7 @@ const crypto = require("crypto");
 
 var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
+var activityRouter = require("./activities");
 
 console.log("env: ", process.env.NODE_ENV)
 axios.default.baseURL = 'http://localhost:3001/';
@@ -36,6 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use("/users", usersRouter);
 app.use("/itineraries", itinRouter);
+app.use("/activities", activityRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
