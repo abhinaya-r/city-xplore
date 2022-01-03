@@ -11,6 +11,12 @@ CREATE TABLE [IF NOT EXISTS] users (
 );
 
 CREATE TABLE itineraries (
-   user_id INTEGER PRIMARY KEY,
-   itineraries JSON []
+   user_id INTEGER,
+   itinerary JSON [],
 );
+
+CREATE TABLE activities (
+   user_id INTEGER,
+   activity JSON,
+   status VARCHAR (50)
+)

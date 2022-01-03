@@ -76,6 +76,9 @@ async function signupUser(credentials) {
     .post(`${uriBase}/users`, credentials)
     .then((response) => response.data)
     .catch((error) => console.error(error));
+  // return axios
+  // .post("http://localhost:3001/users", credentials)
+  // .then((response) => response.data);
 }
 
 const Signup = ({ setToken }) => {
@@ -242,7 +245,7 @@ const Signup = ({ setToken }) => {
       if (allValid) {
         setToken(token);
         console.log(token);
-        // window.location.href = "/dashboard";
+        window.location.href = "/dashboard";
       } else {
         if (isFirstNameValid === false) setFnDirty(true);
         if (isLastNameValid === false) setLnDirty(true);
