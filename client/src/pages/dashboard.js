@@ -4,27 +4,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
-import Itinerary from "../components/itineraryDashboard";
+import Itinerary from "../components/itinerary";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
-}
 
 const Mainpage = () => {
-  const getPastItineraries = () => {
-    let tk = localStorage.getItem("token");
-    let token = JSON.parse(tk);
-    return axios
-      .get(`${uriBase}/itineraries?token=${token}`)
-      .then((res) => {
-        console.log(res.data);
-      });
-  };
   const typeStyle = {
     font: "Manrope, sans-serif",
     color: "#919E6A",
@@ -33,22 +16,6 @@ const Mainpage = () => {
     paddingTop: "20px",
     fontSize: "30px",
   };
-
-  const handleItineraries = () => {
-    console.log("here");
-    let itins = [];
-    itins = getPastItineraries();
-    console.log("past itins: ", itins);
-  };
-
-  // const getPastItineraries = () => {
-  //   axios
-  //     .get("/api/")
-  //     .then((response) => {
-  //       const allPastItineraries = response.data;
-  //     })
-  //     .catch((error) => console.error(`Error: ${error}`));
-  // };
 
   return (
     <div style={{ height: "100vh" }}>
@@ -64,12 +31,13 @@ const Mainpage = () => {
             textAlign: "center",
             paddingTop: "10px",
           }}
+          columns={3}
         >
           <Typography variant="h5" style={typeStyle}>
             Past Itineraries:
           </Typography>
         </Grid>
-        <Grid item xs={12} style={{ paddingTop: "0px", paddingLeft: "200px" }}>
+        <Grid item xs={12} style={{ paddingTop: "30px", paddingLeft: "200px" }}>
           <Itinerary></Itinerary>
         </Grid>
         {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
