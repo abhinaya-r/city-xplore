@@ -46,8 +46,7 @@ const UserItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
-        const allActivities = response.data.itinerary;
-        const list = response.data.list
+        const allActivities = response.data;
         getItinerary(allActivities);
       })
       .catch((error) => console.error(`Error: ${error}`));

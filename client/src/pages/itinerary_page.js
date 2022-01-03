@@ -175,18 +175,6 @@ const Recommendations = () => {
     setSelectedIsValid(false);
     console.log("activities in delete list: ", activities);
   };
-  let radius = 30*1609;
-  const handleClickRadius = event => {
-    const { myValue } = event.currentTarget.dataset;
-    console.log(myValue) // --> 123
-    radius = myValue*1609;
-}
-  let price = 2;
-  const handleClickPrice = event => {
-    const { myValue } = event.currentTarget.dataset;
-    console.log(myValue) // --> 123
-    price = myValue;
-}
 
   const isDashboard = "false";
 
@@ -196,14 +184,14 @@ const Recommendations = () => {
         .post("api/new_itinerary", {
           activities: activities,
           address: address,
-          radius: radius,
-          price: price
         })
         .then((response) => {
           console.log(response.data);
           if (response.data["status"] == "SUCCESS") {
             console.log("success");
             window.location.href = "/itinerary";
+            // setNextPage("/itinerary");
+            // location.href = "/itinerary";
           }
         });
     } else {
@@ -478,10 +466,10 @@ const Recommendations = () => {
                 padding: "0px",
               }}
             >
-              <MenuItem onClick={handleClickRadius} value={10}>5</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={20}>10</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={30}>20</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={30}>50</MenuItem>
+              <MenuItem value={10}>5</MenuItem>
+              <MenuItem value={20}>10</MenuItem>
+              <MenuItem value={30}>20</MenuItem>
+              <MenuItem value={30}>50</MenuItem>
             </TextField>
           </Grid>
           <Grid
@@ -518,8 +506,7 @@ const Recommendations = () => {
               style={{ marginTop: "-10px" }}
             > */}
               <ToggleButton
-                value={1}
-                onClick={handleClickPrice}
+                value="p1"
                 style={{
                   fontSize: "15px",
                   outlineColor: "grey",
@@ -527,13 +514,11 @@ const Recommendations = () => {
                   outlineStyle: "solid",
                   color: "black",
                 }}
-                
               >
                 {"  "}$
               </ToggleButton>
               <ToggleButton
-                value={2}
-                onClick={handleClickPrice}
+                value="p2"
                 style={{
                   fontSize: "15px",
                   outlineColor: "grey",
@@ -545,8 +530,7 @@ const Recommendations = () => {
                 $${" "}
               </ToggleButton>
               <ToggleButton
-                value={3}
-                onClick={handleClickPrice}
+                value="p3"
                 style={{
                   fontSize: "15px",
                   outlineColor: "grey",
