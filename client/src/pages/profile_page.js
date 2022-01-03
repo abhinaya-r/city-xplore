@@ -15,11 +15,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 const axios = require("axios");
 
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
 const useStyles = makeStyles({
@@ -40,23 +40,20 @@ const ProfilePage = () => {
   const classes = useStyles();
 
   const getUserInfo = () => {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     axios
       .get(`/users/all_info?token=${tk.token}`)
       .then((response) => {
-        console.log("response: ", response)
+        console.log("response: ", response);
         const user = response.data.user;
-        setName(user.first_name + " " + user.last_name)
-        setEmail(user.email)
-        setBirthday(user.birthday.split("T")[0])
-        setGender(user.gender)
-        
+        setName(user.first_name + " " + user.last_name);
+        setEmail(user.email);
+        setBirthday(user.birthday.split("T")[0]);
+        setGender(user.gender);
       })
       .catch((error) => console.error(`Error: ${error}`));
- 
-  }
-
+  };
 
   React.useEffect(() => {
     getUserInfo();
@@ -79,7 +76,7 @@ const ProfilePage = () => {
   };
 
   const handleSubmit = () => {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
     const user = {
@@ -89,16 +86,15 @@ const ProfilePage = () => {
       password: "hi",
       birthday: birthday,
       token: tk.token,
-      gender: gender
-    }
-    axios.post(`${uriBase}/users/edit`, user)
-        .then((res) => console.log("response: ", res))
-        .catch((error) => console.error(`Error: ${error}`));
+      gender: gender,
+    };
+    axios
+      .post(`${uriBase}/users/edit`, user)
+      .then((res) => console.log("response: ", res))
+      .catch((error) => console.error(`Error: ${error}`));
     setOpen(false);
     getUserInfo();
-    };
-    
-
+  };
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
