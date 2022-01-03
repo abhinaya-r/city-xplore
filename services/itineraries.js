@@ -17,6 +17,7 @@ async function getMultiple(page = 1) {
 }
 
 async function create(itinerary) {
+<<<<<<< HEAD
   console.log("creating user: ", itinerary);
   console.log(token);
   const result = await db.query(
@@ -41,19 +42,50 @@ async function create(itinerary) {
   console.log("message:", message);
   console.log("token:", token);
   return { message: message, token: token };
-}
-
-async function get(user) {
-  console.log("getting itineraries for user: ", user);
-  const result = await db.query("SELECT * FROM users WHERE email = $1", [
-    user.query.email,
+=======
+  console.log("creating itinerary: ", itinerary);
+  const user = await db.query("SELECT (user_id) FROM users WHERE token = $1", [
+    itinerary.token,
   ]);
-  let message = "Error in getting user";
+  let user_id = user[0].user_id;
+  console.log(user_id);
+  const result = await db.query(
+    "INSERT INTO itineraries(user_id, itinerary, date) VALUES ($1, $2, $3) RETURNING *",
+    [user_id, itinerary.itinerary, itinerary.date]
+  );
+
+  let message = "Error in creating itinerary";
   console.log("result: ", result);
   if (result.length) {
-    message = "Got User successfully";
+    message = "Itinerary created successfully";
+    console.log(result.length);
   }
-  return result[0];
+  console.log("message:", message);
+  return { message };
+>>>>>>> parent of 6c864819 (db changes)
+}
+
+async function get(token) {
+  console.log("getting token: ", token.body.token);
+  const getToken = token.body.token;
+  const user = await db.query("SELECT (user_id) FROM users WHERE token = $1", [
+    getToken,
+  ]);
+  console.log("user: ", user);
+  let user_id = user[0].user_id;
+  console.log(user_id);
+
+  const result = await db.query(
+    "SELECT * FROM itineraries WHERE user_id = $1",
+    [user_id]
+  );
+  let message = "Error in getting itineraries";
+  console.log("result: ", result);
+  if (result.length) {
+    message = "Got itineraries successfully";
+    return result;
+  }
+  return null;
 }
 
 module.exports = {

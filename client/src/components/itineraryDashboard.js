@@ -38,19 +38,16 @@ export default function Itinerary(props) {
                 name="Thompson Central Park New York"
                 rating="4.3"
                 address="119 W 56th St, New York, NY 10019"
-                isRefresh={props.isRefresh}
               />
               <Activity
                 name="The Museum of Modern Art"
                 rating="4.6"
                 address="11 W 53rd St, New York, NY 10019"
-                isRefresh={props.isRefresh}
               />
               <Activity
                 name="Magnolia Bakery - Rockefeller Center"
                 rating="4.4"
                 address="1240 6th Ave, New York, NY 10020"
-                isRefresh={props.isRefresh}
               />
             </CardContent>
           </Card>

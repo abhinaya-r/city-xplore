@@ -16,8 +16,8 @@ const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
 const crypto = require("crypto");
 
 var usersRouter = require("./users");
-
 var itinRouter = require("./itineraries");
+var activityRouter = require("./activities");
 
 console.log("env: ", process.env.NODE_ENV)
 axios.default.baseURL = 'http://localhost:3001/';
@@ -36,7 +36,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/users", usersRouter);
-
+app.use("/itineraries", itinRouter);
+app.use("/activities", activityRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
@@ -56,32 +57,53 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.post("api/new_itinerary", (req, res) => {
-  console.log("request data: ", req.body);
-});
 
 let startpoint = "";
 let activities = [];
+let radius = 30;
+let price = 2;
+
+app.post("/api/new_itinerary", function (req, res) {
+  const itinerary = req.body;
+  console.log("post req:", itinerary);
+  let address = itinerary.address;
+  activities = itinerary.activities;
+  radius = itinerary.radius;
+  price = itinerary.price;
+
+  config = {
+    method: "get",
+    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
+    headers: {},
+  };
+  axios(config)
+    .then(function (response) {
+      // console.log("response: ", response.data["results"][0]["geometry"]);
+      let location = response.data["results"][0]["geometry"]["location"];
+      startpoint = location["lat"] + "%2C" + location["lng"];
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+    });
+  res.send({ status: "SUCCESS" });
+  res.end();
+});
+
 
 app.get("/api/new_itinerary", (req, res) => {
-  console.log("get new itinerary");
   console.log(activities);
   console.log("startpoint:", startpoint);
   let itinerary = [];
-  // let prev_latlong = '40.748817%2C-73.985428';
-  // let prev_latlong = '40.741112%2C-73.989723'
   let prev_latlong = startpoint;
-  // activities = ['bakery', 'museum', 'restaurant'];
   let place_id = "";
   for (let i = 0; i < activities.length; i += 1) {
-    console.log(activities[i]);
     let latlong = prev_latlong;
-    const radius = "3218";
     const type = activities[i];
 
     var config = {
       method: "get",
-      url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&type=${type}&key=${key}`,
+      url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&price_level=${price}&type=${type}&key=${key}`,
       headers: {},
     };
     axios(config)
@@ -90,9 +112,10 @@ app.get("/api/new_itinerary", (req, res) => {
         // console.log("location: ", response.data["results"][0]["geometry"]["location"]);
         // console.log("place id: ", response.data["results"][0]["place_id"]);
         // console.log("rating: ", response.data["results"][0]["rating"]);
-
+        if (response.data["results"].length == 0) {
+          res.send({message: "Radius is too small"})
+        }
         let ind = Math.floor(Math.random() * response.data["results"].length);
-        console.log("index: ", ind);
         prev_latlong = response.data["results"][ind]["geometry"]["location"];
         let place_name = response.data["results"][ind]["name"];
         let rating = response.data["results"][ind]["rating"];
@@ -104,31 +127,31 @@ app.get("/api/new_itinerary", (req, res) => {
           url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address&key=${key}`,
           headers: {},
         };
-        console.log("ind: ", i);
+        // console.log("ind: ", i);
         axios(config)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            // console.log(JSON.stringify(response.data));
             let address = response.data["result"]["formatted_address"];
             let curr_event = {
               name: place_name,
               rating: rating,
               address: address,
+              type: type
             };
             itinerary.push(curr_event);
-            if (i == activities.length - 1) {
-              axios.post("http://localhost:3001/itineraries", itinerary);
-              res.send(itinerary);
+            if (itinerary.length == activities.length) {
+              res.send({message: "success", itinerary: itinerary, list: activities});
             }
           })
           .catch(function (error) {
             console.log(error);
           });
-        console.log("activity: ", activities[i], " itinerary: ", itinerary);
+        // console.log("activity: ", activities[i], " itinerary: ", itinerary);
       })
       .catch(function (error) {
         console.log(error);
       });
-    console.log("itinerary: ", itinerary);
+    // console.log("itinerary: ", itinerary);
   }
 });
 app.post("/api/login", function (req, res) {
@@ -143,7 +166,7 @@ app.post("/api/login", function (req, res) {
     .get("/users", { params: user })
     .then((res) => {
       result = res.data.result[0];
-      console.log("response: ", res.data.result[0]);
+      // console.log("response: ", res.data.result[0]);
       p_prime = crypto.createHash("md5").update(user.password).digest("hex");
       if (p_prime == result.password) {
         logged_in = true;
@@ -173,30 +196,6 @@ app.post("/api/signup", function (req, res) {
   });
 });
 
-app.post("/api/new_itinerary", function (req, res) {
-  const itinerary = req.body;
-  console.log("post req:", itinerary);
-  let address = itinerary.address;
-  activities = itinerary.activities;
-
-  config = {
-    method: "get",
-    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
-    headers: {},
-  };
-  axios(config)
-    .then(function (response) {
-      console.log("response: ", response.data["results"][0]["geometry"]);
-      let location = response.data["results"][0]["geometry"]["location"];
-      startpoint = location["lat"] + "%2C" + location["lng"];
-    })
-    .catch(function (error) {
-      console.log("error");
-      console.log(error);
-    });
-  res.send({ status: "SUCCESS" });
-  res.end();
-});
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
