@@ -15,29 +15,26 @@ const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
 
 const crypto = require("crypto");
 
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
 
-console.log("env: ", process.env.NODE_ENV)
-axios.default.baseURL = 'http://localhost:3001/';
-if (process.env.NODE_ENV == 'production') {
-  axios.default.baseURL = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  axios.default.baseURL = 'https://test-xplore.herokuapp.com'
+console.log("env: ", process.env.NODE_ENV);
+axios.default.baseURL = "http://localhost:3001/";
+if (process.env.NODE_ENV == "production") {
+  axios.default.baseURL = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  axios.default.baseURL = "https://test-xplore.herokuapp.com";
 }
 
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
-
-
-
 
 // const db = require('../database/models/index.js');
 
@@ -66,7 +63,6 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
-
 
 let startpoint = "";
 let activities = [];
@@ -100,7 +96,6 @@ app.post("/api/new_itinerary", function (req, res) {
   res.end();
 });
 
-
 app.get("/api/new_itinerary", (req, res) => {
   console.log(activities);
   console.log("startpoint:", startpoint);
@@ -123,7 +118,7 @@ app.get("/api/new_itinerary", (req, res) => {
         // console.log("place id: ", response.data["results"][0]["place_id"]);
         // console.log("rating: ", response.data["results"][0]["rating"]);
         if (response.data["results"].length == 0) {
-          res.send({message: "Radius is too small"})
+          res.send({ message: "Radius is too small" });
         }
         let ind = Math.floor(Math.random() * response.data["results"].length);
         prev_latlong = response.data["results"][ind]["geometry"]["location"];
@@ -146,11 +141,15 @@ app.get("/api/new_itinerary", (req, res) => {
               name: place_name,
               rating: rating,
               address: address,
-              type: type
+              type: type,
             };
             itinerary.push(curr_event);
             if (itinerary.length == activities.length) {
-              res.send({message: "success", itinerary: itinerary, list: activities});
+              res.send({
+                message: "success",
+                itinerary: itinerary,
+                list: activities,
+              });
             }
           })
           .catch(function (error) {
@@ -165,31 +164,31 @@ app.get("/api/new_itinerary", (req, res) => {
   }
 });
 
-app.get("/api/forgotpassword", function(req, res) {
-  const request = req.query
-  let url = `${uriBase}/resetpassword?token=${request.token}`
+app.get("/api/forgotpassword", function (req, res) {
+  const request = req.query;
+  let url = `${uriBase}/resetpassword?token=${request.token}`;
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 587,
     auth: {
-      user: 'cityxplorecontact@gmail.com',
-      pass: 'Cityxplore123',
+      user: "cityxplorecontact@gmail.com",
+      pass: "Cityxplore123",
     },
   });
   var mailOptions = {
-      from: 'cityxplorecontact@gmail.com',
-      to: request.email,
-      subject: 'Reset Password for City-Xplore',
-      text: 'Click here to reset your password: ' + url
-    };
-    
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    from: "cityxplorecontact@gmail.com",
+    to: request.email,
+    subject: "Reset Password for City-Xplore",
+    text: "Click here to reset your password: " + url,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 });
 app.post("/api/login", function (req, res) {
   // res.send({
@@ -232,7 +231,6 @@ app.post("/api/signup", function (req, res) {
     token: res_token,
   });
 });
-
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {

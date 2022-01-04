@@ -21,11 +21,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import axios from "axios";
 
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
 const getDate = () => {
@@ -51,6 +51,7 @@ const UserItinerary = () => {
     textAlign: "center",
     padding: "60px",
     backgroundColor: "#ACD7AB",
+    overflow: "auto",
   };
 
   const [itinerary, getItinerary] = React.useState(null);
@@ -76,26 +77,30 @@ const UserItinerary = () => {
   };
 
   const handleSave = () => {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
-    axios.post(`${uriBase}/itineraries`, {date: getDate(), itinerary:itinerary, token:tk.token})
-        .then((res) => console.log("response: ", res))
-        .catch((error) => console.error(`Error: ${error}`));
+    axios
+      .post(`${uriBase}/itineraries`, {
+        date: getDate(),
+        itinerary: itinerary,
+        token: tk.token,
+      })
+      .then((res) => console.log("response: ", res))
+      .catch((error) => console.error(`Error: ${error}`));
   };
 
-  const getNewItinerary = () => { 
+  const getNewItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
-        console.log("posting itinerary")
-        console.log("message: ", response.data.message)
-        console.log("itinerary: ", response.data.itinerary)
+        console.log("posting itinerary");
+        console.log("message: ", response.data.message);
+        console.log("itinerary: ", response.data.itinerary);
       })
       .catch((error) => console.error(`Error: ${error}`));
- 
   };
 
   React.useEffect(() => {
@@ -195,6 +200,8 @@ const UserItinerary = () => {
               marginTop: "0px",
               textAlign: "center",
               padding: "10px",
+              marginTop: "-20px",
+              marginBottom: "-40px",
             }}
           >
             <Button
