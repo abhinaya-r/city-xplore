@@ -14,10 +14,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import axios from "axios";
+
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
+}
+
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [color, setColor] = React.useState("#FFF6F1");
+  // const [activity, setActivity] = React.useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,8 +53,29 @@ export default function Activity(props) {
     marginBottom: "0px",
   };
 
+  // const addActivity = (props) => {
+  //   setActivity(props.data);
+  //   console.log("activity: ", activity);
+  // };
+
+  // React.useEffect(() => {
+  //   addActivity(props);
+  // }, []);
+
   const handleFavorited = () => {
     setIsFavorited(!isFavorited);
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    console.log(token);
+    axios
+      .post(`${uriBase}/activities/favorite`, {
+        token: tk.token,
+        activity: props.activity,
+      })
+      .then((response) => {
+        console.log("response:", response);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
 
   const handleBlacklist = () => {
