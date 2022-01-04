@@ -52,33 +52,18 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
-async function signupUser(credentials) {
-  // let axiosConfig = {
-  //   headers: {
-  //     "Content-Type": "application/json;charset=UTF-8",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  // };
+async function changePassword(credentials) {
+  console.log("hello")
+  console.log("got token: ", token);
   console.log("signup credentials: ", credentials.toString());
-  // return fetch(`http://localhost:3000/users`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  //   body: credentials,
-  // }).then((data) => {
-  //   console.log("response data: ", data);
-  //   data.json()
-  // });
-
-  return axios
-    .post(`${uriBase}/users`, credentials)
+  var token = window.location.search.split('?')[1].split('=')[1];
+  console.log("query: ", token)
+  axios
+    .post(`${uriBase}/users/changepassword`, {token: token, password:credentials.password})
     .then((response) => response.data)
     .catch((error) => console.error(error));
-  // return axios
-  // .post("http://localhost:3001/users", credentials)
-  // .then((response) => response.data);
+
+  window.location.href = "/login";
 }
 
 const ResetPassword = ({ setToken }) => {
@@ -159,7 +144,7 @@ const ResetPassword = ({ setToken }) => {
     console.log("allValid: ", allValid);
     e.preventDefault();
     try {
-      const token = await signupUser({
+      const token = await changePassword({
         password: password_hash
       });
 

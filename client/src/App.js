@@ -21,6 +21,7 @@ import AboutPage from "./pages/about";
 import useToken from "./hooks/useToken";
 import HomePage from "./pages/homepage";
 import ResetPassword from "./pages/resetpassword";
+import ForgotPassword from "./pages/forgotpassword";
 
 function PrivateOutlet() {
   const auth = useToken();
@@ -47,6 +48,7 @@ function App() {
         <Route path="/signup" element={<SignupPage setToken={setToken} />} />
         <Route exact path="/about" element={<AboutPage />} />
         <Route exact path="/resetpassword" element={<ResetPassword />} />
+        <Route exact path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );

@@ -129,6 +129,24 @@ async function get(user) {
   return null;
 }
 
+async function getToken(user) {
+  console.log("getting user: ", user.query);
+  const result = await db.query(
+    "SELECT * FROM users WHERE email = $1",
+    [user.query.email]
+  );
+  let message = "Error in getting user";
+  console.log("result: ", result);
+  if (result.length) {
+    message = "Got User successfully";
+    console.log("token: ", result[0].token);
+    let token = result[0].token;
+    console.log(token);
+    return { message: message, token:token };
+  }
+  return { message: message, token:null };
+}
+
 async function getAll(token) {
   console.log("getting token: ", token.query);
   const getToken = token.query.token;
@@ -153,5 +171,6 @@ module.exports = {
   getAll,
   resetPassword,
   update,
-  remove
+  remove,
+  getToken
 };
