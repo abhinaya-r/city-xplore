@@ -13,46 +13,40 @@ export default function Itinerary(props) {
   const [data, setData] = React.useState(null);
   const cardStyle = {
     backgroundColor: "#ACD7AB",
-    paddingBottom: "10px",
-    marginBottom: "50px",
+    // paddingBottom: "10px",
+    // marginBottom: "50px",
+    width: "25%",
+    height: "60%",
   };
 
   return (
     <div>
-      <Grid container>
-        <Grid item xl={2} lg={3} md={4} sm={6} xs={12}>
-          <Card style={cardStyle} raised>
-            <CardHeader
-              title={
-                <Typography
-                  noWrap={true}
-                  variant="h6"
-                  style={{ color: "white" }}
-                >
-                  11/13/2021
-                </Typography>
-              }
-            />
-            <CardContent style={{ paddingBottom: "0px" }}>
-              <Activity
-                name="Thompson Central Park New York"
-                rating="4.3"
-                address="119 W 56th St, New York, NY 10019"
-              />
-              <Activity
-                name="The Museum of Modern Art"
-                rating="4.6"
-                address="11 W 53rd St, New York, NY 10019"
-              />
-              <Activity
-                name="Magnolia Bakery - Rockefeller Center"
-                rating="4.4"
-                address="1240 6th Ave, New York, NY 10020"
-              />
-            </CardContent>
-          </Card>
+      <Card style={cardStyle}>
+        <Grid container direction="row" spacing={0}>
+          <Grid
+            item
+            xs={12}
+            style={{ border: "0px", marginTop: "0px", marginBottom: "0px" }}
+          >
+            <Typography
+              style={{
+                color: "white",
+                fontSize: "40px",
+                fontWeight: "bold",
+                marginBottom: "30px",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              date
+              {props.date}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {/* {itineraryObjects} */}
+          </Grid>
         </Grid>
-      </Grid>
+      </Card>
     </div>
   );
 }
