@@ -32,11 +32,11 @@ const crypto = require("crypto");
 //     body: JSON.stringify(credentials),
 //   }).then((data) => data.json());
 // }
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
 const helperTextStyles = makeStyles(() => ({
@@ -99,6 +99,29 @@ const Signup = ({ setToken }) => {
 
     today = yyyy + "-" + mm + "-" + dd;
     return today;
+  };
+
+  const isValidDate = (dateString) => {
+    // First check for the pattern
+    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if (year < 1900 || year > 2500 || month == 0 || month > 12) return false;
+
+    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+      monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
   };
 
   // if (unhashedPassword != confirmPassword) {
@@ -207,9 +230,9 @@ const Signup = ({ setToken }) => {
 
   const handleBirthday = (event) => {
     const val = event.target.value;
-    const validateBday = validator.isDate(val);
-    console.log("validate bday: ", validator.isDate(val));
-    if (val <= getDate() && validateBday) {
+    const validateBday = isValidDate(val);
+
+    if (validateBday) {
       setBirthdayIsValid(true);
     } else {
       setBirthdayIsValid(false);
@@ -432,10 +455,9 @@ const Signup = ({ setToken }) => {
           </Grid>
           <Grid id="birthdate-row" container spacing={2}>
             <Grid item xs={6} style={gridStyle}>
-              <Typography style={typeStyle}>Birthday</Typography>
+              <Typography style={typeStyle}>Birthday (mm/dd/yyyy)</Typography>
               <TextField
                 id="date"
-                type="date"
                 variant="outlined"
                 fullWidth
                 size="small"
@@ -582,7 +604,7 @@ const Signup = ({ setToken }) => {
             ) : (
               <Tooltip title="Please complete form">
                 <Button
-                  type="submit"
+                  type="button"
                   variant="contained"
                   style={{
                     color: "white",

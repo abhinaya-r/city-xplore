@@ -95,6 +95,29 @@ const ProfilePage = () => {
     return today;
   };
 
+  const isValidDate = (dateString) => {
+    // First check for the pattern
+    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if (year < 1900 || year > 2500 || month == 0 || month > 12) return false;
+
+    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+      monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+  };
+
   const handleFirstName = (event) => {
     const val = event.target.value;
     if (val.length >= 2) {
@@ -142,9 +165,9 @@ const ProfilePage = () => {
 
   const handleBirthday = (event) => {
     const val = event.target.value;
-    const validateBday = validator.isDate(val);
-    console.log("validate bday: ", validator.isDate(val));
-    if (val <= getDate() && validateBday) {
+    const validateBday = isValidDate(val);
+
+    if (validateBday) {
       setBirthdayIsValid(true);
     } else {
       setBirthdayIsValid(false);
@@ -510,7 +533,6 @@ const ProfilePage = () => {
             <TextField
               margin="dense"
               id="date"
-              type="date"
               label="Birthday"
               defaultValue={birthday}
               onBlur={() => setBirthdayDirty(true)}
