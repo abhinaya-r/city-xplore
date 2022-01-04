@@ -63,24 +63,49 @@ export default function Activity(props) {
   // }, []);
 
   const handleFavorited = () => {
-    setIsFavorited(!isFavorited);
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
-    axios
-      .post(`${uriBase}/activities/favorite`, {
-        token: tk.token,
-        activity: props.activity,
-      })
-      .then((response) => {
-        console.log("response:", response);
-      })
-      .catch((error) => console.error(`Error: ${error}`));
+    if (!isFavorited) {
+      console.log(token);
+      axios
+        .post(`${uriBase}/activities/favorite`, {
+          token: tk.token,
+          activity: props.activity,
+        })
+        .then((response) => {
+          console.log("response fav:", response);
+        })
+        .catch((error) => console.error(`Error: ${error}`));
+    } else {
+      console.log(`${uriBase}/activities/favorite/remove`);
+      axios
+        .post(`${uriBase}/activities/favorite/remove`, {
+          token: tk.token,
+          activity: props.activity,
+        })
+        .then((response) => {
+          console.log("response removed fav:", response);
+        })
+        .catch((error) => console.error(`Error: ${error}`));
+    }
+    setIsFavorited(!isFavorited);
   };
 
   const handleBlacklist = () => {
     setColor("#808080");
     setOpen(false);
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    console.log(token);
+    axios
+      .post(`${uriBase}/activities/blacklist`, {
+        token: tk.token,
+        activity: props.activity,
+      })
+      .then((response) => {
+        console.log("response blacklist:", response);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
   return (
     <div>

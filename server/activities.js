@@ -15,15 +15,15 @@ router.get("/favorite", async function (req, res, next) {
 });
 
 router.get("/blacklist", async function (req, res, next) {
-    console.log("getting blacklist activities: ", req);
-    //   res.send("hello world")
-    try {
-      res.json(await activities.getBlacklist(req));
-    } catch (err) {
-      console.error(`Error while getting blacklist activities `, err.message);
-      next(err);
-    }
-  });
+  console.log("getting blacklist activities: ", req);
+  //   res.send("hello world")
+  try {
+    res.json(await activities.getBlacklist(req));
+  } catch (err) {
+    console.error(`Error while getting blacklist activities `, err.message);
+    next(err);
+  }
+});
 
 /* POST quotes */
 router.post("/favorite", async function (req, res, next) {
@@ -37,33 +37,33 @@ router.post("/favorite", async function (req, res, next) {
 });
 
 router.post("/blacklist", async function (req, res, next) {
-    console.log("posting blacklist activity: ", req.body);
-    try {
-      res.json(await activities.addBlacklist(req.body));
-    } catch (err) {
-      console.error(`Error while posting blacklist activity `, err.message);
-      next(err);
-    }
-  });
+  console.log("posting blacklist activity: ", req.body);
+  try {
+    res.json(await activities.addBlacklist(req.body));
+  } catch (err) {
+    console.error(`Error while posting blacklist activity `, err.message);
+    next(err);
+  }
+});
 
 router.post("/favorite/remove", async function (req, res, next) {
-    console.log("posting favorite activity: ", req.body);
-    try {
-        res.json(await activities.removeBlacklist(req.body));
-    } catch (err) {
-        console.error(`Error while posting blacklist activity `, err.message);
-        next(err);
-    }
+  console.log("posting favorite activity: ", req.body);
+  try {
+    res.json(await activities.removeBlacklist(req.body));
+  } catch (err) {
+    console.error(`Error while posting blacklist activity `, err.message);
+    next(err);
+  }
 });
 
 router.post("/blacklist/remove", async function (req, res, next) {
-    console.log("posting blacklist activity: ", req.body);
-    try {
-      res.json(await activities.removeFavorite(req.body));
-    } catch (err) {
-      console.error(`Error while posting blacklist activity `, err.message);
-      next(err);
-    }
-  });
+  console.log("posting blacklist activity: ", req.body);
+  try {
+    res.json(await activities.removeFavorite(req.body));
+  } catch (err) {
+    console.error(`Error while posting blacklist activity `, err.message);
+    next(err);
+  }
+});
 
 module.exports = router;
