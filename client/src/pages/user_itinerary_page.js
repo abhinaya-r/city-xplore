@@ -86,7 +86,7 @@ const UserItinerary = () => {
         itinerary: itinerary,
         token: tk.token,
       })
-      .then((res) => console.log("response: ", res))
+      .then((window.location.href = "/dashboard"))
       .catch((error) => console.error(`Error: ${error}`));
   };
 
