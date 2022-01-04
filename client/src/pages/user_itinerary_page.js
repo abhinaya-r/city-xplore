@@ -117,6 +117,7 @@ const UserItinerary = () => {
           name={!itinerary ? "Loading..." : value["name"]}
           rating={!itinerary ? "" : value["rating"]}
           address={!itinerary ? "" : value["address"]}
+          activity={value}
         />
       );
     }
