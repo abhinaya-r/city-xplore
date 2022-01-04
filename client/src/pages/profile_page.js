@@ -288,7 +288,7 @@ const ProfilePage = () => {
     top: "55%",
     transform: "translate(-50%, -50%)",
     width: "50%",
-    height: "50%",
+    height: "55%",
     // textAlign: "left",
     padding: "60px",
     backgroundColor: "#ACD7AB",
@@ -376,7 +376,7 @@ const ProfilePage = () => {
               xs={12}
               style={{
                 border: "0px",
-                marginTop: "0px",
+                marginTop: "-70px",
                 textAlign: "center",
               }}
             >
@@ -387,7 +387,6 @@ const ProfilePage = () => {
                   fontFamily: "Manrope, sans-serif",
                   paddingTop: "0px",
                   paddingBottom: "0px",
-                  marginTop: "-120px",
                   marginBottom: "0px",
                   textAlign: "left",
                 }}
@@ -421,13 +420,13 @@ const ProfilePage = () => {
               </Button>
             </Grid> */}
           </Grid>
-          {/* <Grid
+          <Grid
             item
             xs={12}
             style={{
               border: "0px",
-              marginTop: "0px",
-              marginBottom: "-30px",
+              marginTop: "-40px",
+              marginBottom: "0px",
               textAlign: "center",
             }}
           >
@@ -442,7 +441,7 @@ const ProfilePage = () => {
             >
               Delete Account
             </Button>
-          </Grid> */}
+          </Grid>
         </Grid>
         <Dialog
           open={open}
