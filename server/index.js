@@ -196,17 +196,6 @@ app.post("/api/signup", function (req, res) {
   });
 });
 
-app.get("/api/past_itineraries", (req, res) => {
-  axios
-    .get("itineraries")
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log("error in index.js: ", error);
-    });
-});
-
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));

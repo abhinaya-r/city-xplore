@@ -39,8 +39,7 @@ async function create(itinerary) {
 }
 
 async function get(token) {
-  console.log("getting token: ", token.body.token);
-  const getToken = token.body.token;
+  const getToken = token.query.token;
   const user = await db.query("SELECT (user_id) FROM users WHERE token = $1", [
     getToken,
   ]);
