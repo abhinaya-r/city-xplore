@@ -24,6 +24,12 @@ async function addFavorite(activity) {
   console.log("user: ", user);
   let user_id = user[0].user_id;
   console.log(user_id);
+  const exists = await db.query("SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
+  [user_id, activity.activity, "favorite"]);
+  if (exists[0].exists) {
+    return {message: "Activity already added to favorites"}
+  }
+
   const result = await db.query(
     "INSERT INTO activities(user_id, activity, status) VALUES ($1, $2, $3) RETURNING *",
     [user_id, activity.activity, "favorite"]
@@ -46,6 +52,12 @@ async function addBlacklist(activity) {
   ]);
   let user_id = user[0].user_id;
   console.log(user_id);
+  const exists = await db.query("SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
+  [user_id, activity.activity, "blacklist"]);
+  if (exists[0].exists) {
+    return {message: "Activity already added to blacklist"}
+  }
+
   const result = await db.query(
     "INSERT INTO activities(user_id, activity, status) VALUES ($1, $2, $3) RETURNING *",
     [user_id, activity.activity, "blacklist"]
@@ -69,7 +81,7 @@ async function removeFavorite(activity) {
   let user_id = user[0].user_id;
   console.log(user_id);
   const result = await db.query(
-    "DELETE FROM activities WHERE user_id = $1 AND activity = $2 AND status = $3",
+    "DELETE FROM activities WHERE user_id = $1 AND activity = $2 AND status = $3 RETURNING *",
     [user_id, activity.activity, "favorite"]
   );
 
