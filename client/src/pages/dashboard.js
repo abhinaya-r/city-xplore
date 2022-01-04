@@ -8,6 +8,8 @@ import Itinerary from "../components/itineraryDashboard";
 import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { letterSpacing } from "@mui/system";
+// import ScrollMenu from "react-horizontal-scrolling-menu";
 
 let uriBase = "http://localhost:3000";
 // if (process.env.NODE_ENV == "production") {
@@ -19,6 +21,14 @@ let uriBase = "http://localhost:3000";
 const Mainpage = () => {
   const [pastItineraries, setPastItineraries] = React.useState(null);
 
+  const cardStyle = {
+    backgroundColor: "#ACD7AB",
+    padding: "20px",
+    marginBottom: "20px",
+    width: "25%",
+    height: "25%",
+  };
+
   const getPastItineraries = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
@@ -28,6 +38,7 @@ const Mainpage = () => {
       .get(url)
       .then((response) => {
         console.log("response:", response);
+        setPastItineraries(response.data);
       })
       .catch((error) => console.error(`Error past itineraries: ${error}`));
   };
@@ -47,34 +58,32 @@ const Mainpage = () => {
     console.log("past itins: ", itins);
   };
 
-  // const getPastItineraries = () => {
-  //   axios
-  //     .get("/api/")
-  //     .then((response) => {
-  //       const allPastItineraries = response.data;
-  //     })
-  //     .catch((error) => console.error(`Error: ${error}`));
-  // };
-
   React.useEffect(() => {
     getPastItineraries();
   }, []);
 
-  const pastItineraryObjects = [];
-  const itineraryObjects = [];
+  let activityObjects = [];
+  let pastItineraryObjects = [];
 
-  console.log(pastItineraries);
-  // for (const [indexItin, valueItin] of pastItineraries.entries()) {
-  //   for (const [indexAct, valueAct] of valueItin.entries()) {
-  //     itineraryObjects.push(
-  //       <Activity
-  //         name={valueAct["name"]}
-  //         rating={valueAct["rating"]}
-  //         address={valueAct["address"]}
-  //       />
-  //     );
-  //   }
-  // }
+  console.log("past itineraries", pastItineraries);
+  if (pastItineraries) {
+    for (const [indexItin, valueItin] of pastItineraries.entries()) {
+      console.log("value", valueItin["itinerary"]);
+      for (const [indexAct, valueAct] of valueItin["itinerary"].entries()) {
+        activityObjects.push(
+          <Activity
+            name={valueAct["name"]}
+            rating={valueAct["rating"]}
+            address={valueAct["address"]}
+          />
+        );
+      }
+      pastItineraryObjects.push(
+        <Card style={cardStyle}>{activityObjects}</Card>
+      );
+      activityObjects = [];
+    }
+  }
 
   return (
     <div style={{ height: "100vh" }}>
@@ -135,15 +144,8 @@ const Mainpage = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ paddingTop: "0px", paddingLeft: "200px" }}>
-          <Itinerary
-            itinerary={["name1", "name2"]}
-            rating={["rating1", "rating2"]}
-            address={["address1", "address2"]}
-          ></Itinerary>
+          {pastItineraryObjects}
         </Grid>
-        {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
-          <Itinerary></Itinerary>
-        </Grid> */}
       </Grid>
     </div>
   );
