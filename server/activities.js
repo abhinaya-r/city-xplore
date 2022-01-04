@@ -4,7 +4,7 @@ const activities = require("../services/activities");
 
 /* GET quotes listing. */
 router.get("/favorite", async function (req, res, next) {
-  console.log("getting favorite activities: ", req);
+  console.log("getting favorite activities: ", req.query);
   //   res.send("hello world")
   try {
     res.json(await activities.getFavorites(req));
@@ -51,7 +51,7 @@ router.post("/favorite/remove", async function (req, res, next) {
   try {
     res.json(await activities.removeBlacklist(req.body));
   } catch (err) {
-    console.error(`Error while posting blacklist activity `, err.message);
+    console.error(`Error while posting favorite activity `, err.message);
     next(err);
   }
 });
