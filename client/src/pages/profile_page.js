@@ -51,6 +51,7 @@ const ProfilePage = () => {
   const [alignment, setAlignment] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [openChangePw, setOpenChangePw] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
 
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -280,6 +281,12 @@ const ProfilePage = () => {
     }
   };
 
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleDelete = () => {};
+
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -438,6 +445,7 @@ const ProfilePage = () => {
                 paddingTop: "0px",
                 paddingBottom: "0px",
               }}
+              onClick={() => setOpenDelete(true)}
             >
               Delete Account
             </Button>
@@ -639,6 +647,44 @@ const ProfilePage = () => {
               style={{ backgroundColor: "#919E6A", color: "white" }}
             >
               Update
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={openDelete}
+          onClose={handleCloseDelete}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          PaperProps={{
+            style: {
+              backgroundColor: "#ACD7AB",
+              boxShadow: "none",
+              color: "white",
+            },
+          }}
+        >
+          <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
+            {"Confirm Delete"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              id="alert-dialog-description"
+              style={{ color: "white" }}
+            >
+              Are you sure you want to delete your account? All your data will
+              be lost.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleCloseDelete}
+              style={{ color: "white", backgroundColor: "#919E6A" }}
+            >
+              Close
+            </Button>
+            <Button onClick={handleDelete} style={{ color: "white" }}>
+              Delete
             </Button>
           </DialogActions>
         </Dialog>
