@@ -297,6 +297,27 @@ const Login = ({ setToken }) => {
                 </div>
               )}
             </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{
+                border: "0px",
+                marginTop: "-50px",
+                marginBottom: "-10px",
+                justifyAlign: "center",
+              }}
+            >
+              <Link 
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "20px",
+                paddingBottom: "30px",
+                textAlign: "center",
+                textTransform: "none"
+              }}
+              to="/forgotpassword">Forgot Password?</Link>
+            </Grid>
             {/* <Grid item xs={12}>
               <Typography
                 style={{
