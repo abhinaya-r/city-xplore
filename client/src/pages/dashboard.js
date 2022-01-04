@@ -12,11 +12,11 @@ import { letterSpacing } from "@mui/system";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 
 let uriBase = "http://localhost:3000";
-// if (process.env.NODE_ENV == "production") {
-//   uriBase = "https://city-xplore.herokuapp.com";
-// } else if (process.env.NODE_ENV == "prod-test") {
-//   uriBase = "https://test-xplore.herokuapp.com";
-// }
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
+}
 
 const Mainpage = () => {
   const [pastItineraries, setPastItineraries] = React.useState(null);
