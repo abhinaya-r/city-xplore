@@ -3,12 +3,12 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
   auth: {
-    user: 'abhinaya.raghu@gmail.com',
-    pass: 'ofxrocdpwajlhipd',
+    user: 'cityxplorecontact@gmail.com',
+    pass: 'Cityxplore123',
   },
 });
 var mailOptions = {
-    from: 'abhinaya.raghu@gmail.com',
+    from: 'cityxplorecontact@gmail.com',
     to: 'abhinaya@princeton.edu',
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
