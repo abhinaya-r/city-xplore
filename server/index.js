@@ -19,15 +19,13 @@ var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
 
-console.log("env: ", process.env.NODE_ENV)
-axios.default.baseURL = 'http://localhost:3001/';
-if (process.env.NODE_ENV == 'production') {
-  axios.default.baseURL = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  axios.default.baseURL = 'https://test-xplore.herokuapp.com'
+console.log("env: ", process.env.NODE_ENV);
+axios.default.baseURL = "http://localhost:3001/";
+if (process.env.NODE_ENV == "production") {
+  axios.default.baseURL = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  axios.default.baseURL = "https://test-xplore.herokuapp.com";
 }
-
-
 
 // const db = require('../database/models/index.js');
 
@@ -56,7 +54,6 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
-
 
 let startpoint = "";
 let activities = [];
@@ -90,7 +87,6 @@ app.post("/api/new_itinerary", function (req, res) {
   res.end();
 });
 
-
 app.get("/api/new_itinerary", (req, res) => {
   console.log(activities);
   console.log("startpoint:", startpoint);
@@ -113,7 +109,7 @@ app.get("/api/new_itinerary", (req, res) => {
         // console.log("place id: ", response.data["results"][0]["place_id"]);
         // console.log("rating: ", response.data["results"][0]["rating"]);
         if (response.data["results"].length == 0) {
-          res.send({message: "Radius is too small"})
+          res.send({ message: "Radius is too small" });
         }
         let ind = Math.floor(Math.random() * response.data["results"].length);
         prev_latlong = response.data["results"][ind]["geometry"]["location"];
@@ -136,11 +132,15 @@ app.get("/api/new_itinerary", (req, res) => {
               name: place_name,
               rating: rating,
               address: address,
-              type: type
+              type: type,
             };
             itinerary.push(curr_event);
             if (itinerary.length == activities.length) {
-              res.send({message: "success", itinerary: itinerary, list: activities});
+              res.send({
+                message: "success",
+                itinerary: itinerary,
+                list: activities,
+              });
             }
           })
           .catch(function (error) {
@@ -196,6 +196,16 @@ app.post("/api/signup", function (req, res) {
   });
 });
 
+app.get("/api/past_itineraries", (req, res) => {
+  axios
+    .get("itineraries")
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log("error in index.js: ", error);
+    });
+});
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
