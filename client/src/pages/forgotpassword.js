@@ -15,43 +15,28 @@ import isEmail from "validator/lib/isEmail";
 import { letterSpacing } from "@mui/system";
 
 const crypto = require("crypto");
+const axios = require("axios")
 
-let uriBase = "http://localhost:3000";
-if (process.env.NODE_ENV == "production") {
-  uriBase = "https://city-xplore.herokuapp.com";
-} else if (process.env.NODE_ENV == "prod-test") {
-  uriBase = "https://test-xplore.herokuapp.com";
+let uriBase = 'http://localhost:3000';
+if (process.env.NODE_ENV == 'production') {
+  uriBase = 'https://city-xplore.herokuapp.com'
+} else if (process.env.NODE_ENV == 'prod-test') {
+  uriBase = 'https://test-xplore.herokuapp.com'
 }
 
-async function loginUser(credentials) {
-  console.log("credentials:", credentials);
-  console.log(uriBase);
-  return fetch(
-    `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  )
-    .then((data) => data.json())
-    .catch((err) => console.error("loginUser error: ", err));
+async function getToken(credentials) {
+    return fetch(
+        `${uriBase}/users/token?email=${credentials.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((data) => data.json())
+        .catch((err) => console.error("loginUser error: ", err));
 }
-// async function loginUser(credentials) {
-//   console.log("credentials:", credentials);
-//   return fetch(
-//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   )
-//     .then((data) => data.json())
-//     .catch((err) => console.error("loginUser error: ", err));
-// }
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -70,27 +55,14 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
-// async function loginUser(credentials) {
-//   return fetch("http://localhost:3001/api/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
 
-const Login = ({ setToken }) => {
+const ForgotPassword = ({ setToken }) => {
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
   // const [isValid, setIsValid] = React.useState(false);
 
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
-  const [isPasswordValid, setPasswordIsValid] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const password_hash = crypto.createHash("md5").update(password).digest("hex");
   // password = password_hash;
 
   const helperTestClasses = helperTextStyles();
@@ -105,31 +77,26 @@ const Login = ({ setToken }) => {
     setEmail(val);
   };
 
-  const handlePassword = (event) => {
-    const val = event.target.value;
-    if (val.length >= 8) {
-      setPasswordIsValid(true);
-    } else {
-      setPasswordIsValid(false);
-    }
-    setPassword(val);
-  };
-
   const handleSubmit = async (e) => {
     console.log("submitting");
     e.preventDefault();
-    try {
-      const token = await loginUser({
-        email,
-        password_hash,
-      });
-      console.log(token);
-      setToken(token);
-      window.location.href = "/homepage";
-    } catch {
-      setErrorMessage("Invalid email or password. Please try again.");
-    }
-  };
+    const token = await getToken({
+    email
+    });
+    console.log(token.token);
+    fetch(
+        `${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((data) => data.json())
+        .catch((err) => console.error("loginUser error: ", err));
+        window.location.href = "/checkemail";
+  }
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -139,7 +106,7 @@ const Login = ({ setToken }) => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     width: "25%",
-    height: "54%",
+    height: "50%",
     textAlign: "center",
     justifyAlign: "center",
     padding: "60px",
@@ -198,7 +165,30 @@ const Login = ({ setToken }) => {
                 fontWeight: "bold",
               }}
             >
-              Login
+              Forgot Password
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              marginTop: "-30px",
+              marginBottom: "0px",
+              paddingTop: "0px",
+            }}
+          >
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "20px",
+                paddingBottom: "30px",
+                textAlign: "center",
+                textTransform: "none",
+              }}
+            >
+              Enter your email to recieve a link to reset your password:
             </Typography>
           </Grid>
           <form onSubmit={handleSubmit}>
@@ -228,33 +218,7 @@ const Login = ({ setToken }) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} style={gridStyle}>
-              <Typography style={typeStyle}>Password</Typography>
-              <TextField
-                id="filled"
-                variant="outlined"
-                size="small"
-                type="password"
-                name="password"
-                margin="none"
-                onBlur={() => setPasswordDirty(true)}
-                error={passwordDirty && isPasswordValid === false}
-                helperText={
-                  passwordDirty && isPasswordValid === false
-                    ? "Password must be at least 8 characters"
-                    : ""
-                }
-                FormHelperTextProps={{ classes: helperTestClasses }}
-                onInput={handlePassword}
-                style={textfieldStyle}
-                muifilledinput={{ borderBottomLeftRadius: "0px" }}
-                InputProps={{
-                  disableUnderline: true,
-                  padding: "0px",
-                }}
-                fullWidth
-              />
-            </Grid>
+    
             <Grid
               item
               xs={12}
@@ -279,7 +243,7 @@ const Login = ({ setToken }) => {
                   paddingBottom: "10px",
                 }}
               >
-                Login
+                Submit
               </Button>
               {errorMessage && (
                 <div
@@ -297,27 +261,7 @@ const Login = ({ setToken }) => {
                 </div>
               )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-              style={{
-                border: "0px",
-                marginTop: "-50px",
-                marginBottom: "-10px",
-                justifyAlign: "center",
-              }}
-            >
-              <Link 
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "20px",
-                paddingBottom: "30px",
-                textAlign: "center",
-                textTransform: "none"
-              }}
-              to="/forgotpassword">Forgot Password?</Link>
-            </Grid>
+            
             {/* <Grid item xs={12}>
               <Typography
                 style={{
@@ -370,8 +314,8 @@ const Login = ({ setToken }) => {
   );
 };
 
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
+// ForgotPassword.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };
 
-export default Login;
+export default ForgotPassword;
