@@ -15,6 +15,8 @@ const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
 
 const crypto = require("crypto");
 
+const nodemailer = require("nodemailer");
+
 var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
@@ -25,6 +27,13 @@ if (process.env.NODE_ENV == "production") {
   axios.default.baseURL = "https://city-xplore.herokuapp.com";
 } else if (process.env.NODE_ENV == "prod-test") {
   axios.default.baseURL = "https://test-xplore.herokuapp.com";
+}
+
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
 // const db = require('../database/models/index.js');
@@ -153,6 +162,33 @@ app.get("/api/new_itinerary", (req, res) => {
       });
     // console.log("itinerary: ", itinerary);
   }
+});
+
+app.get("/api/forgotpassword", function (req, res) {
+  const request = req.query;
+  let url = `${uriBase}/resetpassword?token=${request.token}`;
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
+      user: "cityxplorecontact@gmail.com",
+      pass: "Cityxplore123",
+    },
+  });
+  var mailOptions = {
+    from: "cityxplorecontact@gmail.com",
+    to: request.email,
+    subject: "Reset Password for City-Xplore",
+    text: "Click here to reset your password: " + url,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 });
 app.post("/api/login", function (req, res) {
   // res.send({

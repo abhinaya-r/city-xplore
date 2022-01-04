@@ -25,6 +25,17 @@ router.get('/all_info', async function(req, res, next) {
   
 });
 
+router.get('/token', async function(req, res, next) {
+  console.log("getting user info: ", req.body)
+  try {
+    res.json(await users.getToken(req));
+  } catch (err) {
+    console.error(`Error while getting user token `, err.message);
+    next(err);
+  }
+  
+});
+
 /* POST quotes */
 router.post('/', async function(req, res, next) {
   // console.log("posting user: ", req.body)
@@ -51,6 +62,16 @@ router.post('/remove', async function(req, res, next) {
     res.json(await users.remove(req.body));
   } catch (err) {
     console.error(`Error while deleting users `, err.message);
+    next(err);
+  }
+});
+
+router.post('/changepassword', async function(req, res, next) {
+  console.log("deleting user: ", req.body)
+  try {
+    res.json(await users.resetPassword(req.body));
+  } catch (err) {
+    console.error(`Error while changing password for user `, err.message);
     next(err);
   }
 });
