@@ -23,25 +23,11 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
-async function loginUser(credentials) {
-  console.log("credentials:", credentials);
-  console.log(uriBase);
-  return fetch(
-    `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  )
-    .then((data) => data.json())
-    .catch((err) => console.error("loginUser error: ", err));
-}
 // async function loginUser(credentials) {
 //   console.log("credentials:", credentials);
+//   console.log(uriBase);
 //   return fetch(
-//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
+//     `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
 //     {
 //       method: "GET",
 //       headers: {
@@ -52,6 +38,20 @@ async function loginUser(credentials) {
 //     .then((data) => data.json())
 //     .catch((err) => console.error("loginUser error: ", err));
 // }
+async function loginUser(credentials) {
+  console.log("credentials:", credentials);
+  return fetch(
+    `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((data) => data.json())
+    .catch((err) => console.error("loginUser error: ", err));
+}
 
 const helperTextStyles = makeStyles(() => ({
   root: {
