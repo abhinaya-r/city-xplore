@@ -68,6 +68,24 @@ async function update(users) {
   return {message};
 }
 
+async function resetPassword(users) {
+  console.log("edit user: ", users);
+  const result = await db.query(
+    "UPDATE users SET password = $1 WHERE token = $2 RETURNING *;",
+    [
+      users.password,
+      users.token
+    ]
+  );
+  let message = "Error in updating password";
+  console.log("result: ", result);
+  if (result.length) {
+    message = "User password updated successfully";
+  }
+  console.log("message:", message);
+  return {message};
+}
+
 async function remove(token) {
   console.log("removing user: ", token);
   let result = await db.query(
@@ -133,6 +151,7 @@ module.exports = {
   create,
   get,
   getAll,
+  resetPassword,
   update,
   remove
 };

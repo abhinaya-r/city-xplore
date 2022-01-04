@@ -55,4 +55,14 @@ router.post('/remove', async function(req, res, next) {
   }
 });
 
+router.post('/changepassword', async function(req, res, next) {
+  console.log("deleting user: ", req.body)
+  try {
+    res.json(await users.resetPassword(req.body));
+  } catch (err) {
+    console.error(`Error while deleting users `, err.message);
+    next(err);
+  }
+});
+
 module.exports = router;
