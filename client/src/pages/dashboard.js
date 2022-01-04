@@ -9,7 +9,7 @@ import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { letterSpacing } from "@mui/system";
-// import ScrollMenu from "react-horizontal-scrolling-menu";
+import ScrollMenu from "react-horizontal-scrolling-menu";
 
 let uriBase = "http://localhost:3000";
 // if (process.env.NODE_ENV == "production") {
