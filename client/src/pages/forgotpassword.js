@@ -38,21 +38,6 @@ async function getToken(credentials) {
         .catch((err) => console.error("loginUser error: ", err));
 }
 
-// async function loginUser(credentials) {
-//   console.log("credentials:", credentials);
-//   return fetch(
-//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   )
-//     .then((data) => data.json())
-//     .catch((err) => console.error("loginUser error: ", err));
-// }
-
 const helperTextStyles = makeStyles(() => ({
   root: {
     margin: "0px",
@@ -70,15 +55,6 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
-// async function loginUser(credentials) {
-//   return fetch("http://localhost:3001/api/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
 
 const ForgotPassword = ({ setToken }) => {
   const [email, setEmail] = useState();
@@ -119,6 +95,7 @@ const ForgotPassword = ({ setToken }) => {
       )
         .then((data) => data.json())
         .catch((err) => console.error("loginUser error: ", err));
+        window.location.href = "/checkemail";
   }
 
   const cardStyle = {
