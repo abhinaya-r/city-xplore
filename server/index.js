@@ -172,12 +172,12 @@ app.get("/api/forgotpassword", function(req, res) {
     host: 'smtp.gmail.com',
     port: 587,
     auth: {
-      user: 'abhinaya.raghu@gmail.com',
-      pass: 'ofxrocdpwajlhipd',
+      user: 'cityxplorecontact@gmail.com',
+      pass: 'Cityxplore123',
     },
   });
   var mailOptions = {
-      from: 'abhinaya.raghu@gmail.com',
+      from: 'cityxplorecontact@gmail.com',
       to: request.email,
       subject: 'Reset Password for City-Xplore',
       text: 'Click here to reset your password: ' + url
