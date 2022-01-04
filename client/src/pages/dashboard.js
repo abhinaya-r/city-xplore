@@ -5,25 +5,42 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
 import Itinerary from "../components/itineraryDashboard";
+import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { letterSpacing } from "@mui/system";
+import ScrollMenu from "react-horizontal-scrolling-menu";
 
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
-}
+let uriBase = "http://localhost:3000";
+// if (process.env.NODE_ENV == "production") {
+//   uriBase = "https://city-xplore.herokuapp.com";
+// } else if (process.env.NODE_ENV == "prod-test") {
+//   uriBase = "https://test-xplore.herokuapp.com";
+// }
 
 const Mainpage = () => {
+  const [pastItineraries, setPastItineraries] = React.useState(null);
+
+  const cardStyle = {
+    backgroundColor: "#ACD7AB",
+    padding: "20px",
+    marginBottom: "20px",
+    width: "25%",
+    height: "25%",
+  };
+
   const getPastItineraries = () => {
-    let tk = localStorage.getItem("token");
-    let token = JSON.parse(tk);
-    return axios
-      .get(`${uriBase}/itineraries?token=${token}`)
-      .then((res) => {
-        console.log(res.data);
-      });
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    let url = `${uriBase}/itineraries?token=${tk.token}`;
+    console.log(url);
+    axios
+      .get(url)
+      .then((response) => {
+        console.log("response:", response);
+        setPastItineraries(response.data);
+      })
+      .catch((error) => console.error(`Error past itineraries: ${error}`));
   };
   const typeStyle = {
     font: "Manrope, sans-serif",
@@ -41,41 +58,50 @@ const Mainpage = () => {
     console.log("past itins: ", itins);
   };
 
-  // const getPastItineraries = () => {
-  //   axios
-  //     .get("/api/")
-  //     .then((response) => {
-  //       const allPastItineraries = response.data;
-  //     })
-  //     .catch((error) => console.error(`Error: ${error}`));
-  // };
+  React.useEffect(() => {
+    getPastItineraries();
+  }, []);
+
+  let activityObjects = [];
+  let pastItineraryObjects = [];
+
+  console.log("past itineraries", pastItineraries);
+  if (pastItineraries) {
+    for (const [indexItin, valueItin] of pastItineraries.entries()) {
+      console.log("value", valueItin["itinerary"]);
+      for (const [indexAct, valueAct] of valueItin["itinerary"].entries()) {
+        activityObjects.push(
+          <Activity
+            name={valueAct["name"]}
+            rating={valueAct["rating"]}
+            address={valueAct["address"]}
+          />
+        );
+      }
+      pastItineraryObjects.push(
+        <Card style={cardStyle}>{activityObjects}</Card>
+      );
+      activityObjects = [];
+    }
+  }
 
   return (
     <div style={{ height: "100vh" }}>
       <Header />
       <Grid container justifyContent="center" spacing={3}>
-        <Typography variant="h5" style={typeStyle}>
-          Your CityXplore Dashboard!
-        </Typography>
-        <Grid
-          item
-          xs={12}
+        <Typography
+          variant="h5"
           style={{
-            textAlign: "center",
-            paddingTop: "10px",
+            font: "Manrope, sans-serif",
+            color: "#919E6A",
+            textAlign: "left",
+            paddingTop: "20px",
+            fontSize: "30px",
           }}
         >
-          <Typography variant="h5" style={typeStyle}>
-            Past Itineraries:
-          </Typography>
-        </Grid>
-        <Grid item xs={12} style={{ paddingTop: "0px", paddingLeft: "200px" }}>
-          <Itinerary></Itinerary>
-        </Grid>
-        {/* <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
-          <Itinerary></Itinerary>
-        </Grid> */}
-        <Grid item xs style={{ textAlign: "center", paddingTop: "30px" }}>
+          Your CityXplore Dashboard!
+        </Typography>
+        <Grid item xs={12} style={{ textAlign: "center", paddingTop: "30px" }}>
           <Link
             to="/getitinerary"
             style={{
@@ -104,6 +130,21 @@ const Mainpage = () => {
               Create a new Itinerary!
             </Button>
           </Link>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          style={{
+            textAlign: "center",
+            paddingTop: "10px",
+          }}
+        >
+          <Typography variant="h5" style={typeStyle}>
+            Past Itineraries:
+          </Typography>
+        </Grid>
+        <Grid item xs={12} style={{ paddingTop: "0px", paddingLeft: "200px" }}>
+          {pastItineraryObjects}
         </Grid>
       </Grid>
     </div>

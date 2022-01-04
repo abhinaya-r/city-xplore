@@ -5,9 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header";
+import Header from "./header";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
+import Activity from "./activityDashboard";
 
 import axios from "axios";
 
@@ -47,7 +48,7 @@ const UserItinerary = () => {
       .get("/api/new_itinerary")
       .then((response) => {
         const allActivities = response.data.itinerary;
-        const list = response.data.list
+        const list = response.data.list;
         getItinerary(allActivities);
       })
       .catch((error) => console.error(`Error: ${error}`));
@@ -79,9 +80,7 @@ const UserItinerary = () => {
             name={!itinerary ? "Loading..." : itinerary[0]["name"]}
             rating="4.5 stars"
             address="20 W 34th St, New York, NY 10001"
-            isDashboard={props.isDashboard}
           />
-
           <Box
             component="span"
             sx={{ display: "block", bgcolor: "#FFF6F1", borderRadius: "10px" }}
