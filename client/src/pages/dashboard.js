@@ -41,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Mainpage = () => {
   const [pastItineraries, setPastItineraries] = React.useState(null);
+  const [favActivities, setFavActivities] = React.useState([]);
+
   const classes = useStyles();
 
   const cardStyle = {
@@ -55,28 +57,30 @@ const Mainpage = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     let url = `${uriBase}/itineraries?token=${tk.token}`;
-    console.log(url);
     axios
       .get(url)
       .then((response) => {
-        console.log("response:", response);
         setPastItineraries(response.data);
       })
       .catch((error) => console.error(`Error past itineraries: ${error}`));
   };
 
+  let favorited = [];
+  // let favActivityObjects = [];
+
   const getFavoritedActivities = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    let url = `${uriBase}/favorited?token=${tk.token}`;
-    console.log(url);
+    let url = `${uriBase}/activities/favorite?token=${tk.token}`;
     axios
       .get(url)
       .then((response) => {
-        console.log("response:", response);
-        setPastItineraries(response.data);
+        for (const [index, value] of response.data.entries()) {
+          favorited.push(value["activity"]);
+        }
+        setFavActivities(favorited);
       })
-      .catch((error) => console.error(`Error past itineraries: ${error}`));
+      .catch((error) => console.error(`Error fav activities: ${error}`));
   };
 
   const typeStyle = {
@@ -89,24 +93,20 @@ const Mainpage = () => {
   };
 
   const handleItineraries = () => {
-    console.log("here");
     let itins = [];
     itins = getPastItineraries();
-    console.log("past itins: ", itins);
   };
 
   React.useEffect(() => {
     getPastItineraries();
+    getFavoritedActivities();
   }, []);
 
   let activityObjects = [];
   let pastItineraryObjects = [];
 
   if (pastItineraries) {
-    console.log("past itineraries reverse", pastItineraries);
-
     for (const [indexItin, valueItin] of pastItineraries.reverse().entries()) {
-      console.log("value", valueItin["itinerary"]);
       let date = valueItin["date"].split("T");
       activityObjects.push(
         <Typography
@@ -130,7 +130,6 @@ const Mainpage = () => {
           />
         );
       }
-
       pastItineraryObjects.push(
         <GridListTile
           classes={classes.gridListTile}
@@ -144,6 +143,33 @@ const Mainpage = () => {
         </GridListTile>
       );
       activityObjects = [];
+    }
+  }
+
+  let favActivityObjects = [];
+
+  if (favActivities) {
+    console.log("favActivities: ", favActivities);
+    for (const [index, value] of favActivities.entries()) {
+      favActivityObjects.push(
+        <GridListTile
+          classes={classes.gridListTile}
+          style={{
+            paddingTop: "10px",
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            margin: "10px",
+            height: "100%",
+            backgroundColor: "#ACD7AB",
+          }}
+        >
+          <Activity
+            name={value["name"]}
+            rating={value["rating"]}
+            address={value["address"]}
+          />
+        </GridListTile>
+      );
     }
   }
 
@@ -218,8 +244,6 @@ const Mainpage = () => {
             {pastItineraryObjects}
           </GridList>
         </Grid>
-      </Grid>
-      {/* <Grid container justifyContent="center" spacing={3}>
         <Grid
           item
           xs={12}
@@ -230,8 +254,21 @@ const Mainpage = () => {
           <Typography variant="h5" style={typeStyle}>
             Favorited Activities:
           </Typography>
+          <Grid
+            item
+            xs={12}
+            style={{
+              paddingTop: "0px",
+              marginLeft: "50px",
+              marginRight: "50px",
+            }}
+          >
+            <GridList cols={5} className={classes.gridList}>
+              {favActivityObjects}
+            </GridList>
+          </Grid>
         </Grid>
-      </Grid> */}
+      </Grid>
     </div>
   );
 };
