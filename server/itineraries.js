@@ -5,7 +5,7 @@ const itineraries = require("../services/itineraries");
 /* GET quotes listing. */
 router.get("/", async function (req, res, next) {
   console.log("hi");
-  console.log("getting itineraries: ", req);
+  // console.log("getting itineraries: ", req);
   //   res.send("hello world")
   try {
     res.json(await itineraries.get(req));
