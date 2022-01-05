@@ -302,7 +302,7 @@ const Mainpage = () => {
           }}
         >
           <Typography variant="h5" style={typeStyle}>
-            Past Itineraries:
+            Saved Itineraries:
           </Typography>
         </Grid>
         <Grid
