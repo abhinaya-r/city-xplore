@@ -46,22 +46,22 @@ router.post("/blacklist", async function (req, res, next) {
   }
 });
 
-router.post("/favorite/remove", async function (req, res, next) {
-  console.log("posting favorite activity: ", req.body);
+router.post("/blacklist/remove", async function (req, res, next) {
+  console.log("posting blacklist activity: ", req.body);
   try {
     res.json(await activities.removeBlacklist(req.body));
   } catch (err) {
-    console.error(`Error while posting favorite activity `, err.message);
+    console.error(`Error while posting blacklist activity `, err.message);
     next(err);
   }
 });
 
-router.post("/blacklist/remove", async function (req, res, next) {
-  console.log("posting blacklist activity: ", req.body);
+router.post("/favorite/remove", async function (req, res, next) {
+  console.log("posting favorite activity: ", req.body);
   try {
     res.json(await activities.removeFavorite(req.body));
   } catch (err) {
-    console.error(`Error while posting blacklist activity `, err.message);
+    console.error(`Error while posting favorite activity `, err.message);
     next(err);
   }
 });
