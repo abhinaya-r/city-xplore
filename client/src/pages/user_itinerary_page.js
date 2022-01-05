@@ -18,6 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
 
@@ -55,6 +56,7 @@ const UserItinerary = () => {
   };
 
   const [itinerary, getItinerary] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [open, setOpen] = React.useState(false);
 
@@ -90,6 +92,7 @@ const UserItinerary = () => {
   };
 
   const getNewItinerary = () => {
+    setIsLoading(true);
     axios
       .get("/api/new_itinerary")
       .then((response) => {
@@ -98,6 +101,7 @@ const UserItinerary = () => {
         console.log("posting itinerary");
         console.log("message: ", response.data.message);
         console.log("itinerary: ", response.data.itinerary);
+        setIsLoading(false);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
@@ -189,9 +193,32 @@ const UserItinerary = () => {
               {getDate()}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            {itineraryObjects}
-          </Grid>
+          {isLoading ? (
+            <Grid item xs={12}>
+              <CircularProgress />{" "}
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              {itineraryObjects.length != 0 ? (
+                <Grid item xs={12}>
+                  {itineraryObjects}
+                </Grid>
+              ) : (
+                <Typography
+                  style={{
+                    color: "white",
+                    fontSize: "20px",
+                    marginBottom: "30px",
+                    justifyContent: "center",
+                  }}
+                >
+                  "Oops, sorry! No activities were found. Please try going back
+                  and sending the form again with a different address.{" "}
+                </Typography>
+              )}
+            </Grid>
+          )}
+
           <Grid
             item
             xs={12}
