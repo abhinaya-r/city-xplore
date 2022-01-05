@@ -1,14 +1,12 @@
 // const Pool = require("pg").Pool;
-
-
+require('dotenv').config();
 const { Pool, Client } = require("pg");
-
 const credentials = {
-  user: "fsmzivjlddejrr",
-  host: "ec2-52-1-115-6.compute-1.amazonaws.com",
-  database: "db92h7c97fdltv",
-  password: "d6d74ad663133593ff33634ad389630203d0b6844e2dbd303e6a7c08abbecc45",
-  port: 5432,
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
 };
 
 // Connect with a connection pool.
