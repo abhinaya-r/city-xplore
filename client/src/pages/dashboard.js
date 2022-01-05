@@ -355,7 +355,7 @@ const Mainpage = () => {
           >
             {favActivityObjects.length != 0 ? (
               <GridList cols={5} className={classes.gridList}>
-                favActivityObjects{" "}
+                {favActivityObjects}
               </GridList>
             ) : (
               <Typography
