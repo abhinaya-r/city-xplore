@@ -52,6 +52,9 @@ const Mainpage = () => {
 
   const [open, setOpen] = React.useState(false);
   const [openActivity, setOpenActivity] = React.useState(false);
+  const [count, setCount] = React.useState(0);
+
+  // const [activity, setActivity] = React.useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -120,6 +123,38 @@ const Mainpage = () => {
     itins = getPastItineraries();
   };
 
+  const handleDelete = (itinerary) => {
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    console.log("in delete itinerary", itinerary);
+    axios
+      .post(`${uriBase}/itineraries/remove`, {
+        token: tk.token,
+        activity: itinerary,
+      })
+      .then((response) => {
+        console.log("response:", response);
+        getPastItineraries();
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+  };
+
+  const handleDeleteActivity = (activity) => {
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    console.log("in delete activity", activity);
+    axios
+      .post(`${uriBase}/activities/favorite/remove`, {
+        token: tk.token,
+        activity: activity,
+      })
+      .then((response) => {
+        console.log("response:", response);
+        getFavoritedActivities();
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+  };
+
   React.useEffect(() => {
     getPastItineraries();
     getFavoritedActivities();
@@ -148,14 +183,13 @@ const Mainpage = () => {
           </Grid>
           <Grid item xs={2}>
             <Tooltip title="Delete itinerary">
-              <IconButton onClick={handleClickOpen}>
+              <IconButton onClick={() => handleClickOpen()}>
                 <DeleteIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
           </Grid>
         </Grid>
       );
-      activityObjects.push();
       for (const [indexAct, valueAct] of valueItin["itinerary"].entries()) {
         activityObjects.push(
           <Activity
@@ -204,7 +238,7 @@ const Mainpage = () => {
             address={value["address"]}
           />
           <Tooltip title="Delete activity">
-            <IconButton onClick={handleClickOpenActivity}>
+            <IconButton onClick={() => handleDeleteActivity(value)}>
               <DeleteIcon sx={{ color: "white" }} />
             </IconButton>
           </Tooltip>
@@ -212,10 +246,6 @@ const Mainpage = () => {
       );
     }
   }
-
-  const handleDelete = () => {};
-
-  const handleDeleteActivity = () => {};
 
   return (
     <div style={{ height: "100vh" }}>
@@ -346,7 +376,6 @@ const Mainpage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
       <Dialog
         open={openActivity}
         onClose={handleCloseActivity}
