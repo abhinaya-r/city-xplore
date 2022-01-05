@@ -91,8 +91,7 @@ const About = () => {
           form, you will select a few categories of activities that you are
           interested in. You will also specify a starting location or city to
           begin your journey. You can optionally provide a price range for the
-          activities, and a mile radius for how far from the starting location
-          you are willing to go.
+          activities.
         </Typography>
         <Typography
           style={{

@@ -19,6 +19,7 @@ import { Tooltip } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
+import AddressInput from "material-ui-address-input";
 
 import axios from "axios";
 
@@ -151,6 +152,7 @@ const Recommendations = () => {
     activities.push("park");
     activitiesDisplay.push("Park");
     setAct(act + 1);
+    setSelectedIsValid(true);
     console.log("display: ", activitiesDisplay);
   };
   const addBookstore = () => {
@@ -175,18 +177,18 @@ const Recommendations = () => {
     setSelectedIsValid(false);
     console.log("activities in delete list: ", activities);
   };
-  let radius = 30*1609;
-  const handleClickRadius = event => {
+  let radius = 30 * 1609;
+  const handleClickRadius = (event) => {
     const { myValue } = event.currentTarget.dataset;
-    console.log(myValue) // --> 123
-    radius = myValue*1609;
-}
+    console.log(myValue); // --> 123
+    radius = myValue * 1609;
+  };
   let price = 2;
-  const handleClickPrice = event => {
+  const handleClickPrice = (event) => {
     const { myValue } = event.currentTarget.dataset;
-    console.log(myValue) // --> 123
+    console.log(myValue); // --> 123
     price = myValue;
-}
+  };
 
   const isDashboard = "false";
 
@@ -197,7 +199,7 @@ const Recommendations = () => {
           activities: activities,
           address: address,
           radius: radius,
-          price: price
+          price: price,
         })
         .then((response) => {
           console.log(response.data);
@@ -311,7 +313,7 @@ const Recommendations = () => {
                 textAlign: "left",
               }}
             >
-              Choose one or more of the categories in order *
+              Choose one or more of the categories *
             </Typography>
             <Grid item xs={12} style={{ textAlign: "center" }}>
               {selectedDirty && isSelectedValid == false && (
@@ -420,7 +422,52 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Starting Address or City *
+              Starting Address, City, or Zip Code *
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                paddingTop: "-10px",
+                textAlign: "center",
+              }}
+            >
+              Please type out full state name. Examples:
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                paddingTop: "-10px",
+                textAlign: "center",
+              }}
+            >
+              20 W 34th St, New York, NY 10001
+            </Typography>
+
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                paddingTop: "-10px",
+                textAlign: "center",
+              }}
+            >
+              New York City, New York
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                paddingTop: "-10px",
+                textAlign: "center",
+              }}
+            >
+              10001
             </Typography>
             <TextField
               id="filled"
@@ -431,14 +478,18 @@ const Recommendations = () => {
               error={addressDirty && isAddressValid === false}
               helperText={
                 addressDirty && isAddressValid === false
-                  ? "Please enter valid starting location"
+                  ? "Please enter starting location"
                   : ""
               }
               FormHelperTextProps={{ classes: helperTestClasses }}
               onInput={handleAddress}
               value={address}
               style={textfieldStyle}
-              style={{ backgroundColor: "white", borderRadius: 5 }}
+              style={{
+                backgroundColor: "white",
+                borderRadius: 5,
+                width: "50%",
+              }}
               muifilledinput={{ borderBottomLeftRadius: "0px" }}
               InputProps={{
                 disableUnderline: true,
@@ -446,47 +497,10 @@ const Recommendations = () => {
               }}
             />
           </Grid>
+
           <Grid
             item
-            xs={6}
-            style={{
-              border: "0px",
-              marginTop: "-20px",
-              paddingTop: "0px",
-            }}
-          >
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "25px",
-                paddingTop: "0px",
-                paddingBottom: "10px",
-                textAlign: "center",
-              }}
-            >
-              Max Mile Radius{" "}
-            </Typography>
-            <TextField
-              select
-              variant="outlined"
-              size="small"
-              margin="none"
-              style={{ backgroundColor: "white", borderRadius: 5 }}
-              InputProps={{
-                disableUnderline: true,
-                padding: "0px",
-              }}
-            >
-              <MenuItem onClick={handleClickRadius} value={10}>5</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={20}>10</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={30}>20</MenuItem>
-              <MenuItem onClick={handleClickRadius} value={30}>50</MenuItem>
-            </TextField>
-          </Grid>
-          <Grid
-            item
-            xs={6}
+            xs={12}
             style={{
               border: "0px",
               marginTop: "-20px",
@@ -527,7 +541,6 @@ const Recommendations = () => {
                   outlineStyle: "solid",
                   color: "black",
                 }}
-                
               >
                 {"  "}$
               </ToggleButton>
