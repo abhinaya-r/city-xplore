@@ -1,27 +1,18 @@
 // server/index.js
+require('dotenv').config();
 const express = require("express");
-
 const cors = require("cors");
-
 const PORT = process.env.PORT || 3001;
-
 const app = express();
-
 const path = require("path");
-
 const axios = require("axios");
-
-const key = "AIzaSyALq3_ZhQojUobHPmhQl3Ij-eoQ-ZR9w18";
-
+const key = process.env.API_KEY
 const crypto = require("crypto");
-
 const nodemailer = require("nodemailer");
-
 var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
 
-console.log("env: ", process.env.NODE_ENV);
 axios.default.baseURL = "http://localhost:3001/";
 if (process.env.NODE_ENV == "production") {
   axios.default.baseURL = "https://city-xplore.herokuapp.com";
@@ -172,7 +163,7 @@ app.get("/api/forgotpassword", function (req, res) {
     port: 587,
     auth: {
       user: "cityxplorecontact@gmail.com",
-      pass: "Cityxplore123",
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
   var mailOptions = {

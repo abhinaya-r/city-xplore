@@ -83,7 +83,7 @@ const ForgotPassword = ({ setToken }) => {
     const token = await getToken({
     email
     });
-    console.log(token.token);
+    console.log(token);
     fetch(
         `${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`,
         {
