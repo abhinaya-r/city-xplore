@@ -268,7 +268,7 @@ const Signup = ({ setToken }) => {
       if (allValid) {
         setToken(token);
         console.log(token);
-        window.location.href = "/dashboard";
+        window.location.href = "/homepage";
       } else {
         if (isFirstNameValid === false) setFnDirty(true);
         if (isLastNameValid === false) setLnDirty(true);
