@@ -24,10 +24,12 @@ async function addFavorite(activity) {
   console.log("user: ", user);
   let user_id = user[0].user_id;
   console.log(user_id);
-  const exists = await db.query("SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
-  [user_id, activity.activity, "favorite"]);
+  const exists = await db.query(
+    "SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
+    [user_id, activity.activity, "favorite"]
+  );
   if (exists[0].exists) {
-    return {message: "Activity already added to favorites"}
+    return { message: "Activity already added to favorites" };
   }
 
   const result = await db.query(
@@ -52,10 +54,12 @@ async function addBlacklist(activity) {
   ]);
   let user_id = user[0].user_id;
   console.log(user_id);
-  const exists = await db.query("SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
-  [user_id, activity.activity, "blacklist"]);
+  const exists = await db.query(
+    "SELECT exists(SELECT 1 from activities WHERE user_id=$1 AND activity = $2 AND status=$3)",
+    [user_id, activity.activity, "blacklist"]
+  );
   if (exists[0].exists) {
-    return {message: "Activity already added to blacklist"}
+    return { message: "Activity already added to blacklist" };
   }
 
   const result = await db.query(
@@ -85,10 +89,10 @@ async function removeFavorite(activity) {
     [user_id, activity.activity, "favorite"]
   );
 
-  let message = "Error in adding activity to favorites";
+  let message = "Error in removing activity to favorites";
   console.log("result: ", result);
   if (result.length) {
-    message = "Activity added successfully";
+    message = "Activity removed successfully";
     console.log(result.length);
   }
   console.log("message:", message);
