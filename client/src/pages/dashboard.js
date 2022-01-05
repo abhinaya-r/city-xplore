@@ -91,8 +91,8 @@ const Mainpage = () => {
       .catch((error) => console.error(`Error past itineraries: ${error}`));
   };
 
-  let favorited = [];
   // let favActivityObjects = [];
+  let favorited = [];
 
   const getFavoritedActivities = () => {
     let token = localStorage.getItem("token");
@@ -101,12 +101,14 @@ const Mainpage = () => {
     axios
       .get(url)
       .then((response) => {
-        for (const [index, value] of response.data.entries()) {
-          favorited.push(value["activity"]);
+        if (response != null) {
+          for (const [index, value] of response.data.entries()) {
+            favorited.push(value["activity"]);
+          }
         }
         setFavActivities(favorited);
       })
-      .catch((error) => console.error(`Error fav activities: ${error}`));
+      .catch(() => setFavActivities(favorited));
   };
 
   const typeStyle = {
