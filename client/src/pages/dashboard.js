@@ -218,6 +218,7 @@ const Mainpage = () => {
   let favActivityObjects = [];
 
   if (favActivities) {
+    console.log("favActivityObjects length: ", favActivityObjects.length);
     console.log("favActivities: ", favActivities);
     for (const [index, value] of favActivities.entries()) {
       favActivityObjects.push(
@@ -314,9 +315,24 @@ const Mainpage = () => {
             marginRight: "50px",
           }}
         >
-          <GridList cols={3} className={classes.gridList}>
-            {pastItineraryObjects}
-          </GridList>
+          {pastItineraryObjects.length != 0 ? (
+            <GridList cols={3} className={classes.gridList}>
+              {pastItineraryObjects}
+            </GridList>
+          ) : (
+            <Typography
+              style={{
+                font: "Manrope, sans-serif",
+                color: "#919E6A",
+                textAlign: "center",
+                paddingTop: "20px",
+                paddingBottom: "10px",
+                fontSize: "20px",
+              }}
+            >
+              No saved itineraries yet. Create a new itinerary to get started!
+            </Typography>
+          )}
         </Grid>
         <Grid
           item
@@ -337,9 +353,24 @@ const Mainpage = () => {
               marginRight: "50px",
             }}
           >
-            <GridList cols={5} className={classes.gridList}>
-              {favActivityObjects}
-            </GridList>
+            {favActivityObjects.length != 0 ? (
+              <GridList cols={5} className={classes.gridList}>
+                favActivityObjects{" "}
+              </GridList>
+            ) : (
+              <Typography
+                style={{
+                  font: "Manrope, sans-serif",
+                  color: "#919E6A",
+                  textAlign: "center",
+                  paddingTop: "20px",
+                  paddingBottom: "10px",
+                  fontSize: "20px",
+                }}
+              >
+                "No favorited activities yet!"
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Grid>
