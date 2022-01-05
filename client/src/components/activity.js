@@ -63,11 +63,13 @@ export default function Activity(props) {
   // }, []);
 
   const handleFavorited = () => {
-    setIsFavorited(!isFavorited);
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
-    axios
+    console.log("is it favorited: ", isFavorited)
+    setIsFavorited(!isFavorited);
+    if (!isFavorited) {
+      axios
       .post(`${uriBase}/activities/favorite`, {
         token: tk.token,
         activity: props.activity,
@@ -76,6 +78,21 @@ export default function Activity(props) {
         console.log("response:", response);
       })
       .catch((error) => console.error(`Error: ${error}`));
+    }
+    else {
+      axios
+      .post(`${uriBase}/activities/favorite/remove`, {
+        token: tk.token,
+        activity: props.activity,
+      })
+      .then((response) => {
+        console.log("response:", response);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+
+    }
+    
+    
   };
 
   const handleBlacklist = () => {
