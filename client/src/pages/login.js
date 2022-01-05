@@ -307,16 +307,19 @@ const Login = ({ setToken }) => {
                 justifyAlign: "center",
               }}
             >
-              <Link 
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "20px",
-                paddingBottom: "30px",
-                textAlign: "center",
-                textTransform: "none"
-              }}
-              to="/forgotpassword">Forgot Password?</Link>
+              <Link
+                style={{
+                  fontFamily: "Manrope, sans-serif",
+                  color: "white",
+                  fontSize: "20px",
+                  paddingBottom: "30px",
+                  textAlign: "center",
+                  textTransform: "none",
+                }}
+                to="/forgotpassword"
+              >
+                Forgot Password?
+              </Link>
             </Grid>
             {/* <Grid item xs={12}>
               <Typography

@@ -57,7 +57,6 @@ const UserItinerary = () => {
   const [itinerary, getItinerary] = React.useState(null);
 
   const [open, setOpen] = React.useState(false);
-  const [count, setCount] = React.useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
