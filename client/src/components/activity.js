@@ -91,7 +91,10 @@ export default function Activity(props) {
     }
   };
 
-  const handleBlacklist = () => {};
+  const handleBlacklist = () => {
+    setOpen(false);
+    setColor("gray");
+  };
 
   return (
     <div>
