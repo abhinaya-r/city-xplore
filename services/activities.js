@@ -114,7 +114,7 @@ async function removeBlacklist(activity) {
   let message = "Error in adding activity to blacklist";
   console.log("result: ", result);
   if (result.length) {
-    message = "Activity added successfully";
+    message = "Activity blacklisted successfully";
     console.log(result.length);
   }
   console.log("message:", message);
