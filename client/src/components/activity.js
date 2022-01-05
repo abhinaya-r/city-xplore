@@ -75,7 +75,7 @@ export default function Activity(props) {
           activity: props.activity,
         })
         .then((response) => {
-          console.log("response blacklist:", response);
+          console.log("response favorite:", response);
         })
         .catch((error) => console.error(`Error: ${error}`));
     } else {
@@ -94,6 +94,18 @@ export default function Activity(props) {
   const handleBlacklist = () => {
     setOpen(false);
     setColor("gray");
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    console.log(token);
+    axios
+      .post(`${uriBase}/activities/blacklist`, {
+        token: tk.token,
+        activity: props.activity,
+      })
+      .then((response) => {
+        console.log("response blacklist:", response);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
 
   return (
