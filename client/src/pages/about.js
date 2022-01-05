@@ -130,6 +130,19 @@ const About = () => {
             fontSize: "20px",
             paddingTop: "30px",
             paddingBottom: "10px",
+            textAlign: "left",
+          }}
+        >
+          You'll get the best results in a big city, but you can try with any
+          address or city!
+        </Typography>
+        <Typography
+          style={{
+            fontFamily: "Manrope, sans-serif",
+            color: "white",
+            fontSize: "20px",
+            paddingTop: "30px",
+            paddingBottom: "10px",
             textAlign: "center",
           }}
         >
