@@ -60,8 +60,31 @@ async function get(token) {
   return null;
 }
 
+async function remove(itinerary) {
+  console.log("remove itinerary: ", itinerary.body);
+  const user = await db.query("SELECT (user_id) FROM users WHERE token = $1", [
+    itinerary.token,
+  ]);
+  let user_id = user[0].user_id;
+  console.log(user_id);
+  const result = await db.query(
+    "DELETE FROM itineraries WHERE user_id = $1 AND itinerary = $2 RETURNING *",
+    [user_id, itinerary.itinerary]
+  );
+
+  let message = "Error in removing itinerary";
+  console.log("result: ", result);
+  if (result.length) {
+    message = "Itinerary removed successfully";
+    console.log(result.length);
+  }
+  console.log("message:", message);
+  return { message };
+}
+
 module.exports = {
   getMultiple,
   create,
   get,
+  remove
 };

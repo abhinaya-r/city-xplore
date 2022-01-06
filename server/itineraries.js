@@ -26,4 +26,14 @@ router.post("/", async function (req, res, next) {
   }
 });
 
+router.post("/remove", async function (req, res, next) {
+  console.log("posting itinerary to remove: ", req.body);
+  try {
+    res.json(await itineraries.remove(req.body));
+  } catch (err) {
+    console.error(`Error while posting itineraries `, err.message);
+    next(err);
+  }
+});
+
 module.exports = router;
