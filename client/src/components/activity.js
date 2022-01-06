@@ -51,6 +51,7 @@ export default function Activity(props) {
     padding: "5px",
     marginTop: "-10px",
     marginBottom: "0px",
+    fontFamily: "Manrope, sans-serif",
   };
 
   // const addActivity = (props) => {

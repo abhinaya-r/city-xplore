@@ -264,11 +264,11 @@ const Mainpage = () => {
         <Typography
           variant="h5"
           style={{
-            font: "Manrope, sans-serif",
+            fontFamily: "Manrope, sans-serif",
             color: "#919E6A",
             textAlign: "left",
             paddingTop: "20px",
-            fontSize: "30px",
+            fontSize: "32px",
           }}
         >
           Your CityXplore Dashboard!
@@ -278,7 +278,7 @@ const Mainpage = () => {
             to="/getitinerary"
             style={{
               color: "white",
-              font: "Manrope, sans-serif",
+              fontFamily: "Manrope, sans-serif",
               textDecoration: "none",
             }}
           >
