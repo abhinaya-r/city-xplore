@@ -48,14 +48,13 @@ async function create(users) {
 async function update(users) {
   console.log("edit user: ", users);
   const result = await db.query(
-    "UPDATE users SET first_name = $1, last_name = $2, email = $3, birthday = $4, gender = $5, password = $6 WHERE token = $7 RETURNING *;",
+    "UPDATE users SET first_name = $1, last_name = $2, email = $3, birthday = $4, gender = $5 WHERE token = $6 RETURNING *;",
     [
       users.first_name,
       users.last_name,
       users.email,
       users.birthday,
       users.gender,
-      users.password,
       users.token
     ]
   );
