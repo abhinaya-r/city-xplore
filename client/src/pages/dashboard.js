@@ -132,6 +132,7 @@ const Mainpage = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log("in delete itinerary", itinerary);
+    // console.log("token", token);
     axios
       .post(`${uriBase}/itineraries/remove`, {
         token: tk.token,
@@ -188,7 +189,7 @@ const Mainpage = () => {
           </Grid>
           <Grid item xs={2}>
             <Tooltip title="Delete itinerary">
-              <IconButton onClick={() => handleClickOpen()}>
+              <IconButton onClick={() => handleDelete(valueItin)}>
                 <DeleteIcon sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
@@ -209,6 +210,7 @@ const Mainpage = () => {
           classes={classes.gridListTile}
           style={{
             margin: "10px",
+            padding: "5px",
             height: "100%",
             backgroundColor: "#ACD7AB",
             borderRadius: "10px",
@@ -225,8 +227,8 @@ const Mainpage = () => {
   let favActivityObjects = [];
 
   if (favActivities) {
-    console.log("favActivityObjects length: ", favActivityObjects.length);
-    console.log("favActivities: ", favActivities);
+    // console.log("favActivityObjects length: ", favActivityObjects.length);
+    // console.log("favActivities: ", favActivities);
     for (const [index, value] of favActivities.entries()) {
       favActivityObjects.push(
         <GridListTile
