@@ -24,25 +24,38 @@ export default function Header(props) {
               to="/"
               style={{
                 color: "white",
-                font: "Manrope, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 textDecoration: "none",
               }}
             >
-              <Typography variant="h5" style={{ font: "Manrope, sans-serif" }}>
+              <Typography
+                variant="h5"
+                style={{ fontFamily: "Manrope, sans-serif" }}
+              >
                 CityXplore
               </Typography>
             </Link>
           </div>
           <div style={grow} />
 
-          <Tooltip title="Log in" style={{ color: "white" }}>
+          <Tooltip
+            title="Log in"
+            style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+          >
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Button style={{ color: "white" }}>Log in</Button>
             </Link>
           </Tooltip>
-          <Tooltip title="Sign up" style={{ color: "white" }}>
+          <Tooltip
+            title="Sign up"
+            style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+          >
             <Link to="/signup" style={{ textDecoration: "none" }}>
-              <Button style={{ color: "white" }}>Sign up</Button>
+              <Button
+                style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+              >
+                Sign up
+              </Button>
             </Link>
           </Tooltip>
         </Toolbar>

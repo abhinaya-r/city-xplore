@@ -69,11 +69,14 @@ export default function Header(props) {
               to="/homepage"
               style={{
                 color: "white",
-                font: "Manrope, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 textDecoration: "none",
               }}
             >
-              <Typography variant="h5" style={{ font: "Manrope, sans-serif" }}>
+              <Typography
+                variant="h5"
+                style={{ fontFamily: "Manrope, sans-serif" }}
+              >
                 CityXplore
               </Typography>
             </Link>
@@ -99,19 +102,34 @@ export default function Header(props) {
             anchorEl={anchorEl}
             getContentAnchorEl={null}
           >
-            <MenuItem onClick={handleAbout} style={{ color: "white" }}>
+            <MenuItem
+              onClick={handleAbout}
+              style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+            >
               About
             </MenuItem>
-            <MenuItem onClick={handleDashboard} style={{ color: "white" }}>
+            <MenuItem
+              onClick={handleDashboard}
+              style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+            >
               My Dashboard
             </MenuItem>
-            <MenuItem onClick={handleProfile} style={{ color: "white" }}>
+            <MenuItem
+              onClick={handleProfile}
+              style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+            >
               My Profile
             </MenuItem>
-            <MenuItem onClick={handleItinerary} style={{ color: "white" }}>
+            <MenuItem
+              onClick={handleItinerary}
+              style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+            >
               Create Itinerary
             </MenuItem>
-            <MenuItem onClick={handleSignout} style={{ color: "white" }}>
+            <MenuItem
+              onClick={handleSignout}
+              style={{ color: "white", fontFamily: "Manrope, sans-serif" }}
+            >
               Sign out
             </MenuItem>
           </Menu>
