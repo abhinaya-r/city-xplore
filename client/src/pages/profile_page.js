@@ -317,7 +317,11 @@ const ProfilePage = () => {
     let tk = JSON.parse(token);
     axios
         .post(`${uriBase}/users/remove`, tk)
-        .then((res) => console.log("response: ", res))
+        .then((res) => {
+          console.log("signing out");
+          localStorage.clear();
+          window.location.href = "/";
+        })
         .catch((error) => console.error(`Error: ${error}`));
   };
 
