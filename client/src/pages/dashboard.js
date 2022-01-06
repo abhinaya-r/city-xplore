@@ -77,6 +77,8 @@ const Mainpage = () => {
     // marginBottom: "20px",
     // width: "25%",
     // height: "25%",
+    fontFamily: "Manrope, sans-serif",
+    borderRadius: "10px",
   };
 
   const getPastItineraries = () => {
@@ -113,6 +115,7 @@ const Mainpage = () => {
 
   const typeStyle = {
     font: "Manrope, sans-serif",
+    fontFamily: "Manrope, sans-serif",
     color: "#919E6A",
     textAlign: "left",
     paddingLeft: "80px",
@@ -173,7 +176,7 @@ const Mainpage = () => {
           <Grid item xs={10}>
             <Typography
               style={{
-                font: "Manrope, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 color: "white",
                 textAlign: "center",
                 paddingBottom: "10px",
@@ -208,6 +211,8 @@ const Mainpage = () => {
             margin: "10px",
             height: "100%",
             backgroundColor: "#ACD7AB",
+            borderRadius: "10px",
+            fontFamily: "Manrope, sans-serif",
           }}
         >
           {activityObjects}
@@ -233,6 +238,8 @@ const Mainpage = () => {
             margin: "10px",
             height: "100%",
             backgroundColor: "#ACD7AB",
+            borderRadius: "10px",
+            fontFamily: "Manrope, sans-serif",
           }}
         >
           <Activity
@@ -324,7 +331,7 @@ const Mainpage = () => {
           ) : (
             <Typography
               style={{
-                font: "Manrope, sans-serif",
+                fontFamily: "Manrope, sans-serif",
                 color: "#919E6A",
                 textAlign: "center",
                 paddingTop: "20px",
@@ -362,7 +369,7 @@ const Mainpage = () => {
             ) : (
               <Typography
                 style={{
-                  font: "Manrope, sans-serif",
+                  fontFamily: "Manrope, sans-serif",
                   color: "#919E6A",
                   textAlign: "center",
                   paddingTop: "20px",
