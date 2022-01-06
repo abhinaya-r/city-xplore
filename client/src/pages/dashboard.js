@@ -136,7 +136,7 @@ const Mainpage = () => {
     axios
       .post(`${uriBase}/itineraries/remove`, {
         token: tk.token,
-        activity: itinerary,
+        itinerary: itinerary,
       })
       .then((response) => {
         console.log("response:", response);
