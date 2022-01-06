@@ -212,8 +212,9 @@ const UserItinerary = () => {
                     justifyContent: "center",
                   }}
                 >
-                  "Oops, sorry! No activities were found. Please try going back
-                  and sending the form again with a different address.{" "}
+                  "Oops, sorry! No activities were found. Please try refreshing
+                  or going back and sending the form again with a different
+                  address.{" "}
                 </Typography>
               )}
             </Grid>
