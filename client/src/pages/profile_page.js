@@ -291,16 +291,11 @@ const ProfilePage = () => {
     console.log(token);
     if (isPasswordValid && isConfirmValid) {
       const user = {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
         password: password_hash,
-        birthday: birthday,
         token: tk.token,
-        gender: gender,
       };
       axios
-        .post(`${uriBase}/users/edit`, user)
+        .post(`${uriBase}/users/changepassword`, user)
         .then((res) => console.log("response: ", res))
         .catch((error) => console.error(`Error: ${error}`));
       setOpenChangePw(false);
