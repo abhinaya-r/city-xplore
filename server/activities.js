@@ -5,7 +5,6 @@ const activities = require("../services/activities");
 /* GET quotes listing. */
 router.get("/favorite", async function (req, res, next) {
   console.log("getting favorite activities: ", req.query);
-  //   res.send("hello world")
   try {
     res.json(await activities.getFavorites(req));
   } catch (err) {
@@ -15,8 +14,7 @@ router.get("/favorite", async function (req, res, next) {
 });
 
 router.get("/blacklist", async function (req, res, next) {
-  console.log("getting blacklist activities: ", req);
-  //   res.send("hello world")
+  console.log("getting blacklist activities: ", req.query);
   try {
     res.json(await activities.getBlacklist(req));
   } catch (err) {
