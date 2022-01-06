@@ -96,22 +96,30 @@ app.get("/api/new_itinerary", (req, res) => {
         }
         let place_name = "";
         let rating = 5;
-        while(true) {
-          console.log("creating itinerary")
-          let ind = Math.floor(Math.random() * response.data["results"].length);
-          prev_latlong = response.data["results"][ind]["geometry"]["location"];
-          place_name = response.data["results"][ind]["name"];
-          rating = response.data["results"][ind]["rating"];
-          place_id = response.data["results"][ind]["place_id"];
-          for (activity of blacklist) {
-            console.log("activity.activity.name")
-            if (activity.activity.name == place_name){
-              console.log("activity is in blacklist")
-              continue;
+        if (blacklist != null){
+          while(true) {
+            console.log("creating itinerary")
+            let ind = Math.floor(Math.random() * response.data["results"].length);
+            prev_latlong = response.data["results"][ind]["geometry"]["location"];
+            place_name = response.data["results"][ind]["name"];
+            rating = response.data["results"][ind]["rating"];
+            place_id = response.data["results"][ind]["place_id"];
+            for (activity of blacklist) {
+              console.log("activity.activity.name")
+              if (activity.activity.name == place_name){
+                console.log("activity is in blacklist")
+                continue;
+              }
             }
+            break;
           }
-          break;
-        }
+      } else {
+        let ind = Math.floor(Math.random() * response.data["results"].length);
+            prev_latlong = response.data["results"][ind]["geometry"]["location"];
+            place_name = response.data["results"][ind]["name"];
+            rating = response.data["results"][ind]["rating"];
+            place_id = response.data["results"][ind]["place_id"];
+      }
 
         config = {
           method: "get",

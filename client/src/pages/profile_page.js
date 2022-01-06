@@ -312,7 +312,14 @@ const ProfilePage = () => {
     setOpenDelete(false);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    axios
+        .post(`${uriBase}/users/remove`, tk)
+        .then((res) => console.log("response: ", res))
+        .catch((error) => console.error(`Error: ${error}`));
+  };
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",

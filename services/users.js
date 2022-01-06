@@ -89,9 +89,7 @@ async function remove(token) {
   console.log("removing user: ", token);
   let result = await db.query(
     "DELETE FROM users WHERE token = $1 RETURNING *",
-    [
-      token.token
-    ]
+    [token.token]
   );
   let message = "User deleted successfully";
   console.log("result: ", result);
@@ -102,9 +100,12 @@ async function remove(token) {
   let user_id = result[0].user_id;
   result = await db.query(
     "DELETE FROM itineraries WHERE user_id = $1 RETURNING *",
-    [
-      user_id
-    ]
+    [user_id]
+  );
+
+  result = await db.query(
+    "DELETE FROM activities WHERE user_id = $1 RETURNING *",
+    [user_id]
   );
   console.log("message:", message);
   return {message};
