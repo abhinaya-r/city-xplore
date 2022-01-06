@@ -39,34 +39,20 @@ app.use("/activities", activityRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-// app.use("/login", (req, res) => {
-//   res.send({
-//     token: "test123",
-//   });
-// });
-// app.use("/api/signup", (req, res) => {
-//   res.send({
-//     token: "test123",
-//   });
-// });
-
-// Handle GET requests to /api route
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
 let startpoint = "";
 let activities = [];
 let radius = 30;
 let price = 2;
+let blacklist = []
 
 app.post("/api/new_itinerary", function (req, res) {
   const itinerary = req.body;
-  console.log("post req:", itinerary);
+  console.log("create itinerary:", itinerary);
   let address = itinerary.address;
   activities = itinerary.activities;
   radius = itinerary.radius;
   price = itinerary.price;
+  blacklist = itinerary.blacklist;
 
   config = {
     method: "get",
@@ -104,19 +90,28 @@ app.get("/api/new_itinerary", (req, res) => {
     };
     axios(config)
       .then(function (response) {
-        // console.log("name: ", response.data["results"][0]["name"]);
-        // console.log("location: ", response.data["results"][0]["geometry"]["location"]);
-        // console.log("place id: ", response.data["results"][0]["place_id"]);
-        // console.log("rating: ", response.data["results"][0]["rating"]);
         if (response.data["results"].length == 0) {
+          console.log("radius too small");
           res.send({ message: "Radius is too small" });
         }
-        let ind = Math.floor(Math.random() * response.data["results"].length);
-        prev_latlong = response.data["results"][ind]["geometry"]["location"];
-        let place_name = response.data["results"][ind]["name"];
-        let rating = response.data["results"][ind]["rating"];
-
-        place_id = response.data["results"][ind]["place_id"];
+        let place_name = "";
+        let rating = 5;
+        while(true) {
+          console.log("creating itinerary")
+          let ind = Math.floor(Math.random() * response.data["results"].length);
+          prev_latlong = response.data["results"][ind]["geometry"]["location"];
+          place_name = response.data["results"][ind]["name"];
+          rating = response.data["results"][ind]["rating"];
+          place_id = response.data["results"][ind]["place_id"];
+          for (activity of blacklist) {
+            console.log("activity.activity.name")
+            if (activity.activity.name == place_name){
+              console.log("activity is in blacklist")
+              continue;
+            }
+          }
+          break;
+        }
 
         config = {
           method: "get",

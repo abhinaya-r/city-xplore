@@ -25,6 +25,13 @@ import axios from "axios";
 let activities = [];
 let activitiesDisplay = [];
 
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
+}
+
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
     borderRadius: 5,
@@ -191,22 +198,45 @@ const Recommendations = () => {
 
   const isDashboard = "false";
 
+  // const getBlacklist = () = {
+  //   let token = localStorage.getItem("token");
+  //   let tk = JSON.parse(token);
+  //   axios.get(`${uriBase}/activities/blacklist?token=${token}`)
+  //   .then((res) => {
+  //     console.log(res);
+  //     let blacklist = res.data.blacklist;
+  //     setBlacklist(blacklist);
+  //   }).catch((error) => console.error(`Error: ${error}`))
+  // };
+
+  // const blacklist = () = {
+  //   let token = localStorage.getItem("token");
+  //   let tk = JSON.parse(token);
+  // };
   const createItinerary = () => {
     if (isAddressValid && isSelectedValid) {
-      axios
-        .post("api/new_itinerary", {
-          activities: activities,
-          address: address,
-          radius: radius,
-          price: price,
+      let token = localStorage.getItem("token");
+        let tk = JSON.parse(token);
+        axios.get(`${uriBase}/activities/blacklist?token=${tk.token}`)
+        .then((res) => {
+          console.log("blacklist: ", res.data);
+          let blacklist = res.data;
+          axios
+          .post("api/new_itinerary", {
+            activities: activities,
+            address: address,
+            radius: radius,
+            price: price,
+            blacklist: blacklist
+          })
+          .then((response) => {
+            console.log(response.data);
+            if (response.data["status"] == "SUCCESS") {
+              console.log("success");
+              window.location.href = "/itinerary";
+            }
+          });
         })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data["status"] == "SUCCESS") {
-            console.log("success");
-            window.location.href = "/itinerary";
-          }
-        });
     } else {
       console.log("isAddressValid: ", isAddressValid);
       console.log("isSelectedValid: ", isSelectedValid);

@@ -12,6 +12,8 @@ import Activity from "./activityDashboard";
 
 import axios from "axios";
 
+
+
 const getDate = () => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -40,12 +42,13 @@ const UserItinerary = () => {
   const background = {
     backgroundColor: "#FFF6F1",
   };
+  
 
   const [itinerary, getItinerary] = React.useState(null);
 
   const getNewItinerary = () => {
     axios
-      .get("/api/new_itinerary")
+      .get("/api/new_itinerary", blacklist)
       .then((response) => {
         const allActivities = response.data.itinerary;
         const list = response.data.list;
@@ -54,8 +57,10 @@ const UserItinerary = () => {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+
   React.useEffect(() => {
     getNewItinerary();
+
   }, []);
 
   return (
