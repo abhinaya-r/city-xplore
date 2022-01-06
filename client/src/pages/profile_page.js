@@ -252,7 +252,6 @@ const ProfilePage = () => {
         first_name: firstName,
         last_name: lastName,
         email: email,
-        password: password_hash,
         birthday: birthday,
         token: tk.token,
         gender: gender,
