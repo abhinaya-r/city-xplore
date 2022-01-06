@@ -74,9 +74,9 @@ const ProfilePage = () => {
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(true);
   const [lnDirty, setLnDirty] = useState(false);
-  const [isPasswordValid, setPasswordIsValid] = useState(true);
+  const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
-  const [isConfirmValid, setConfirmIsValid] = useState(true);
+  const [isConfirmValid, setConfirmIsValid] = useState(false);
   const [confirmDirty, setConfirmDirty] = useState(false);
   const [isBirthdayValid, setBirthdayIsValid] = useState(true);
   const [birthdayDirty, setBirthdayDirty] = useState(false);
@@ -258,7 +258,9 @@ const ProfilePage = () => {
       };
       axios
         .post(`${uriBase}/users/edit`, user)
-        .then((res) => console.log("response: ", res))
+        .then((res) => {
+          console.log("response: ", res);
+        })
         .catch((error) => console.error(`Error: ${error}`));
       setOpen(false);
       getUserInfo();
@@ -288,6 +290,7 @@ const ProfilePage = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
+    console.log("isPasswordValid", isPasswordValid);
     if (isPasswordValid && isConfirmValid) {
       const user = {
         password: password_hash,
