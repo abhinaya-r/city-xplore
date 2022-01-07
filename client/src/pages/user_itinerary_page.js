@@ -57,6 +57,7 @@ const UserItinerary = () => {
 
   const [itinerary, getItinerary] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [activityOrder, setActivityOrder] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -98,6 +99,7 @@ const UserItinerary = () => {
       .then((response) => {
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
+        setActivityOrder(response.data.list);
         console.log("posting itinerary");
         console.log("message: ", response.data.message);
         console.log("itinerary: ", response.data.itinerary);
@@ -113,17 +115,19 @@ const UserItinerary = () => {
   const itineraryObjects = [];
 
   if (itinerary) {
-    console.log(itinerary);
-    for (const [index, value] of itinerary.entries()) {
-      console.log("value user itinerary page: ", value);
-      itineraryObjects.push(
-        <Activity
-          name={!itinerary ? "Loading..." : value["name"]}
-          rating={!itinerary ? "" : value["rating"]}
-          address={!itinerary ? "" : value["address"]}
-          type={value["type"]}
-        />
-      );
+    for (const [ind, actOrder] of activityOrder.entries()) {
+      for (const [index, value] of itinerary.entries()) {
+        if (value["type"] === actOrder) {
+          itineraryObjects.push(
+            <Activity
+              name={!itinerary ? "Loading..." : value["name"]}
+              rating={!itinerary ? "" : value["rating"]}
+              address={!itinerary ? "" : value["address"]}
+              type={value["type"]}
+            />
+          );
+        }
+      }
     }
   }
 
