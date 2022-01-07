@@ -15,6 +15,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 
 import axios from "axios";
 
@@ -36,11 +37,18 @@ map.set("park", "Park");
 map.set("book_store", "Book Store");
 map.set("tourist_attraction", "Tourist Attraction");
 
+const useStyles = makeStyles((theme) => ({
+  a: {
+    hover: { backgroundColor: "black" },
+  },
+}));
+
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [color, setColor] = React.useState("#FFF6F1");
   // const [activity, setActivity] = React.useState(null);
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -126,7 +134,7 @@ export default function Activity(props) {
 
   return (
     <div>
-      <Tooltip title="Click to open in Google Maps">
+      <Tooltip title="Click to open in Google Maps" placement="top">
         <a href={props.url} target="_blank" style={{ textDecoration: "none" }}>
           <Box
             component="span"
