@@ -131,7 +131,7 @@ export default function Activity(props) {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
-  const url = "//" + props.url;
+  console.log("rating: ", props.rating);
 
   return (
     <div>
@@ -172,13 +172,13 @@ export default function Activity(props) {
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>
-            {props.rating !== null ? (
+            {props.rating !== undefined ? (
               <Box sx={{ alignItems: "left" }} style={boxStyle}>
                 {props.rating} stars
               </Box>
             ) : (
               <Box sx={{ alignItems: "left" }} style={boxStyle}>
-                "Unknown rating"
+                Unknown rating
               </Box>
             )}
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
