@@ -79,6 +79,7 @@ app.get("/api/new_itinerary", (req, res) => {
   let itinerary = [];
   let prev_latlong = startpoint;
   let place_id = "";
+  let url = "";
   for (let i = 0; i < activities.length; i += 1) {
     let latlong = prev_latlong;
     const type = activities[i];
@@ -105,7 +106,7 @@ app.get("/api/new_itinerary", (req, res) => {
             rating = response.data["results"][ind]["rating"];
             place_id = response.data["results"][ind]["place_id"];
             for (activity of blacklist) {
-              console.log("activity.activity.name")
+              console.log(activity.activity.name);
               if (activity.activity.name == place_name){
                 console.log("activity is in blacklist")
                 continue;
@@ -123,7 +124,7 @@ app.get("/api/new_itinerary", (req, res) => {
 
         config = {
           method: "get",
-          url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address&key=${key}`,
+          url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address%2Curl&key=${key}`,
           headers: {},
         };
         // console.log("ind: ", i);
@@ -131,11 +132,13 @@ app.get("/api/new_itinerary", (req, res) => {
           .then(function (response) {
             // console.log(JSON.stringify(response.data));
             let address = response.data["result"]["formatted_address"];
+            url = response.data["result"]["url"];
             let curr_event = {
               name: place_name,
               rating: rating,
               address: address,
               type: type,
+              url: url
             };
             itinerary.push(curr_event);
             if (itinerary.length == activities.length) {
