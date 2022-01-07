@@ -122,9 +122,12 @@ export default function Activity(props) {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  const url = "//" + props.url;
+
   return (
     <div>
-      <Link to={props.url} target="_blank" style={{ textDecoration: "none" }}>
+      <a href={props.url} target="_blank" style={{ textDecoration: "none" }}>
+        {/* <Link to={url} target="_blank" style={{ textDecoration: "none" }}> */}
         <Box
           component="span"
           display="flex"
@@ -230,7 +233,8 @@ export default function Activity(props) {
             </DialogActions>
           </Dialog>
         </Box>
-      </Link>
+        {/* </Link> */}
+      </a>
     </div>
   );
 }
