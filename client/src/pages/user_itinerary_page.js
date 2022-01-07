@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
-import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Activity from "../components/activity";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -97,6 +96,7 @@ const UserItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
+        console.log("response getNewItinerary: ", response.data);
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
         setActivityOrder(response.data.list);
@@ -124,6 +124,7 @@ const UserItinerary = () => {
               rating={!itinerary ? "" : value["rating"]}
               address={!itinerary ? "" : value["address"]}
               type={value["type"]}
+              url={value["url"]}
             />
           );
         }
