@@ -171,7 +171,7 @@ export default function Activity(props) {
               <Box sx={{ alignItems: "left" }} style={boxStyle}>
                 {props.name}
               </Box>
-              {props.rating !== null && props.rating.length != 0 ? (
+              {props.rating !== null ? (
                 <Box sx={{ alignItems: "left" }} style={boxStyle}>
                   {props.rating} stars
                 </Box>
