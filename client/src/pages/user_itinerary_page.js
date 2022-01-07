@@ -115,12 +115,13 @@ const UserItinerary = () => {
   if (itinerary) {
     console.log(itinerary);
     for (const [index, value] of itinerary.entries()) {
+      console.log("value user itinerary page: ", value);
       itineraryObjects.push(
         <Activity
           name={!itinerary ? "Loading..." : value["name"]}
           rating={!itinerary ? "" : value["rating"]}
           address={!itinerary ? "" : value["address"]}
-          activity={value}
+          type={value["type"]}
         />
       );
     }
@@ -212,13 +213,13 @@ const UserItinerary = () => {
                     justifyContent: "center",
                   }}
                 >
-                  "Oops, sorry! No activities were found. Please try going back
-                  and sending the form again with a different address.{" "}
+                  "Oops, sorry! No activities were found. Please try refreshing
+                  or going back and sending the form again with a different
+                  address.{" "}
                 </Typography>
               )}
             </Grid>
           )}
-
           <Grid
             item
             xs={12}
