@@ -24,6 +24,17 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+const map = new Map();
+map.set("restaurant", "Restaurant");
+map.set("bar", "Bar");
+map.set("museum", "Museum");
+map.set("bakery", "Bakery");
+map.set("movie_theater", "Movie Theater");
+map.set("cafe", "Cafe");
+map.set("park", "Park");
+map.set("book_store", "Book Store");
+map.set("tourist_attraction", "Tourist Attraction");
+
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -141,7 +152,7 @@ export default function Activity(props) {
                 fontFamily: "Manrope, sans-serif",
               }}
             >
-              {props.type}
+              {map.get(props.type)}
             </Typography>
           </Grid>
           <Grid item xs={6} style={gridStyle}>

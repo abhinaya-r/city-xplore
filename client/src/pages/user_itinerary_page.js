@@ -220,7 +220,6 @@ const UserItinerary = () => {
               )}
             </Grid>
           )}
-
           <Grid
             item
             xs={12}
