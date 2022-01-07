@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Typography from "@material-ui/core/Typography";
 
 import axios from "axios";
 
@@ -129,7 +130,21 @@ export default function Activity(props) {
           spacing={0}
           style={{ paddingTop: "10px" }}
         >
-          <Grid item xs={9} style={gridStyle}>
+          <Grid item xs={3} style={gridStyle}>
+            <Typography
+              style={{
+                color: "#919E6A",
+                fontSize: "15px",
+                fontWeight: "bold",
+                padding: "5px",
+                marginBottom: "0px",
+                fontFamily: "Manrope, sans-serif",
+              }}
+            >
+              {props.type}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} style={gridStyle}>
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>

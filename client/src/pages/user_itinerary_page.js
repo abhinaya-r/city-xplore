@@ -115,12 +115,13 @@ const UserItinerary = () => {
   if (itinerary) {
     console.log(itinerary);
     for (const [index, value] of itinerary.entries()) {
+      console.log("value user itinerary page: ", value);
       itineraryObjects.push(
         <Activity
           name={!itinerary ? "Loading..." : value["name"]}
           rating={!itinerary ? "" : value["rating"]}
           address={!itinerary ? "" : value["address"]}
-          activity={value}
+          type={value["type"]}
         />
       );
     }
