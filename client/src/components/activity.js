@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Typography from "@material-ui/core/Typography";
 
 import axios from "axios";
 
@@ -22,6 +23,17 @@ if (process.env.NODE_ENV == "production") {
 } else if (process.env.NODE_ENV == "prod-test") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
+
+const map = new Map();
+map.set("restaurant", "Restaurant");
+map.set("bar", "Bar");
+map.set("museum", "Museum");
+map.set("bakery", "Bakery");
+map.set("movie_theater", "Movie Theater");
+map.set("cafe", "Cafe");
+map.set("park", "Park");
+map.set("book_store", "Book Store");
+map.set("tourist_attraction", "Tourist Attraction");
 
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
@@ -129,7 +141,21 @@ export default function Activity(props) {
           spacing={0}
           style={{ paddingTop: "10px" }}
         >
-          <Grid item xs={9} style={gridStyle}>
+          <Grid item xs={3} style={gridStyle}>
+            <Typography
+              style={{
+                color: "#919E6A",
+                fontSize: "15px",
+                fontWeight: "bold",
+                padding: "5px",
+                marginBottom: "0px",
+                fontFamily: "Manrope, sans-serif",
+              }}
+            >
+              {map.get(props.type)}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} style={gridStyle}>
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>
