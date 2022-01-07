@@ -37,7 +37,6 @@ export default function Header(props) {
             </Link>
           </div>
           <div style={grow} />
-
           <Tooltip
             title="Log in"
             style={{ color: "white", fontFamily: "Manrope, sans-serif" }}

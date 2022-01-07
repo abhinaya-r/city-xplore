@@ -248,6 +248,18 @@ const UserItinerary = () => {
             >
               Save Itinerary
             </Button>
+            <Typography
+              style={{
+                color: "white",
+                fontSize: "15px",
+                fontWeight: "bold",
+                padding: "5px",
+                marginBottom: "0px",
+                fontFamily: "Manrope, sans-serif",
+              }}
+            >
+              Click on an activity to open it in Google Maps!
+            </Typography>
           </Grid>
         </Grid>
         <Dialog
