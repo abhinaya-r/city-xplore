@@ -96,7 +96,7 @@ const UserItinerary = () => {
     axios
       .get("/api/new_itinerary")
       .then((response) => {
-        console.log("response getNewItinerary: ", response.data);
+        console.log("response getNewItinerary: ", response);
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
         setActivityOrder(response.data.list);
@@ -117,6 +117,7 @@ const UserItinerary = () => {
   if (itinerary) {
     for (const [ind, actOrder] of activityOrder.entries()) {
       for (const [index, value] of itinerary.entries()) {
+        console.log("value itinerary: ", value);
         if (value["type"] === actOrder) {
           itineraryObjects.push(
             <Activity
@@ -125,6 +126,7 @@ const UserItinerary = () => {
               address={!itinerary ? "" : value["address"]}
               type={value["type"]}
               url={value["url"]}
+              activity={value}
             />
           );
         }

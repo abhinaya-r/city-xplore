@@ -225,10 +225,11 @@ const Mainpage = () => {
   }
 
   let favActivityObjects = [];
+  console.log("favActivities: ", favActivities);
 
-  if (favActivities) {
-    // console.log("favActivityObjects length: ", favActivityObjects.length);
-    // console.log("favActivities: ", favActivities);
+  if (favActivities.length != 0) {
+    console.log("favActivityObjects length: ", favActivityObjects.length);
+    console.log("favActivities: ", favActivities);
     for (const [index, value] of favActivities.entries()) {
       favActivityObjects.push(
         <GridListTile

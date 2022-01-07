@@ -76,21 +76,14 @@ export default function Activity(props) {
     fontFamily: "Manrope, sans-serif",
   };
 
-  // const addActivity = (props) => {
-  //   setActivity(props.data);
-  //   console.log("activity: ", activity);
-  // };
-
-  // React.useEffect(() => {
-  //   addActivity(props);
-  // }, []);
-
   const handleFavorited = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
     console.log("is it favorited: ", isFavorited);
+    console.log("props: ", props);
     setIsFavorited(!isFavorited);
+    // let activity = [props.name, props.rating, props.address, props.type];
     if (!isFavorited) {
       axios
         .post(`${uriBase}/activities/favorite`, {
@@ -130,8 +123,6 @@ export default function Activity(props) {
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
-
-  console.log("rating: ", props.rating);
 
   return (
     <div>
