@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import { ToggleButtonGroup } from "@mui/material";
@@ -216,27 +215,28 @@ const Recommendations = () => {
   const createItinerary = () => {
     if (isAddressValid && isSelectedValid) {
       let token = localStorage.getItem("token");
-        let tk = JSON.parse(token);
-        axios.get(`${uriBase}/activities/blacklist?token=${tk.token}`)
+      let tk = JSON.parse(token);
+      axios
+        .get(`${uriBase}/activities/blacklist?token=${tk.token}`)
         .then((res) => {
           console.log("blacklist: ", res.data);
           let blacklist = res.data;
           axios
-          .post("api/new_itinerary", {
-            activities: activities,
-            address: address,
-            radius: radius,
-            price: price,
-            blacklist: blacklist
-          })
-          .then((response) => {
-            console.log(response.data);
-            if (response.data["status"] == "SUCCESS") {
-              console.log("success");
-              window.location.href = "/itinerary";
-            }
-          });
-        })
+            .post("api/new_itinerary", {
+              activities: activities,
+              address: address,
+              radius: radius,
+              price: price,
+              blacklist: blacklist,
+            })
+            .then((response) => {
+              console.log(response.data);
+              if (response.data["status"] == "SUCCESS") {
+                console.log("success");
+                window.location.href = "/itinerary";
+              }
+            });
+        });
     } else {
       console.log("isAddressValid: ", isAddressValid);
       console.log("isSelectedValid: ", isSelectedValid);
