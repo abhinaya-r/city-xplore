@@ -100,7 +100,7 @@ app.get("/api/new_itinerary", (req, res) => {
   let config = {
     method: "get",
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
-    headers: {},
+
   };
   return axios(config)
     .then(function (response) {
@@ -119,16 +119,14 @@ app.get("/api/new_itinerary", (req, res) => {
         if (importance == 'popularity') {
           config = {
             method: "get",
-            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
-            headers: {},
+            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${prev_latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
           };
         }
         else {
           console.log("distance")
           config = {
             method: "get",
-            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&maxprice=${price}&type=${type}&rankby=distance&key=${key}`,
-            headers: {},
+            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${prev_latlong}&maxprice=${price}&type=${type}&rankby=distance&key=${key}`,
           };
         }
         axios(config)
@@ -145,8 +143,10 @@ app.get("/api/new_itinerary", (req, res) => {
                 let ind = Math.floor(
                   Math.random() * response.data["results"].length
                 );
+                console.log("ind: ", ind, " length:" , response.data["results"].length)
+                console.log("result: ", response.data["results"][ind])
                 prev_latlong =
-                  response.data["results"][ind]["geometry"]["location"];
+                response.data["results"][ind]["geometry"]["location"];
                 place_name = response.data["results"][ind]["name"];
                 rating = response.data["results"][ind]["rating"];
                 place_id = response.data["results"][ind]["place_id"];
@@ -174,7 +174,7 @@ app.get("/api/new_itinerary", (req, res) => {
             config = {
               method: "get",
               url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address%2Curl&key=${key}`,
-              headers: {},
+
             };
             // console.log("ind: ", i);
             axios(config)
