@@ -120,7 +120,6 @@ const UserItinerary = () => {
         console.log("response getNewItinerary: ", response);
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
-        alert("response: ", response.data)
         setActivityOrder(response.data.list);
         console.log("posting itinerary");
         console.log("message: ", response.data.message);

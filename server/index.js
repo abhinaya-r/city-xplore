@@ -116,7 +116,7 @@ app.get("/api/new_itinerary", (req, res) => {
         const type = activities[i];
         console.log("type: ", type)
 
-        if (importance == 'prominence') {
+        if (importance == 'popularity') {
           config = {
             method: "get",
             url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
@@ -152,7 +152,7 @@ app.get("/api/new_itinerary", (req, res) => {
                 place_id = response.data["results"][ind]["place_id"];
                 for (let activity of blacklist) {
                   activity = JSON.parse(activity)
-                  console.log(activity.activity.name);
+                  console.log(activity)
                   if (activity.activity.name == place_name) {
                     console.log("activity is in blacklist");
                     continue;
