@@ -566,6 +566,16 @@ const Recommendations = () => {
             >
               Distance from starting address (Default is 30 miles)
             </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                textAlign: "center",
+              }}
+            >
+              Please enter only digits
+            </Typography>
             <TextField
               id="filled"
               variant="outlined"
