@@ -569,6 +569,7 @@ const Recommendations = () => {
             <TextField
               id="filled"
               variant="outlined"
+              type="number"
               size="small"
               margin="none"
               onInput={handleClickRadius}
@@ -609,6 +610,7 @@ const Recommendations = () => {
             </Typography>
             <StyledToggleButtonGroup
               size="small"
+              exclusive
               value={formats}
               onChange={handleFormat}
               aria-label="price"
