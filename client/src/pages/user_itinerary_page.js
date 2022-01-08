@@ -115,9 +115,12 @@ const UserItinerary = () => {
   const itineraryObjects = [];
 
   if (itinerary) {
+    let itineraryTemp = [...itinerary.entries()];
     for (const [ind, actOrder] of activityOrder.entries()) {
-      for (const [index, value] of itinerary.entries()) {
-        console.log("value itinerary: ", value);
+      let i = 0;
+      for (const [index, value] of itineraryTemp) {
+        // console.log("itinerary Temp: ", itineraryTemp);
+        // console.log("value itinerary: ", value);
         if (value["type"] === actOrder) {
           itineraryObjects.push(
             <Activity
@@ -129,7 +132,9 @@ const UserItinerary = () => {
               activity={value}
             />
           );
+          itineraryTemp.splice(i, 1);
         }
+        i++;
       }
     }
   }
