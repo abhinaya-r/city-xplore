@@ -12,7 +12,7 @@ CREATE TABLE [IF NOT EXISTS] users (
 CREATE TABLE itineraries (
    user_id INTEGER,
    itin_id INTEGER GENERATED ALWAYS AS IDENTITY,
-   itinerary JSON [],
+   itinerary JSONB [],
    date DATE NOT NULL
 );
 
