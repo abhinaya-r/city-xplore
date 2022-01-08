@@ -91,6 +91,10 @@ const Recommendations = () => {
   const [selectedDirty, setSelectedDirty] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
+  const [radius, setRadius] = useState(30 * 1609);
+  const [price, setPrice] = useState(4);
+  const [importance, setImportance] = useState("popularity");
+
   const handleAddress = (event) => {
     const val = event.target.value;
     console.log("val: ", val);
@@ -182,17 +186,17 @@ const Recommendations = () => {
     setSelectedIsValid(false);
     console.log("activities in delete list: ", activities);
   };
-  let radius = 30 * 1609;
+  // let radius = 30 * 1609;
   const handleClickRadius = (event) => {
-    const { myValue } = event.currentTarget.dataset;
+    const myValue = event.target.value;
     console.log(myValue); // --> 123
-    radius = myValue * 1609;
+    setRadius(myValue * 1609);
   };
-  let price = 2;
+  // let price = 4;
   const handleClickPrice = (event) => {
-    const { myValue } = event.currentTarget.dataset;
+    const myValue = event.target.value;
     console.log(myValue); // --> 123
-    price = myValue;
+    setPrice(myValue);
   };
 
   const isDashboard = "false";
@@ -228,8 +232,15 @@ const Recommendations = () => {
               radius: radius,
               price: price,
               blacklist: blacklist,
+              importance: importance,
             })
             .then((response) => {
+              sessionStorage.setItem("activities", JSON.stringify(activities));
+              sessionStorage.setItem("address", address);
+              sessionStorage.setItem("radius", radius);
+              sessionStorage.setItem("price", price);
+              sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
+              sessionStorage.setItem("importance", importance);
               console.log(response.data);
               if (response.data["status"] == "SUCCESS") {
                 console.log("success");

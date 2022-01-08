@@ -169,12 +169,10 @@ app.get("/api/new_itinerary", (req, res) => {
               .catch(function (error) {
                 console.log(error);
               });
-            // console.log("activity: ", activities[i], " itinerary: ", itinerary);
           })
           .catch(function (error) {
             console.log(error);
           });
-        // console.log("itinerary: ", itinerary);
       }
     })
     .catch(function (error) {
