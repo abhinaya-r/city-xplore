@@ -93,10 +93,11 @@ app.get("/api/new_itinerary", (req, res) => {
   let radius = params.radius;
   let price = params.price;
   let blacklist = params.blacklist;
+  let importance = params.importance;
   // console.log(activities);
   // console.log("address:", address);
 
-  config = {
+  let config = {
     method: "get",
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
     headers: {},
@@ -115,11 +116,21 @@ app.get("/api/new_itinerary", (req, res) => {
         const type = activities[i];
         console.log("type: ", type)
 
-        var config = {
-          method: "get",
-          url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
-          headers: {},
-        };
+        if (importance == 'prominence') {
+          config = {
+            method: "get",
+            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
+            headers: {},
+          };
+        }
+        else {
+          console.log("distance")
+          config = {
+            method: "get",
+            url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&maxprice=${price}&type=${type}&rankby=distance&key=${key}`,
+            headers: {},
+          };
+        }
         axios(config)
           .then(function (response) {
             if (response.data["results"].length == 0) {
