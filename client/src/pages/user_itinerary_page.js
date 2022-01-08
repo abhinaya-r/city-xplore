@@ -91,6 +91,19 @@ const UserItinerary = () => {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  let activities = sessionStorage.getItem("activities");
+  let address = sessionStorage.getItem("address");
+  let radius = sessionStorage.getItem("radius");
+  let price = sessionStorage.getItem("price");
+  let blacklist = sessionStorage.getItem("blacklist");
+  let importance = sessionStorage.getItem("importance");
+  console.log("activities test", activities);
+  console.log("address", address);
+  console.log("radius", radius);
+  console.log("price", price);
+  console.log("blacklist", blacklist);
+  console.log("importance", importance);
+
   const getNewItinerary = () => {
     setIsLoading(true);
     axios

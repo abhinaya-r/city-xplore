@@ -241,6 +241,12 @@ const Recommendations = () => {
               importance: importance,
             })
             .then((response) => {
+              sessionStorage.setItem("activities", activities);
+              sessionStorage.setItem("address", address);
+              sessionStorage.setItem("radius", radius);
+              sessionStorage.setItem("price", price);
+              sessionStorage.setItem("blacklist", blacklist);
+              sessionStorage.setItem("importance", importance);
               console.log(response.data);
               if (response.data["status"] == "SUCCESS") {
                 console.log("success");
