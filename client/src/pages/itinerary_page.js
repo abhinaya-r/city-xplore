@@ -91,10 +91,6 @@ const Recommendations = () => {
   const [selectedDirty, setSelectedDirty] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  const [radius, setRadius] = useState(30 * 1609);
-  const [price, setPrice] = useState(2);
-  const [importance, setImportance] = useState("");
-
   const handleAddress = (event) => {
     const val = event.target.value;
     console.log("val: ", val);
@@ -186,23 +182,17 @@ const Recommendations = () => {
     setSelectedIsValid(false);
     console.log("activities in delete list: ", activities);
   };
-
+  let radius = 30 * 1609;
   const handleClickRadius = (event) => {
-    const myValue = event.target.value;
+    const { myValue } = event.currentTarget.dataset;
     console.log(myValue); // --> 123
-    setRadius(myValue * 1609);
+    radius = myValue * 1609;
   };
-
+  let price = 2;
   const handleClickPrice = (event) => {
-    const myValue = event.target.value;
+    const { myValue } = event.currentTarget.dataset;
     console.log(myValue); // --> 123
-    setPrice(myValue);
-  };
-
-  const handleImportance = (event) => {
-    const myValue = event.target.value;
-    console.log(myValue);
-    setImportance(myValue);
+    price = myValue;
   };
 
   const isDashboard = "false";
@@ -238,7 +228,6 @@ const Recommendations = () => {
               radius: radius,
               price: price,
               blacklist: blacklist,
-              importance: importance,
             })
             .then((response) => {
               sessionStorage.setItem("activities", activities);
@@ -455,6 +444,7 @@ const Recommendations = () => {
             style={{
               border: "0px",
               marginTop: "10px",
+              marginBottom: "10px",
               paddingTop: "0px",
             }}
           >
@@ -542,102 +532,13 @@ const Recommendations = () => {
               }}
             />
           </Grid>
+
           <Grid
             item
             xs={12}
             style={{
               border: "0px",
-              paddingTop: "0px",
               marginTop: "-20px",
-            }}
-          >
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "25px",
-                textAlign: "center",
-              }}
-            >
-              Max Mile Radius
-            </Typography>
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "15px",
-                textAlign: "center",
-              }}
-            >
-              Distance from starting address (Default is 30 miles)
-            </Typography>
-            <TextField
-              id="filled"
-              variant="outlined"
-              size="small"
-              margin="none"
-              onInput={handleClickRadius}
-              style={textfieldStyle}
-              style={{
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: "15%",
-              }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              InputProps={{
-                disableUnderline: true,
-                padding: "0px",
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              paddingTop: "0px",
-              marginTop: "-20px",
-            }}
-          >
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "25px",
-                textAlign: "center",
-              }}
-            >
-              Which one is more important to you?
-            </Typography>
-            <TextField
-              // id="filled"
-              select
-              variant="outlined"
-              size="small"
-              margin="none"
-              onChange={handleImportance}
-              style={textfieldStyle}
-              style={{
-                backgroundColor: "white",
-                borderRadius: 5,
-                width: "30%",
-              }}
-              muifilledinput={{ borderBottomLeftRadius: "0px" }}
-              // InputProps={{
-              //   disableUnderline: true,
-              //   padding: "0px",
-              // }}
-            >
-              <MenuItem value={"distance"}>Distance</MenuItem>
-              <MenuItem value={"popularity"}>Popularity</MenuItem>
-            </TextField>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            style={{
-              border: "0px",
-              marginTop: "-30px",
               marginBottom: "0px",
               paddingTop: "0px",
             }}
