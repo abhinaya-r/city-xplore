@@ -537,7 +537,65 @@ const Recommendations = () => {
               }}
             />
           </Grid>
-
+          <Grid
+            item
+            xs={12}
+            style={{
+              border: "0px",
+              paddingTop: "0px",
+              marginTop: "-20px",
+            }}
+          >
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "25px",
+                textAlign: "center",
+              }}
+            >
+              Max Mile Radius
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                textAlign: "center",
+              }}
+            >
+              Distance from starting address (Default is 30 miles)
+            </Typography>
+            <Typography
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                color: "white",
+                fontSize: "15px",
+                textAlign: "center",
+              }}
+            >
+              Please enter only digits
+            </Typography>
+            <TextField
+              id="filled"
+              variant="outlined"
+              type="number"
+              size="small"
+              margin="none"
+              onInput={handleClickRadius}
+              style={textfieldStyle}
+              style={{
+                backgroundColor: "white",
+                borderRadius: 5,
+                width: "15%",
+              }}
+              muifilledinput={{ borderBottomLeftRadius: "0px" }}
+              InputProps={{
+                disableUnderline: true,
+                padding: "0px",
+              }}
+            />
+          </Grid>
           <Grid
             item
             xs={12}
@@ -562,6 +620,7 @@ const Recommendations = () => {
             </Typography>
             <StyledToggleButtonGroup
               size="small"
+              exclusive
               value={formats}
               onChange={handleFormat}
               aria-label="price"

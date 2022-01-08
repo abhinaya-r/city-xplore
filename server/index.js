@@ -97,7 +97,7 @@ app.get("/api/new_itinerary", (req, res) => {
 
         var config = {
           method: "get",
-          url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&price_level=${price}&type=${type}&key=${key}`,
+          url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
           headers: {},
         };
         axios(config)
