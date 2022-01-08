@@ -106,12 +106,21 @@ const UserItinerary = () => {
 
   const getNewItinerary = () => {
     setIsLoading(true);
+    let activities = JSON.parse(sessionStorage.getItem("activities"));
+    let address = sessionStorage.getItem("address");
+    let radius = sessionStorage.getItem("radius");
+    let price = sessionStorage.getItem("price");
+    let blacklist = JSON.parse(sessionStorage.getItem("blacklist"));
+    let importance = sessionStorage.getItem("importance");
+    console.log("blacklist parsed: ", blacklist)
+    // ?activities=${activities}&address=${address}&radius=${radius}&price=${price}&blacklist=${blacklist}&importance=${importance}`
     axios
-      .get("/api/new_itinerary")
+      .get(`/api/new_itinerary`, {params: {activities: activities, address:address, radius: radius, price: price, blacklist: blacklist, importance: importance}})
       .then((response) => {
         console.log("response getNewItinerary: ", response);
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
+        alert("response: ", response.data)
         setActivityOrder(response.data.list);
         console.log("posting itinerary");
         console.log("message: ", response.data.message);
