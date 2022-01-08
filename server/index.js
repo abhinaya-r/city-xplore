@@ -13,6 +13,12 @@ var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
 
+axios.default.baseURL = "http://localhost:3001/";
+if (process.env.NODE_ENV == "production") {
+  axios.default.baseURL = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  axios.default.baseURL = "https://test-xplore.herokuapp.com";
+}
 
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
