@@ -149,6 +149,7 @@ const Mainpage = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log("in delete activity", activity);
+
     axios
       .post(`${uriBase}/activities/favorite/remove`, {
         token: tk.token,
