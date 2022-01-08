@@ -655,7 +655,6 @@ const Recommendations = () => {
               Price Range
             </Typography>
             <StyledToggleButtonGroup
-              exclusive
               size="small"
               value={formats}
               onChange={handleFormat}
