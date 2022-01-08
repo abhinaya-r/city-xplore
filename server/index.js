@@ -1,12 +1,12 @@
 // server/index.js
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const path = require("path");
 const axios = require("axios");
-const key = process.env.API_KEY
+const key = process.env.API_KEY;
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 var usersRouter = require("./users");
@@ -39,12 +39,6 @@ app.use("/activities", activityRouter);
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-let startpoint = "";
-let activities = [];
-let radius = 30;
-let price = 2;
-let blacklist = []
-
 app.post("/api/new_itinerary", function (req, res) {
   const itinerary = req.body;
   console.log("create itinerary:", itinerary);
@@ -63,7 +57,7 @@ app.post("/api/new_itinerary", function (req, res) {
     .then(function (response) {
       // console.log("response: ", response.data["results"][0]["geometry"]);
       let location = response.data["results"][0]["geometry"]["location"];
-      startpoint = location["lat"] + "%2C" + location["lng"];
+      let startpoint = location["lat"] + "%2C" + location["lng"];
     })
     .catch(function (error) {
       console.log("error");
@@ -74,91 +68,119 @@ app.post("/api/new_itinerary", function (req, res) {
 });
 
 app.get("/api/new_itinerary", (req, res) => {
+  let params = req.query;
+  let address = params.address;
+  let activities = params.activities;
+  let radius = params.radius;
+  let price = params.price;
+  let blacklist = params.blacklist;
   console.log(activities);
-  console.log("startpoint:", startpoint);
+  // console.log("startpoint:", startpoint);
   let itinerary = [];
-  let prev_latlong = startpoint;
+  let prev_latlong = "";
   let place_id = "";
   let url = "";
-  for (let i = 0; i < activities.length; i += 1) {
-    let latlong = prev_latlong;
-    const type = activities[i];
 
-    var config = {
-      method: "get",
-      url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&maxprice=${price}&type=${type}&key=${key}`,
-      headers: {},
-    };
-    axios(config)
-      .then(function (response) {
-        if (response.data["results"].length == 0) {
-          console.log("radius too small");
-          res.send({ message: "Radius is too small" });
-        }
-        let place_name = "";
-        let rating = 5;
-        if (blacklist != null){
-          while(true) {
-            console.log("creating itinerary")
-            let ind = Math.floor(Math.random() * response.data["results"].length);
-            prev_latlong = response.data["results"][ind]["geometry"]["location"];
-            place_name = response.data["results"][ind]["name"];
-            rating = response.data["results"][ind]["rating"];
-            place_id = response.data["results"][ind]["place_id"];
-            for (activity of blacklist) {
-              console.log(activity.activity.name);
-              if (activity.activity.name == place_name){
-                console.log("activity is in blacklist")
-                continue;
-              }
-            }
-            break;
-          }
-      } else {
-        let ind = Math.floor(Math.random() * response.data["results"].length);
-            prev_latlong = response.data["results"][ind]["geometry"]["location"];
-            place_name = response.data["results"][ind]["name"];
-            rating = response.data["results"][ind]["rating"];
-            place_id = response.data["results"][ind]["place_id"];
-      }
+  config = {
+    method: "get",
+    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
+    headers: {},
+  };
+  axios(config)
+    .then(function (response) {
+      // console.log("response: ", response.data["results"][0]["geometry"]);
+      let location = response.data["results"][0]["geometry"]["location"];
+      prev_latlong = location["lat"] + "%2C" + location["lng"];
+      for (let i = 0; i < activities.length; i += 1) {
+        let latlong = prev_latlong;
+        const type = activities[i];
 
-        config = {
+        var config = {
           method: "get",
-          url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address%2Curl&key=${key}`,
+          url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latlong}&radius=${radius}&price_level=${price}&type=${type}&key=${key}`,
           headers: {},
         };
-        // console.log("ind: ", i);
         axios(config)
           .then(function (response) {
-            // console.log(JSON.stringify(response.data));
-            let address = response.data["result"]["formatted_address"];
-            url = response.data["result"]["url"];
-            let curr_event = {
-              name: place_name,
-              rating: rating,
-              address: address,
-              type: type,
-              url: url
-            };
-            itinerary.push(curr_event);
-            if (itinerary.length == activities.length) {
-              res.send({
-                message: "success",
-                itinerary: itinerary,
-                list: activities,
-              });
+            if (response.data["results"].length == 0) {
+              console.log("radius too small");
+              res.send({ message: "Radius is too small" });
             }
+            let place_name = "";
+            let rating = 5;
+            if (blacklist != null) {
+              while (true) {
+                console.log("creating itinerary");
+                let ind = Math.floor(
+                  Math.random() * response.data["results"].length
+                );
+                prev_latlong =
+                  response.data["results"][ind]["geometry"]["location"];
+                place_name = response.data["results"][ind]["name"];
+                rating = response.data["results"][ind]["rating"];
+                place_id = response.data["results"][ind]["place_id"];
+                for (activity of blacklist) {
+                  activity = JSON.parse(activity);
+                  if (activity.activity.name == place_name) {
+                    console.log("activity is in blacklist");
+                    continue;
+                  }
+                }
+                break;
+              }
+            } else {
+              let ind = Math.floor(
+                Math.random() * response.data["results"].length
+              );
+              prev_latlong =
+                response.data["results"][ind]["geometry"]["location"];
+              place_name = response.data["results"][ind]["name"];
+              rating = response.data["results"][ind]["rating"];
+              place_id = response.data["results"][ind]["place_id"];
+            }
+
+            config = {
+              method: "get",
+              url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address%2Curl&key=${key}`,
+              headers: {},
+            };
+            // console.log("ind: ", i);
+            axios(config)
+              .then(function (response) {
+                // console.log(JSON.stringify(response.data));
+                let address = response.data["result"]["formatted_address"];
+                url = response.data["result"]["url"];
+                let curr_event = {
+                  name: place_name,
+                  rating: rating,
+                  address: address,
+                  type: type,
+                  url: url,
+                };
+                itinerary.push(curr_event);
+                if (itinerary.length == activities.length) {
+                  res.send({
+                    message: "success",
+                    itinerary: itinerary,
+                    list: activities,
+                  });
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            // console.log("activity: ", activities[i], " itinerary: ", itinerary);
           })
           .catch(function (error) {
             console.log(error);
           });
-        // console.log("activity: ", activities[i], " itinerary: ", itinerary);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    // console.log("itinerary: ", itinerary);
-  }
+        // console.log("itinerary: ", itinerary);
+      }
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+    });
 });
 
 app.get("/api/forgotpassword", function (req, res) {

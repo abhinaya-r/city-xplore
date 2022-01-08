@@ -94,7 +94,12 @@ const UserItinerary = () => {
   const getNewItinerary = () => {
     setIsLoading(true);
     axios
-      .get("/api/new_itinerary")
+      .get(`${uriBase}/api/new_itinerary`, {params: {
+        address: 'New York City, New York', 
+        activities:['museum', 'park', 'bar', 'restaurant'],
+        radius: 30*1609,
+        price: 4,
+        blacklist:[{activity:{"name": "Del Frisco's Double Eagle Steakhouse", "type": "restaurant", "rating": 4.5, "address": "1221 6th Ave, New York, NY 10020, USA"}}]}})
       .then((response) => {
         console.log("response getNewItinerary: ", response);
         const allActivities = response.data.itinerary;
