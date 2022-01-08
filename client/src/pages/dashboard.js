@@ -202,7 +202,6 @@ const Mainpage = () => {
             name={valueAct["name"]}
             rating={valueAct["rating"]}
             address={valueAct["address"]}
-            activity={valueAct}
           />
         );
       }
@@ -250,7 +249,6 @@ const Mainpage = () => {
             name={value["name"]}
             rating={value["rating"]}
             address={value["address"]}
-            activity={value}
           />
           <Tooltip title="Delete activity">
             <IconButton onClick={() => handleDeleteActivity(value)}>
