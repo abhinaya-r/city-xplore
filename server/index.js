@@ -7,18 +7,11 @@ const app = express();
 const path = require("path");
 const axios = require("axios");
 const key = process.env.API_KEY;
-const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 var usersRouter = require("./users");
 var itinRouter = require("./itineraries");
 var activityRouter = require("./activities");
 
-axios.default.baseURL = "http://localhost:3001/";
-if (process.env.NODE_ENV == "production") {
-  axios.default.baseURL = "https://city-xplore.herokuapp.com";
-} else if (process.env.NODE_ENV == "prod-test") {
-  axios.default.baseURL = "https://test-xplore.herokuapp.com";
-}
 
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
@@ -27,46 +20,24 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
-// const db = require('../database/models/index.js');
 
-app.use(cors());
+
 // middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/users", usersRouter);
 app.use("/itineraries", itinRouter);
 app.use("/activities", activityRouter);
+
 // Have Node serve the files for built React app
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-app.post("/api/new_itinerary", function (req, res) {
-  const itinerary = req.body;
-  console.log("create itinerary:", itinerary);
-  let address = itinerary.address;
-  activities = itinerary.activities;
-  radius = itinerary.radius;
-  price = itinerary.price;
-  blacklist = itinerary.blacklist;
 
-  config = {
-    method: "get",
-    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`,
-    headers: {},
-  };
-  axios(config)
-    .then(function (response) {
-      // console.log("response: ", response.data["results"][0]["geometry"]);
-      let location = response.data["results"][0]["geometry"]["location"];
-      let startpoint = location["lat"] + "%2C" + location["lng"];
-    })
-    .catch(function (error) {
-      console.log("error");
-      console.log(error);
-    });
-  res.send({ status: "SUCCESS" });
-  res.end();
-});
-
+// Create new itinerary using Google Places API
+// https://developers.google.com/maps/documentation/geocoding/start
+// https://developers.google.com/maps/documentation/places/web-service/search-nearby
+// https://developers.google.com/maps/documentation/places/web-service/details
 app.get("/api/new_itinerary", (req, res) => {
   let params = req.query;
   let address = params.address;
@@ -74,8 +45,6 @@ app.get("/api/new_itinerary", (req, res) => {
   let radius = params.radius;
   let price = params.price;
   let blacklist = params.blacklist;
-  console.log(activities);
-  // console.log("startpoint:", startpoint);
   let itinerary = [];
   let prev_latlong = "";
   let place_id = "";
@@ -88,7 +57,6 @@ app.get("/api/new_itinerary", (req, res) => {
   };
   axios(config)
     .then(function (response) {
-      // console.log("response: ", response.data["results"][0]["geometry"]);
       let location = response.data["results"][0]["geometry"]["location"];
       prev_latlong = location["lat"] + "%2C" + location["lng"];
       for (let i = 0; i < activities.length; i += 1) {
@@ -103,14 +71,12 @@ app.get("/api/new_itinerary", (req, res) => {
         axios(config)
           .then(function (response) {
             if (response.data["results"].length == 0) {
-              console.log("radius too small");
               res.send({ message: "Radius is too small" });
             }
             let place_name = "";
             let rating = 5;
             if (blacklist != null) {
               while (true) {
-                console.log("creating itinerary");
                 let ind = Math.floor(
                   Math.random() * response.data["results"].length
                 );
@@ -122,7 +88,6 @@ app.get("/api/new_itinerary", (req, res) => {
                 for (activity of blacklist) {
                   activity = JSON.parse(activity);
                   if (activity.activity.name == place_name) {
-                    console.log("activity is in blacklist");
                     continue;
                   }
                 }
@@ -144,10 +109,8 @@ app.get("/api/new_itinerary", (req, res) => {
               url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name%2Crating%2Cformatted_phone_number%2Cformatted_address%2Curl&key=${key}`,
               headers: {},
             };
-            // console.log("ind: ", i);
             axios(config)
               .then(function (response) {
-                // console.log(JSON.stringify(response.data));
                 let address = response.data["result"]["formatted_address"];
                 url = response.data["result"]["url"];
                 let curr_event = {
@@ -167,20 +130,21 @@ app.get("/api/new_itinerary", (req, res) => {
                 }
               })
               .catch(function (error) {
-                console.log(error);
+                console.error(error);
               });
           })
           .catch(function (error) {
-            console.log(error);
+            console.error(error);
           });
       }
     })
     .catch(function (error) {
-      console.log("error");
       console.log(error);
     });
 });
 
+// Send email using nodemailer to reset password
+// https://www.w3schools.com/nodejs/nodejs_email.asp
 app.get("/api/forgotpassword", function (req, res) {
   const request = req.query;
   let url = `${uriBase}/resetpassword?token=${request.token}`;
@@ -203,61 +167,16 @@ app.get("/api/forgotpassword", function (req, res) {
     if (error) {
       console.log(error);
     } else {
-      console.log("Email sent: " + info.response);
+      console.log("Email sent. ");
     }
   });
 });
-app.post("/api/login", function (req, res) {
-  // res.send({
-  //   token: "test123",
-  // });
-  console.log("request: ", req.body);
-  let logged_in = false;
-  const user = req.body;
-  console.log("post req:", user);
-  axios
-    .get("/users", { params: user })
-    .then((res) => {
-      result = res.data.result[0];
-      // console.log("response: ", res.data.result[0]);
-      p_prime = crypto.createHash("md5").update(user.password).digest("hex");
-      if (p_prime == result.password) {
-        logged_in = true;
-        console.log("correct password");
-      }
-    })
-    .catch((err) => err.message);
-  console.log("token: ", result.token);
-  res.send({
-    token: result.token,
-  });
-});
 
-app.post("/api/signup", function (req, res) {
-  console.log("request: ", req.body);
-  const user = req.body;
-  console.log("post req:", user);
-  axios
-    .post("/users", user)
-    .then((res) => {
-      res_token = res.token;
-    })
-    .catch((err) => err.message);
-  console.log(res_token);
-  res.send({
-    token: res_token,
-  });
-});
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
-
-/* GET React App */
-// router.get(['/client', '/client/*'], function(req, res, next) {
-//   res.sendFile(path.join(__dirname, '../public', 'app.html'));
-//  });
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
