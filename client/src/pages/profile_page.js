@@ -6,20 +6,17 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
-import validator from "validator";
-import { Link } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MenuItem } from "@material-ui/core";
-
 const axios = require("axios");
 const crypto = require("crypto");
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -27,12 +24,12 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Styling
 const useStyles = makeStyles({
   input: {
     color: "white",
   },
 });
-
 const helperTextStyles = makeStyles(() => ({
   root: {
     margin: "0px",
@@ -47,20 +44,18 @@ const helperTextStyles = makeStyles(() => ({
   },
 }));
 
+// Profile Page to display user's information
 const ProfilePage = () => {
-  const [alignment, setAlignment] = React.useState("");
+  // States to manage field values and error messages and whether the form is valid
   const [open, setOpen] = React.useState(false);
   const [openChangePw, setOpenChangePw] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [birthday, setBirthday] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [subscription, setSubscription] = React.useState("Premium");
-
   const classes = useStyles();
-
   const helperTestClasses = helperTextStyles();
 
   const [firstName, setFirstName] = useState("");
@@ -85,46 +80,32 @@ const ProfilePage = () => {
   let allValid =
     isLastNameValid && isFirstNameValid && isBirthdayValid && isGenderValid;
 
-  const getDate = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + "-" + mm + "-" + dd;
-    return today;
-  };
-
+  // Adapted from https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript
   const isValidDate = (dateString) => {
     // First check for the pattern
     var regex_date = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
-
     if (!regex_date.test(dateString)) {
       return false;
     }
-
     // Parse the date parts to integers
     var parts = dateString.split("-");
     var day = parseInt(parts[2], 10);
     var month = parseInt(parts[1], 10);
     var year = parseInt(parts[0], 10);
-
     // Check the ranges of month and year
     if (year < 1900 || year > 2500 || month == 0 || month > 12) {
       return false;
     }
-
     var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
     // Adjust for leap years
     if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
       monthLength[1] = 29;
     }
-
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
   };
 
+  // Hanldes all textfields to check if they are valid
   const handleFirstName = (event) => {
     const val = event.target.value;
     if (val.length >= 2) {
@@ -184,7 +165,6 @@ const ProfilePage = () => {
 
   const handleGender = (event) => {
     const val = event.target.value;
-    console.log("val");
     if (val.length > 0) {
       setGenderIsValid(true);
     } else {
@@ -193,13 +173,13 @@ const ProfilePage = () => {
     setGender(val);
   };
 
+  // Axios call to get user information
   const getUserInfo = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     axios
       .get(`/users/all_info?token=${tk.token}`)
       .then((response) => {
-        console.log("response: ", response);
         const user = response.data.user;
         setName(user.first_name + " " + user.last_name);
         setFirstName(user.first_name);
@@ -211,22 +191,18 @@ const ProfilePage = () => {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Get user information from database when page is rendered
   React.useEffect(() => {
     getUserInfo();
   }, []);
 
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
-
+  // Handles dialog boxes and editing profile
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleCancel = () => {
     setOpen(false);
     getUserInfo();
@@ -242,11 +218,9 @@ const ProfilePage = () => {
     setPasswordDirty(false);
     setConfirmDirty(false);
   };
-
   const handleUpdate = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
     if (allValid) {
       const user = {
         first_name: firstName,
@@ -258,9 +232,7 @@ const ProfilePage = () => {
       };
       axios
         .post(`${uriBase}/users/edit`, user)
-        .then((res) => {
-          console.log("response: ", res);
-        })
+        .then(() => {})
         .catch((error) => console.error(`Error: ${error}`));
       setOpen(false);
       getUserInfo();
@@ -271,26 +243,20 @@ const ProfilePage = () => {
       if (isGenderValid === false) setGenderDirty(true);
     }
   };
-
   const handleClickOpenChangePw = () => {
     setOpenChangePw(true);
   };
-
   const handleCloseChangePw = () => {
     setOpenChangePw(false);
   };
-
   const handleCancelChangePw = () => {
     setOpenChangePw(false);
     setPasswordDirty(false);
     setConfirmDirty(false);
   };
-
   const handleChangePassword = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
-    console.log("isPasswordValid", isPasswordValid);
     if (isPasswordValid && isConfirmValid) {
       const user = {
         password: password_hash,
@@ -298,7 +264,7 @@ const ProfilePage = () => {
       };
       axios
         .post(`${uriBase}/users/changepassword`, user)
-        .then((res) => console.log("response: ", res))
+        .then(() => {})
         .catch((error) => console.error(`Error: ${error}`));
       setOpenChangePw(false);
       getUserInfo();
@@ -307,24 +273,22 @@ const ProfilePage = () => {
       if (isConfirmValid === false) setConfirmDirty(true);
     }
   };
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   const handleDelete = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     axios
-        .post(`${uriBase}/users/remove`, tk)
-        .then((res) => {
-          console.log("signing out");
-          localStorage.clear();
-          window.location.href = "/";
-        })
-        .catch((error) => console.error(`Error: ${error}`));
+      .post(`${uriBase}/users/remove`, tk)
+      .then(() => {
+        localStorage.clear();
+        window.location.href = "/";
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -338,11 +302,9 @@ const ProfilePage = () => {
     padding: "60px",
     backgroundColor: "#ACD7AB",
   };
-
   const background = {
     backgroundColor: "#FFF6F1",
   };
-
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "#FFFFFF",
@@ -352,6 +314,7 @@ const ProfilePage = () => {
     textAlign: "left",
   };
 
+  // Renders profile page
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
@@ -440,30 +403,6 @@ const ProfilePage = () => {
                 Change Password
               </Button>
             </Grid>
-            {/* <Grid
-              item
-              xs={12}
-              style={{
-                border: "0px",
-                marginTop: "0px",
-                marginBottom: "-10px",
-                textAlign: "center",
-              }}
-            >
-              <Button
-                style={{
-                  color: "white",
-                  backgroundColor: "#919E6A",
-                  fontFamily: "Manrope, sans-serif",
-                  paddingTop: "0px",
-                  paddingBottom: "0px",
-                  marginBottom: "0px",
-                  textAlign: "center",
-                }}
-              >
-                Change Subscription Type
-              </Button>
-            </Grid> */}
           </Grid>
           <Grid
             item
@@ -593,17 +532,6 @@ const ProfilePage = () => {
               <MenuItem value={"nonbinary"}>Nonbinary</MenuItem>
               <MenuItem value={"other"}>Other</MenuItem>
             </TextField>
-            {/* <TextField
-              margin="dense"
-              id="subscription"
-              label="Change subscription Type"
-              fullWidth
-              inputProps={{ className: classes.input }}
-              InputLabelProps={{
-                style: { color: "#3f51b5" },
-                shrink: true,
-              }}
-            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCancel} style={{ color: "white" }}>

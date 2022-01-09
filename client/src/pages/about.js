@@ -1,35 +1,12 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Header from "../components/header";
-import landingImage from "../images/landingImage.png";
 import { Link } from "react-router-dom";
 
+// About Page to give user more information about the app
 const About = () => {
-  const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
-
-  const buttonStyle = {
-    color: "white",
-    backgroundColor: "#B6DEBC",
-    fontFamily: "Manrope, sans-serif",
-    paddingTop: "3px",
-    paddingLeft: "30px",
-    paddingRight: "30px",
-    paddingBottom: "3px",
-    fontWeight: "bold",
-    textTransform: "none",
-    minWidth: "239px",
-    minHeight: "58px",
-    fontSize: "24px",
-  };
-
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -58,14 +35,7 @@ const About = () => {
     fontWeight: "bold",
   };
 
-  const imageStyle = {
-    width: "45%",
-    height: "75%",
-    position: "absolute",
-    right: 0,
-    top: 100,
-  };
-
+  // Renders the information within a scrollable Card
   return (
     <div>
       <Header />

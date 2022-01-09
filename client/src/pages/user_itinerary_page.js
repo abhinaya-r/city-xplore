@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
-import Box from "@mui/material/Box";
 import Activity from "../components/activity";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import IconButton from "@material-ui/core/Button";
@@ -18,9 +15,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import axios from "axios";
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -28,17 +25,19 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Adapted from https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 const getDate = () => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
-
   today = mm + "/" + dd + "/" + yyyy;
   return today;
 };
 
+// User Itinerary to display the final itinerary
 const UserItinerary = () => {
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -54,33 +53,31 @@ const UserItinerary = () => {
     overflow: "auto",
   };
 
+  // States to manage the itinerary information
   const [itinerary, getItinerary] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [activityOrder, setActivityOrder] = React.useState([]);
-
   const [open, setOpen] = React.useState(false);
 
+  // Handler functions to handle all buttons
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleRefresh = () => {
     setOpen(false);
     window.location.reload(false);
   };
-
   const handleBack = () => {
     window.location.href = "/getitinerary";
   };
 
+  // Saves the itinerary in database
   const handleSave = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
     axios
       .post(`${uriBase}/itineraries`, {
         date: getDate(),
@@ -91,6 +88,7 @@ const UserItinerary = () => {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Function to get new itineary using the same form parameters
   const getNewItinerary = () => {
     setIsLoading(true);
     let activities = JSON.parse(sessionStorage.getItem("activities"));
@@ -99,32 +97,36 @@ const UserItinerary = () => {
     let price = sessionStorage.getItem("price");
     let blacklist = JSON.parse(sessionStorage.getItem("blacklist"));
     let importance = sessionStorage.getItem("importance");
-    console.log("blacklist parsed: ", blacklist)
     axios
-      .get(`/api/new_itinerary`, {params: {activities: activities, address:address, radius: radius, price: price, blacklist: blacklist, importance: importance}})
+      .get(`/api/new_itinerary`, {
+        params: {
+          activities: activities,
+          address: address,
+          radius: radius,
+          price: price,
+          blacklist: blacklist,
+          importance: importance,
+        },
+      })
       .then((response) => {
-        console.log("response getNewItinerary: ", response);
         const allActivities = response.data.itinerary;
         getItinerary(allActivities);
         setActivityOrder(response.data.list);
-        console.log("posting itinerary");
-        console.log("message: ", response.data.message);
-        console.log("itinerary: ", response.data.itinerary);
         setIsLoading(false);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Get new itinerary on refresh
   React.useEffect(() => {
     getNewItinerary();
   }, []);
 
+  // Creates array of activity objects to display the full itinerary
   const itineraryObjects = [];
-
   if (itinerary) {
     for (const [ind, actOrder] of activityOrder.entries()) {
       for (const [index, value] of itinerary.entries()) {
-        console.log("value itinerary: ", value);
         if (value["type"] === actOrder) {
           itineraryObjects.push(
             <Activity
@@ -141,6 +143,7 @@ const UserItinerary = () => {
     }
   }
 
+  // Renders the final itinerary page
   return (
     <div style={{ height: "100vh" }}>
       <Header />

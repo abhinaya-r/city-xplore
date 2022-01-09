@@ -8,36 +8,29 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header2";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
-import { letterSpacing } from "@mui/system";
 
-const crypto = require("crypto");
-const axios = require("axios")
-
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+// Set Base URI for axios call
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Function to get user token
 async function getToken(credentials) {
-    return fetch(
-        `${uriBase}/users/token?email=${credentials.email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((data) => data.json())
-        .catch((err) => console.error("loginUser error: ", err));
+  return fetch(`${uriBase}/users/token?email=${credentials.email}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((data) => data.json())
+    .catch((err) => console.error("loginUser error: ", err));
 }
 
+// Styling
 const helperTextStyles = makeStyles(() => ({
   root: {
     margin: "0px",
@@ -56,17 +49,17 @@ const helperTextStyles = makeStyles(() => ({
   },
 }));
 
-const ForgotPassword = ({ setToken }) => {
+// Page to take a user's email to send them an email to reset password
+const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const [errorMessage, setErrorMessage] = React.useState("");
-  // const [isValid, setIsValid] = React.useState(false);
 
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
-  // password = password_hash;
 
   const helperTestClasses = helperTextStyles();
 
+  // Checks if email is in valid format
   const handleEmail = (event) => {
     const val = event.target.value;
     if (isEmail(val)) {
@@ -77,26 +70,22 @@ const ForgotPassword = ({ setToken }) => {
     setEmail(val);
   };
 
+  // Function handler to manage submitting an email address
   const handleSubmit = async (e) => {
-    console.log("submitting");
     e.preventDefault();
     const token = await getToken({
-    email
+      email,
     });
-    console.log(token);
-    fetch(
-        `${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((data) => data.json())
-        .catch((err) => console.error("loginUser error: ", err));
-        window.location.href = "/checkemail";
-  }
+    fetch(`${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => data.json())
+      .catch((err) => console.error("loginUser error: ", err));
+    window.location.href = "/checkemail";
+  };
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -218,7 +207,7 @@ const ForgotPassword = ({ setToken }) => {
                 }}
               />
             </Grid>
-    
+
             <Grid
               item
               xs={12}
@@ -261,42 +250,6 @@ const ForgotPassword = ({ setToken }) => {
                 </div>
               )}
             </Grid>
-            
-            {/* <Grid item xs={12}>
-              <Typography
-                style={{
-                  fontFamily: "Manrope, sans-serif",
-                  color: "white",
-                  fontSize: "10px",
-                  paddingTop: "10px",
-                  paddingBottom: "0px",
-                  textAlign: "center",
-                }}
-              >
-                Don't have an account? Sign up
-              </Typography>
-              <Link
-                to="/signup"
-                style={{
-                  color: "white",
-                  font: "Manrope, sans-serif",
-                  textDecoration: "none",
-                }}
-              >
-                <Typography
-                  style={{
-                    fontFamily: "Manrope, sans-serif",
-                    color: "white",
-                    fontSize: "10px",
-                    paddingTop: "10px",
-                    paddingBottom: "0px",
-                    textAlign: "center",
-                  }}
-                >
-                  here!
-                </Typography>
-              </Link>
-            </Grid> */}
           </form>
         </Grid>
       </Card>
@@ -313,9 +266,5 @@ const ForgotPassword = ({ setToken }) => {
     </div>
   );
 };
-
-// ForgotPassword.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };
 
 export default ForgotPassword;

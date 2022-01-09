@@ -4,26 +4,22 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import loginImage from "../images/loginImage.png";
 import Header from "../components/header";
 import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import { ToggleButtonGroup } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@material-ui/core";
-import { Select } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
-
 import axios from "axios";
 
-let activities = [];
-let activitiesDisplay = [];
+// Arrays to display the activities in the itinerary.
+let activities = []; // Used for activity information to send to database
+let activitiesDisplay = []; // Used to display the activities cleanly on the itinerary form page
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -31,7 +27,8 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+// Styling
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(() => ({
   "& .MuiToggleButtonGroup-grouped": {
     borderRadius: 5,
     backgroundColor: "white",
@@ -40,21 +37,8 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       border: 0,
       color: "white",
     },
-    //   "&:first-of-type": {
-    //     borderRadius: theme.shape.borderRadius,
-    //   },
   },
 }));
-
-// const useStyles = makeStyles((theme) => ({
-//   selected: {
-//     "&&": {
-//       backgroundColor: "black",
-//       color: "black",
-//     },
-//     color: "black",
-//   },
-// }));
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -68,36 +52,29 @@ const helperTextStyles = makeStyles(() => ({
       backgroundColor: "#ACD7AB",
       border: "0px #ACD7AB",
       disableUnderline: true,
-      // fontWeight: 400,
       color: "red",
     },
   },
 }));
 
+// Page with the Itinerary Form
 const Recommendations = () => {
   const [address, setAddress] = React.useState("");
   const [act, setAct] = useState(0);
-  const [nextPage, setNextPage] = useState("/getitinerary");
   const [formats, setFormats] = React.useState(() => []);
-  const [alignment, setAlignment] = React.useState("left");
-  // let [activities, setActivities] = React.useState([]);
-  // let [activitiesDisplay, setActivitiesDisplay] = React.useState([]);
-  // const classes = useStyles();
-
   const helperTestClasses = helperTextStyles();
   const [isAddressValid, setAddressIsValid] = useState(false);
   const [addressDirty, setAddressDirty] = useState(false);
   const [isSelectedValid, setSelectedIsValid] = useState(false);
   const [selectedDirty, setSelectedDirty] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-
   const [radius, setRadius] = useState(30 * 1609);
   const [price, setPrice] = useState(4);
   const [importance, setImportance] = useState("popularity");
 
+  // Function handler to ensure that the address is not empty.
   const handleAddress = (event) => {
     const val = event.target.value;
-    console.log("val: ", val);
     if (val) {
       setAddressIsValid(true);
     } else {
@@ -110,112 +87,82 @@ const Recommendations = () => {
     setFormats(newFormats);
   };
 
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
-
+  // Handle each activity button, and add to activities, activitiesDisplay, and
+  // setAct() to re-render the page so that it shows up in the list.
+  // Also, set the cateogy as valid once the user selects at least one category.
   const addRestaurant = () => {
-    // setActivities(activities.push("restaurant"));
     activities.push("restaurant");
     activitiesDisplay.push("Restaurant");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addBar = () => {
     activities.push("bar");
     activitiesDisplay.push("Bar");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addMuseum = () => {
     activities.push("museum");
     activitiesDisplay.push("Museum");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addBakery = () => {
     activities.push("bakery");
     activitiesDisplay.push("Bakery");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addTheater = () => {
     activities.push("movie_theater");
     activitiesDisplay.push("Movie Theater");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addCafe = () => {
     activities.push("cafe");
     activitiesDisplay.push("Cafe");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addPark = () => {
     activities.push("park");
     activitiesDisplay.push("Park");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log("display: ", activitiesDisplay);
   };
   const addBookstore = () => {
     activities.push("book_store");
     activitiesDisplay.push("Book Store");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log(activities);
   };
   const addAttraction = () => {
     activities.push("tourist_attraction");
     activitiesDisplay.push("Tourist Attraction");
     setAct(act + 1);
     setSelectedIsValid(true);
-    console.log("display: ", activitiesDisplay);
   };
 
+  // Function to delete list of categories
   const deleteList = () => {
     activities = [];
     activitiesDisplay = [];
     setAct(act + 1);
     setSelectedIsValid(false);
-    console.log("activities in delete list: ", activities);
   };
-  // let radius = 30 * 1609;
+  // Handles mile radius and price
   const handleClickRadius = (event) => {
     const myValue = event.target.value;
-    console.log(myValue); // --> 123
     setRadius(myValue * 1609);
   };
-  // let price = 4;
   const handleClickPrice = (event) => {
     const myValue = event.target.value;
-    console.log(myValue); // --> 123
     setPrice(myValue);
   };
 
-  const isDashboard = "false";
-
-  // const getBlacklist = () = {
-  //   let token = localStorage.getItem("token");
-  //   let tk = JSON.parse(token);
-  //   axios.get(`${uriBase}/activities/blacklist?token=${token}`)
-  //   .then((res) => {
-  //     console.log(res);
-  //     let blacklist = res.data.blacklist;
-  //     setBlacklist(blacklist);
-  //   }).catch((error) => console.error(`Error: ${error}`))
-  // };
-
-  // const blacklist = () = {
-  //   let token = localStorage.getItem("token");
-  //   let tk = JSON.parse(token);
-  // };
+  // Creates the itinerary from the form values
   const createItinerary = () => {
     if (isAddressValid && isSelectedValid) {
       let token = localStorage.getItem("token");
@@ -223,7 +170,6 @@ const Recommendations = () => {
       axios
         .get(`${uriBase}/activities/blacklist?token=${tk.token}`)
         .then((res) => {
-          console.log("blacklist: ", res.data);
           let blacklist = res.data;
           axios
             .post("api/new_itinerary", {
@@ -241,21 +187,19 @@ const Recommendations = () => {
               sessionStorage.setItem("price", price);
               sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
               sessionStorage.setItem("importance", importance);
-              console.log(response.data);
               if (response.data["status"] == "SUCCESS") {
-                console.log("success");
                 window.location.href = "/itinerary";
               }
             });
         });
     } else {
-      console.log("isAddressValid: ", isAddressValid);
-      console.log("isSelectedValid: ", isSelectedValid);
       if (isAddressValid === false) setAddressDirty(true);
       if (isSelectedValid === false) setSelectedDirty(true);
       setErrorMessage("Please fix form errors");
     }
   };
+
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -270,15 +214,9 @@ const Recommendations = () => {
     backgroundColor: "#ACD7AB",
     overflow: "auto",
   };
-
   const background = {
     backgroundColor: "#FFF6F1",
   };
-
-  const handleClick = async (e) => {
-    console.log("restaurant");
-  };
-
   const buttonStyle = {
     border: "0px",
     marginTop: "-30px",
@@ -300,11 +238,10 @@ const Recommendations = () => {
   const textfieldStyle = {
     paddingTop: "0px",
     paddingBottom: "0px",
-    // border: "#FFFFFF",
   };
 
+  // Creates activity objects in an array to render later
   const activityObjects = [];
-
   for (const [index, value] of activitiesDisplay.entries()) {
     activityObjects.push(
       <Typography
@@ -321,8 +258,8 @@ const Recommendations = () => {
       </Typography>
     );
   }
-  console.log("objects: ", activityObjects);
 
+  // Renders the itinerary form
   return (
     <div style={{ height: "100vh" }} style={background}>
       <Header />
@@ -340,7 +277,6 @@ const Recommendations = () => {
         >
           Itinerary Form
         </Typography>
-        {/* <form onSubmit={createItinerary}> */}
         <Grid container spacing={0} style={{ paddingBottom: "20px" }}>
           <Grid container xs={9} style={buttonStyle}>
             <Typography
@@ -486,7 +422,6 @@ const Recommendations = () => {
             >
               20 W 34th St, New York, NY 10001
             </Typography>
-
             <Typography
               style={{
                 fontFamily: "Manrope, sans-serif",
@@ -625,11 +560,6 @@ const Recommendations = () => {
               onChange={handleFormat}
               aria-label="price"
             >
-              {/* <ToggleButtonGroup
-              value={formats}
-              onChange={handleFormat}
-              style={{ marginTop: "-10px" }}
-            > */}
               <ToggleButton
                 value={1}
                 onClick={handleClickPrice}
@@ -669,7 +599,6 @@ const Recommendations = () => {
               >
                 $$$
               </ToggleButton>
-              {/* </ToggleButtonGroup> */}
             </StyledToggleButtonGroup>
           </Grid>
         </Grid>
@@ -721,7 +650,6 @@ const Recommendations = () => {
             * This indicates these fields are required
           </Typography>
         </Grid>
-        {/* </form> */}
       </Card>
     </div>
   );

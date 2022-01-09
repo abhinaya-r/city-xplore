@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
-import Itinerary from "../components/itineraryDashboard";
 import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";

@@ -11,7 +11,8 @@ import MenuIcon from "@mui/icons-material/MoreHoriz";
 import IconButton from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-export default function Header(props) {
+// Header once the user is logged in
+export default function Header() {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState();
 
@@ -24,11 +25,11 @@ export default function Header(props) {
   };
 
   const handleSignout = () => {
-    console.log("signing out");
     localStorage.clear();
     window.location.href = "/";
   };
 
+  // Function to open the menu bar
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +38,8 @@ export default function Header(props) {
     setOpen(false);
   };
 
-  const useStyles = makeStyles((theme) => ({
+  // Styling
+  const useStyles = makeStyles(() => ({
     menu: {
       "& .MuiPaper-root": {
         backgroundColor: "#79C9D6",
@@ -46,6 +48,7 @@ export default function Header(props) {
   }));
   const classes = useStyles();
 
+  // Functions to handle each menu option
   const handleDashboard = () => {
     window.location.href = "/dashboard";
   };
@@ -82,7 +85,6 @@ export default function Header(props) {
             </Link>
           </div>
           <div style={grow} />
-
           <Tooltip title="Menu">
             <IconButton
               onClick={handleClickOpen}

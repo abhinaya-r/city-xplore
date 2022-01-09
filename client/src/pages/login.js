@@ -9,13 +9,11 @@ import loginImage from "../images/loginImage.png";
 import Header from "../components/header2";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
-import { letterSpacing } from "@mui/system";
-
 const crypto = require("crypto");
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -24,8 +22,6 @@ if (process.env.NODE_ENV == "production") {
 }
 
 async function loginUser(credentials) {
-  console.log("credentials:", credentials);
-  console.log(uriBase);
   return fetch(
     `${uriBase}/users?email=${credentials.email}&password=${credentials.password_hash}`,
     {
@@ -38,20 +34,6 @@ async function loginUser(credentials) {
     .then((data) => data.json())
     .catch((err) => console.error("loginUser error: ", err));
 }
-// async function loginUser(credentials) {
-//   console.log("credentials:", credentials);
-//   return fetch(
-//     `http://localhost:3001/users?email=${credentials.email}&password=${credentials.password_hash}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   )
-//     .then((data) => data.json())
-//     .catch((err) => console.error("loginUser error: ", err));
-// }
 
 const helperTextStyles = makeStyles(() => ({
   root: {
@@ -70,31 +52,21 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
-// async function loginUser(credentials) {
-//   return fetch("http://localhost:3001/api/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
 
+// Login Page with fields for user to input credentials
 const Login = ({ setToken }) => {
+  // States to manage error messages
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-  // const [isValid, setIsValid] = React.useState(false);
-
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
-  // password = password_hash;
-
   const helperTestClasses = helperTextStyles();
 
+  // Function handlers for email and password textfields, and submit button
   const handleEmail = (event) => {
     const val = event.target.value;
     if (isEmail(val)) {
@@ -104,7 +76,6 @@ const Login = ({ setToken }) => {
     }
     setEmail(val);
   };
-
   const handlePassword = (event) => {
     const val = event.target.value;
     if (val.length >= 8) {
@@ -114,16 +85,13 @@ const Login = ({ setToken }) => {
     }
     setPassword(val);
   };
-
   const handleSubmit = async (e) => {
-    console.log("submitting");
     e.preventDefault();
     try {
       const token = await loginUser({
         email,
         password_hash,
       });
-      console.log(token);
       setToken(token);
       window.location.href = "/homepage";
     } catch {
@@ -131,6 +99,7 @@ const Login = ({ setToken }) => {
     }
   };
 
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -172,6 +141,7 @@ const Login = ({ setToken }) => {
     width: "100%",
   };
 
+  // Renders login page
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <Header />
@@ -321,41 +291,6 @@ const Login = ({ setToken }) => {
                 Forgot Password?
               </Link>
             </Grid>
-            {/* <Grid item xs={12}>
-              <Typography
-                style={{
-                  fontFamily: "Manrope, sans-serif",
-                  color: "white",
-                  fontSize: "10px",
-                  paddingTop: "10px",
-                  paddingBottom: "0px",
-                  textAlign: "center",
-                }}
-              >
-                Don't have an account? Sign up
-              </Typography>
-              <Link
-                to="/signup"
-                style={{
-                  color: "white",
-                  font: "Manrope, sans-serif",
-                  textDecoration: "none",
-                }}
-              >
-                <Typography
-                  style={{
-                    fontFamily: "Manrope, sans-serif",
-                    color: "white",
-                    fontSize: "10px",
-                    paddingTop: "10px",
-                    paddingBottom: "0px",
-                    textAlign: "center",
-                  }}
-                >
-                  here!
-                </Typography>
-              </Link>
-            </Grid> */}
           </form>
         </Grid>
       </Card>
