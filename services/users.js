@@ -1,25 +1,11 @@
+/* https://geshan.com.np/blog/2021/01/nodejs-postgresql-tutorial/ */
 const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
-async function getMultiple(page = 1) {
-  const rows = await db.query(
-    "SELECT id, quote, author FROM quote OFFSET $1 LIMIT $2",
-    [offset, config.listPerPage]
-  );
-  const data = helper.emptyOrRows(rows);
-  const meta = { page };
-
-  return {
-    data,
-    meta,
-  };
-}
 
 async function create(users) {
-  console.log("creating user: ", users);
   const token = Math.random().toString(36).substring(2, 12);
-  console.log(token);
   const result = await db.query(
     "INSERT INTO users(first_name, last_name, password, email, created_on, birthday, gender, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
     [
@@ -34,19 +20,15 @@ async function create(users) {
     ]
   );
   let message = "Error in creating user";
-  console.log("result: ", result);
   if (result.length) {
     message = "User created successfully";
-    console.log(result.length);
     return { token };
   }
   console.log("message:", message);
-  console.log("token:", token);
   return { message: message, token: token };
 }
 
 async function update(users) {
-  console.log("edit user: ", users);
   const result = await db.query(
     "UPDATE users SET first_name = $1, last_name = $2, email = $3, birthday = $4, gender = $5 WHERE token = $6 RETURNING *;",
     [
@@ -59,7 +41,6 @@ async function update(users) {
     ]
   );
   let message = "Error in updating user";
-  console.log("result: ", result);
   if (result.length) {
     message = "User updated successfully";
   }
@@ -68,7 +49,6 @@ async function update(users) {
 }
 
 async function resetPassword(users) {
-  console.log("edit user: ", users);
   const result = await db.query(
     "UPDATE users SET password = $1 WHERE token = $2 RETURNING *;",
     [
@@ -77,7 +57,6 @@ async function resetPassword(users) {
     ]
   );
   let message = "Error in updating password";
-  console.log("result: ", result);
   if (result.length) {
     message = "User password updated successfully";
   }
@@ -86,14 +65,11 @@ async function resetPassword(users) {
 }
 
 async function remove(token) {
-  console.log("removing user: ", token);
   let result = await db.query(
     "DELETE FROM users WHERE token = $1 RETURNING *",
     [token.token]
   );
   let message = "User deleted successfully";
-  console.log("result: ", result);
-  console.log("result:", result);
   if (!result.length) {
     message = "Error in deleting user";
   }
@@ -112,60 +88,48 @@ async function remove(token) {
 }
 
 async function get(user) {
-  console.log("getting user: ", user.query);
   const result = await db.query(
     "SELECT * FROM users WHERE email = $1 AND password = $2",
     [user.query.email, user.query.password]
   );
   let message = "Error in getting user";
-  console.log("result: ", result);
   if (result.length) {
     message = "Got User successfully";
-    console.log("token: ", result[0].token);
     let token = result[0].token;
-    console.log(token);
     return { token };
   }
   return null;
 }
 
 async function getToken(user) {
-  console.log("getting user: ", user.query);
   const result = await db.query(
     "SELECT * FROM users WHERE email = $1",
     [user.query.email]
   );
   let message = "Error in getting user";
-  console.log("result: ", result);
   if (result.length) {
     message = "Got User successfully";
-    console.log("token: ", result[0].token);
     let token = result[0].token;
-    console.log(token);
     return { message: message, token:token };
   }
   return { message: message, token:null };
 }
 
 async function getAll(token) {
-  console.log("getting token: ", token.query);
   const getToken = token.query.token;
   const result = await db.query(
     "SELECT * FROM users WHERE token = $1",
     [getToken]
   );
   let message = "Error in getting user";
-  console.log("result: ", result[0]);
   if (result.length) {
     message = "Got User successfully";
-    console.log("token: ", result[0].token);
     return {message: message, user: result[0]};
   }
   return null;
 }
 
 module.exports = {
-  getMultiple,
   create,
   get,
   getAll,

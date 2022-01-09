@@ -225,28 +225,13 @@ const Recommendations = () => {
         .then((res) => {
           console.log("blacklist: ", res.data);
           let blacklist = res.data;
-          axios
-            .post("api/new_itinerary", {
-              activities: activities,
-              address: address,
-              radius: radius,
-              price: price,
-              blacklist: blacklist,
-              importance: importance,
-            })
-            .then((response) => {
-              sessionStorage.setItem("activities", JSON.stringify(activities));
-              sessionStorage.setItem("address", address);
-              sessionStorage.setItem("radius", radius);
-              sessionStorage.setItem("price", price);
-              sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
-              sessionStorage.setItem("importance", importance);
-              console.log(response.data);
-              if (response.data["status"] == "SUCCESS") {
-                console.log("success");
-                window.location.href = "/itinerary";
-              }
-            });
+          sessionStorage.setItem("activities", JSON.stringify(activities));
+          sessionStorage.setItem("address", address);
+          sessionStorage.setItem("radius", radius);
+          sessionStorage.setItem("price", price);
+          sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
+          sessionStorage.setItem("importance", importance);
+          window.location.href = "/itinerary";
         });
     } else {
       console.log("isAddressValid: ", isAddressValid);
