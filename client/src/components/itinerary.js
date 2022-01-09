@@ -1,19 +1,14 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import loginImage from "../images/loginImage.png";
 import Header from "./header";
-import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Activity from "./activityDashboard";
 
 import axios from "axios";
 
-
-
+// Adapted from https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
 const getDate = () => {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
@@ -24,6 +19,8 @@ const getDate = () => {
   return today;
 };
 
+// Renders the final itinerary page by using the information
+// from the axios call to get a new itinerary
 const UserItinerary = () => {
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -42,7 +39,6 @@ const UserItinerary = () => {
   const background = {
     backgroundColor: "#FFF6F1",
   };
-  
 
   const [itinerary, getItinerary] = React.useState(null);
 
@@ -51,16 +47,13 @@ const UserItinerary = () => {
       .get("/api/new_itinerary", blacklist)
       .then((response) => {
         const allActivities = response.data.itinerary;
-        const list = response.data.list;
         getItinerary(allActivities);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
 
-
   React.useEffect(() => {
     getNewItinerary();
-
   }, []);
 
   return (

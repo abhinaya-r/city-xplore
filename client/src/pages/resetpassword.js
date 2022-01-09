@@ -8,37 +8,21 @@ import TextField from "@material-ui/core/TextField";
 import loginImage from "../images/loginImage.png";
 import Header from "../components/header2";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import isEmail from "validator/lib/isEmail";
-import { MenuItem } from "@material-ui/core";
-import validator from "validator";
 import Tooltip from "@mui/material/Tooltip";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 
 const axios = require("axios");
 const crypto = require("crypto");
 
-// async function signupUser(credentials) {
-//   return fetch("http://localhost:3001/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
-let uriBase = 'http://localhost:3000';
-if (process.env.NODE_ENV == 'production') {
-  uriBase = 'https://city-xplore.herokuapp.com'
-} else if (process.env.NODE_ENV == 'prod-test') {
-  uriBase = 'https://test-xplore.herokuapp.com'
+// Set Base URI for axios call
+let uriBase = "http://localhost:3000";
+if (process.env.NODE_ENV == "production") {
+  uriBase = "https://city-xplore.herokuapp.com";
+} else if (process.env.NODE_ENV == "prod-test") {
+  uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Styling
 const helperTextStyles = makeStyles(() => ({
   root: {
     margin: "0px",
@@ -52,59 +36,30 @@ const helperTextStyles = makeStyles(() => ({
     },
   },
 }));
+
+// Function to change password
 async function changePassword(credentials) {
-  console.log("hello")
-  console.log("got token: ", token);
-  console.log("signup credentials: ", credentials.toString());
-  var token = window.location.search.split('?')[1].split('=')[1];
-  console.log("query: ", token)
+  var token = window.location.search.split("?")[1].split("=")[1];
   axios
-    .post(`${uriBase}/users/changepassword`, {token: token, password:credentials.password})
+    .post(`${uriBase}/users/changepassword`, {
+      token: token,
+      password: credentials.password,
+    })
     .then((response) => response.data)
     .catch((error) => console.error(error));
 
   window.location.href = "/login";
 }
 
+// Page to Reset Password
 const ResetPassword = ({ setToken }) => {
+  // States to hold password data and whether the form is valid
   let [password, setPassword] = useState("");
   const [unhashedPassword, setUnhashedPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
 
-  const getDate = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + "-" + mm + "-" + dd;
-    return today;
-  };
-
-  // if (unhashedPassword != confirmPassword) {
-  //   console.log("PASSWORDS DO NOT MATCH");
-  //   console.log("unhashedPassword: ", unhashedPassword);
-  //   console.log("confirmPassword: ", confirmPassword);
-  // }
-
-  var currentdate = new Date();
-  var created_on =
-    currentdate.getFullYear() +
-    "-" +
-    (currentdate.getMonth() + 1) +
-    "-" +
-    currentdate.getDate() +
-    " " +
-    currentdate.getHours() +
-    ":" +
-    currentdate.getMinutes() +
-    ":" +
-    currentdate.getSeconds();
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   password = password_hash;
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [dirty, setDirty] = useState(false);
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [isConfirmValid, setConfirmIsValid] = useState(false);
@@ -112,9 +67,7 @@ const ResetPassword = ({ setToken }) => {
 
   const [open, setOpen] = React.useState(false);
 
-  let allValid =
-    isPasswordValid &&
-    isConfirmValid;
+  let allValid = isPasswordValid && isConfirmValid;
 
   const helperTestClasses = helperTextStyles();
 
@@ -139,46 +92,24 @@ const ResetPassword = ({ setToken }) => {
     setConfirmPassword(val);
   };
 
-
   const handleSubmit = async (e) => {
-    console.log("allValid: ", allValid);
     e.preventDefault();
     try {
       const token = await changePassword({
-        password: password_hash
+        password: password_hash,
       });
 
       if (allValid) {
         setToken(token);
-        console.log(token);
         window.location.href = "/dashboard";
       } else {
         if (isPasswordValid === false) setPasswordDirty(true);
         if (isConfirmValid === false) setConfirmDirty(true);
       }
-    } catch (err) {
-      setOpen(true);
-    }
-  };
-  const handleClickOpen = () => {
-    setOpen(true);
+    } catch (err) {}
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await signupUser({
-  //     email,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  //   window.location.href = "/dashboard";
-  // };
-
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -193,7 +124,6 @@ const ResetPassword = ({ setToken }) => {
     backgroundColor: "#ACD7AB",
     overflow: "auto",
   };
-
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "white",
@@ -202,13 +132,11 @@ const ResetPassword = ({ setToken }) => {
     paddingBottom: "0px",
     textAlign: "left",
   };
-
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
     marginBottom: "-46px",
   };
-
   const textfieldStyle = {
     paddingTop: "0px",
     paddingBottom: "0px",
@@ -217,10 +145,7 @@ const ResetPassword = ({ setToken }) => {
     borderRadius: 5,
   };
 
-  const defaultValues = {
-    eventDate: null,
-  };
-
+  // Renders Reset Password Page
   return (
     <div style={{ height: "100vh" }}>
       <Header />
@@ -239,13 +164,7 @@ const ResetPassword = ({ setToken }) => {
           Reset Password
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Grid
-            container
-            spacing={12}
-            
-        >
-          </Grid>
-        
+          <Grid container spacing={12}></Grid>
           <Grid id="third-row" container spacing={2} style={{ border: "0px" }}>
             <Grid item xs={12} style={gridStyle}>
               <Typography style={typeStyle}>Password</Typography>

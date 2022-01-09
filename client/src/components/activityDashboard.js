@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+// Activity component on Dashboard
 export default function Activity(props) {
   const gridStyle = {
     border: "0px",

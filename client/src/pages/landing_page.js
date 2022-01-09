@@ -4,9 +4,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Header from "../components/header2";
 import landingImage from "../images/landingImage.png";
-import { Link } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
 
+// Landing Page for the website, leads user to signup or login page
 const LandingPage = () => {
   const [data, setData] = React.useState(null);
 
@@ -16,6 +15,7 @@ const LandingPage = () => {
       .then((data) => setData(data.message));
   }, []);
 
+  // Styling
   const buttonStyle = {
     color: "white",
     backgroundColor: "#B6DEBC",
@@ -32,7 +32,6 @@ const LandingPage = () => {
     fontSize: "24px",
     justifyContent: "center",
   };
-
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -49,7 +48,6 @@ const LandingPage = () => {
     backgroundColor: "white",
     boxShadow: "none",
   };
-
   const imageStyle = {
     width: "45%",
     height: "75%",
@@ -58,14 +56,12 @@ const LandingPage = () => {
     top: 100,
   };
 
+  // Handles signup button to redirect to signup page
   const handleSignup = () => {
     window.location.href = "/signup";
   };
 
-  const handleLogin = () => {
-    window.location.href = "/login";
-  };
-
+  // Renders information on a card
   return (
     <div>
       <Header />

@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/Button";
 import Button from "@material-ui/core/Button";
@@ -14,8 +13,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import axios from "axios";
@@ -27,6 +24,7 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Map to display activity type
 const map = new Map();
 map.set("restaurant", "Restaurant");
 map.set("bar", "Bar");
@@ -38,18 +36,12 @@ map.set("park", "Park");
 map.set("book_store", "Book Store");
 map.set("tourist_attraction", "Tourist Attraction");
 
-const useStyles = makeStyles((theme) => ({
-  a: {
-    hover: { backgroundColor: "black" },
-  },
-}));
-
+// Activity component that displays all activity information
+// and handles favoriting/blacklisting
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [color, setColor] = React.useState("#FFF6F1");
-  // const [activity, setActivity] = React.useState(null);
-  const classes = useStyles();
+  const [color, setColor] = React.useState("#FFF6F1"); // State for blacklisted activities
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,6 +51,7 @@ export default function Activity(props) {
     setOpen(false);
   };
 
+  // Styling
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
@@ -80,19 +73,14 @@ export default function Activity(props) {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
-    console.log("is it favorited: ", isFavorited);
-    console.log("props: ", props);
     setIsFavorited(!isFavorited);
-    // let activity = [props.name, props.rating, props.address, props.type];
     if (!isFavorited) {
       axios
         .post(`${uriBase}/activities/favorite`, {
           token: tk.token,
           activity: props.activity,
         })
-        .then((response) => {
-          console.log("response favorite:", response);
-        })
+        .then(() => {})
         .catch((error) => console.error(`Error: ${error}`));
     } else {
       axios
@@ -100,9 +88,7 @@ export default function Activity(props) {
           token: tk.token,
           activity: props.activity,
         })
-        .then((response) => {
-          console.log("response:", response);
-        })
+        .then(() => {})
         .catch((error) => console.error(`Error: ${error}`));
     }
   };
@@ -118,12 +104,11 @@ export default function Activity(props) {
         token: tk.token,
         activity: props.activity,
       })
-      .then((response) => {
-        console.log("response blacklist:", response);
-      })
+      .then(() => {})
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Rendering the activity information using Material UI
   return (
     <div>
       <Box

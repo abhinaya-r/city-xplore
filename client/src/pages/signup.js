@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import isEmail from "validator/lib/isEmail";
 import { MenuItem } from "@material-ui/core";
-import validator from "validator";
 import Tooltip from "@mui/material/Tooltip";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -23,15 +22,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 const axios = require("axios");
 const crypto = require("crypto");
 
-// async function signupUser(credentials) {
-//   return fetch("http://localhost:3001/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   }).then((data) => data.json());
-// }
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -39,6 +30,7 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Styling
 const helperTextStyles = makeStyles(() => ({
   root: {
     margin: "0px",
@@ -53,35 +45,15 @@ const helperTextStyles = makeStyles(() => ({
   },
 }));
 async function signupUser(credentials) {
-  // let axiosConfig = {
-  //   headers: {
-  //     "Content-Type": "application/json;charset=UTF-8",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  // };
-  console.log("signup credentials: ", credentials.toString());
-  // return fetch(`http://localhost:3000/users`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //   },
-  //   body: credentials,
-  // }).then((data) => {
-  //   console.log("response data: ", data);
-  //   data.json()
-  // });
-
   return axios
     .post(`${uriBase}/users`, credentials)
     .then((response) => response.data)
     .catch((error) => console.error(error));
-  // return axios
-  // .post("http://localhost:3001/users", credentials)
-  // .then((response) => response.data);
 }
 
+// Renders Signup Page
 const Signup = ({ setToken }) => {
+  // States to hold textfield information
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -91,45 +63,36 @@ const Signup = ({ setToken }) => {
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  // Adapted from https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
   const getDate = () => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     var yyyy = today.getFullYear();
-
     today = yyyy + "-" + mm + "-" + dd;
     return today;
   };
 
+  // Adapted from https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript
   const isValidDate = (dateString) => {
     // First check for the pattern
     if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
-
     // Parse the date parts to integers
     var parts = dateString.split("/");
     var day = parseInt(parts[1], 10);
     var month = parseInt(parts[0], 10);
     var year = parseInt(parts[2], 10);
-
     // Check the ranges of month and year
     if (year < 1900 || year > 2500 || month == 0 || month > 12) return false;
-
     var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
     // Adjust for leap years
     if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
       monthLength[1] = 29;
-
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
   };
 
-  // if (unhashedPassword != confirmPassword) {
-  //   console.log("PASSWORDS DO NOT MATCH");
-  //   console.log("unhashedPassword: ", unhashedPassword);
-  //   console.log("confirmPassword: ", confirmPassword);
-  // }
-
+  // Adapted from https://stackoverflow.com/questions/10211145/getting-current-date-and-time-in-javascript
   var currentdate = new Date();
   var created_on =
     currentdate.getFullYear() +
@@ -143,13 +106,12 @@ const Signup = ({ setToken }) => {
     currentdate.getMinutes() +
     ":" +
     currentdate.getSeconds();
+
+  // States to hold password data and check if each textfield is valid
   const password_hash = crypto.createHash("md5").update(password).digest("hex");
   const [isEmailValid, setEmailIsValid] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
   password = password_hash;
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [dirty, setDirty] = useState(false);
   const [isFirstNameValid, setFirstNameIsValid] = useState(false);
   const [fnDirty, setFnDirty] = useState(false);
   const [isLastNameValid, setLastNameIsValid] = useState(false);
@@ -162,10 +124,7 @@ const Signup = ({ setToken }) => {
   const [birthdayDirty, setBirthdayDirty] = useState(false);
   const [isGenderValid, setGenderIsValid] = useState(false);
   const [genderDirty, setGenderDirty] = useState(false);
-
-  const [open, setOpen] = React.useState(false);
-  const [emailExists, setEmailExists] = React.useState(true);
-
+  const [open, setOpen] = React.useState(false); // Open dialog box in case of error
   let allValid =
     isEmailValid &&
     isLastNameValid &&
@@ -177,6 +136,7 @@ const Signup = ({ setToken }) => {
 
   const helperTestClasses = helperTextStyles();
 
+  // Functions to handle textfield input
   const handleEmail = (event) => {
     const val = event.target.value;
     if (isEmail(val)) {
@@ -186,7 +146,6 @@ const Signup = ({ setToken }) => {
     }
     setEmail(val);
   };
-
   const handleFirstName = (event) => {
     const val = event.target.value;
     if (val.length >= 2) {
@@ -196,7 +155,6 @@ const Signup = ({ setToken }) => {
     }
     setFirstName(val);
   };
-
   const handleLastName = (event) => {
     const val = event.target.value;
     if (val.length >= 2) {
@@ -206,7 +164,6 @@ const Signup = ({ setToken }) => {
     }
     setLastName(val);
   };
-
   const handlePassword = (event) => {
     const val = event.target.value;
     if (val.length >= 8) {
@@ -217,7 +174,6 @@ const Signup = ({ setToken }) => {
     setPassword(val);
     setUnhashedPassword(val);
   };
-
   const handleConfirm = (event) => {
     const val = event.target.value;
     if (unhashedPassword === val) {
@@ -227,11 +183,9 @@ const Signup = ({ setToken }) => {
     }
     setConfirmPassword(val);
   };
-
   const handleBirthday = (event) => {
     const val = event.target.value;
     const validateBday = isValidDate(val);
-
     if (validateBday) {
       setBirthdayIsValid(true);
     } else {
@@ -239,7 +193,6 @@ const Signup = ({ setToken }) => {
     }
     setBirthday(val);
   };
-
   const handleGender = (event) => {
     const val = event.target.value;
     console.log("val");
@@ -250,7 +203,6 @@ const Signup = ({ setToken }) => {
     }
     setGender(val);
   };
-
   const handleSubmit = async (e) => {
     console.log("allValid: ", allValid);
     e.preventDefault();
@@ -264,7 +216,6 @@ const Signup = ({ setToken }) => {
         gender: gender,
         created_on: created_on,
       });
-
       if (allValid) {
         setToken(token);
         console.log(token);
@@ -282,25 +233,11 @@ const Signup = ({ setToken }) => {
       setOpen(true);
     }
   };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
-  // const handleSubmit = async (e) => {
-  //   console.log("submitting");
-  //   e.preventDefault();
-  //   const token = await signupUser({
-  //     email,
-  //     password,
-  //   });
-  //   console.log(token);
-  //   setToken(token);
-  //   window.location.href = "/dashboard";
-  // };
 
+  // Styling
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
     fontSize: "70px",
@@ -315,7 +252,6 @@ const Signup = ({ setToken }) => {
     backgroundColor: "#ACD7AB",
     overflow: "auto",
   };
-
   const typeStyle = {
     fontFamily: "Manrope, sans-serif",
     color: "white",
@@ -324,13 +260,11 @@ const Signup = ({ setToken }) => {
     paddingBottom: "0px",
     textAlign: "left",
   };
-
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
     marginBottom: "-46px",
   };
-
   const textfieldStyle = {
     paddingTop: "0px",
     paddingBottom: "0px",
@@ -339,10 +273,7 @@ const Signup = ({ setToken }) => {
     borderRadius: 5,
   };
 
-  const defaultValues = {
-    eventDate: null,
-  };
-
+  // Renders signup page
   return (
     <div style={{ height: "100vh" }}>
       <Header />
@@ -393,8 +324,6 @@ const Signup = ({ setToken }) => {
                   paddingTop: "0px",
                   paddingBottom: "0px",
                   border: "#FFFFFF",
-                  // borderRadius: "10px",
-                  // backgroundColor: "white",
                 }}
               />
             </Grid>

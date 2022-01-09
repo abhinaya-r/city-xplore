@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 
-export default function Header(props) {
+// Header for Login Page
+export default function Header() {
   const grow = {
     flexGrow: 1,
   };
@@ -15,6 +16,7 @@ export default function Header(props) {
     color: "#79C9D6",
   };
 
+  // Renders header using Material UI components
   return (
     <div>
       <AppBar style={appBar} style={{ background: "#79C9D6" }}>
