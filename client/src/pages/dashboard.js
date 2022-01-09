@@ -137,8 +137,8 @@ const Mainpage = () => {
       })
       .then((response) => {
         // console.log("response:", response);
-        getFavoritedActivities();
-        getPastItineraries();
+        // getFavoritedActivities();
+        // getPastItineraries();
         window.location.reload(false);
       })
       .catch((error) => console.error(`Error: ${error}`));
