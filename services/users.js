@@ -1,7 +1,5 @@
 /* https://geshan.com.np/blog/2021/01/nodejs-postgresql-tutorial/ */
 const db = require("./db");
-const helper = require("../helper");
-const config = require("../config");
 
 
 async function create(users) {
