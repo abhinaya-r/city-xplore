@@ -60,8 +60,8 @@ const About = () => {
           itinerary, you will be asked to fill out an itinerary form. In this
           form, you will select a few categories of activities that you are
           interested in. You will also specify a starting location or city to
-          begin your journey. You can optionally provide a price range for the
-          activities.
+          begin your journey. You can optionally provide a max distance from
+          this starting location and a price range for the activities.
         </Typography>
         <Typography
           style={{
