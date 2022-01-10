@@ -252,12 +252,13 @@ const ResetPassword = ({ setToken }) => {
                 }}
                 error={allValid === false}
               >
-                Submit
+                Reset Password
               </Button>
             ) : (
               <Tooltip title="Please complete form">
                 <Button
                   type="submit"
+                  disabled
                   variant="contained"
                   style={{
                     color: "white",
@@ -269,7 +270,7 @@ const ResetPassword = ({ setToken }) => {
                     paddingBottom: "5px",
                   }}
                 >
-                  Sign up
+                  Reset Password
                 </Button>
               </Tooltip>
             )}
