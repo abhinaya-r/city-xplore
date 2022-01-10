@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/Button";
 import Button from "@material-ui/core/Button";
@@ -13,6 +14,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import axios from "axios";
@@ -24,7 +27,6 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
-// Map to display activity type
 const map = new Map();
 map.set("restaurant", "Restaurant");
 map.set("bar", "Bar");
@@ -36,12 +38,22 @@ map.set("park", "Park");
 map.set("book_store", "Book Store");
 map.set("tourist_attraction", "Tourist Attraction");
 
-// Activity component that displays all activity information
-// and handles favoriting/blacklisting
+const useStyles = makeStyles((theme) => ({
+  a: {
+    hover: { backgroundColor: "black" },
+  },
+}));
+
 export default function Activity(props) {
   const [isFavorited, setIsFavorited] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [color, setColor] = React.useState("#FFF6F1"); // State for blacklisted activities
+  // const [color, setColor] = React.useState("#FFF6F1");
+  const [isBlacklisted, setIsBlacklisted] = React.useState(false);
+  // const [activity, setActivity] = React.useState(null);
+  const classes = useStyles();
+
+  const favActivities = props.favActivities;
+  const setFavActivities = props.setFavActivities;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,7 +63,6 @@ export default function Activity(props) {
     setOpen(false);
   };
 
-  // Styling
   const gridStyle = {
     border: "0px",
     marginTop: "0px",
@@ -69,10 +80,13 @@ export default function Activity(props) {
     fontFamily: "Manrope, sans-serif",
   };
 
+  let favorited = [...favActivities];
   const handleFavorited = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
+    console.log("is it favorited: ", isFavorited);
+    console.log("props: ", props);
     setIsFavorited(!isFavorited);
     if (!isFavorited) {
       axios
@@ -80,7 +94,15 @@ export default function Activity(props) {
           token: tk.token,
           activity: props.activity,
         })
-        .then(() => {})
+        .then((response) => {
+          // console.log("response favorite:", response);
+          console.log("favActivities before: ", favorited);
+          console.log("setfavActivities Activity : ", setFavActivities);
+          favorited.push(props.activity);
+          console.log("favActivities after: ", favorited);
+          props.setFavActivities(favorited);
+          // checkIfFavorited(props.activity);
+        })
         .catch((error) => console.error(`Error: ${error}`));
     } else {
       axios
@@ -88,14 +110,23 @@ export default function Activity(props) {
           token: tk.token,
           activity: props.activity,
         })
-        .then(() => {})
+        .then((response) => {
+          console.log("favorited:", favorited);
+          let favoritedFiltered = favorited.filter(
+            (act) => act.url !== props.activity.url
+          );
+          console.log("favoritedFiltered:", favoritedFiltered);
+          checkIfFavorited(props.activity);
+          props.setFavActivities(favoritedFiltered);
+        })
         .catch((error) => console.error(`Error: ${error}`));
     }
   };
 
   const handleBlacklist = () => {
     setOpen(false);
-    setColor("gray");
+    // setColor("gray");
+    setIsBlacklisted(true);
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
     console.log(token);
@@ -104,7 +135,9 @@ export default function Activity(props) {
         token: tk.token,
         activity: props.activity,
       })
-      .then(() => {})
+      .then((response) => {
+        console.log("response blacklist:", response);
+      })
       .catch((error) => console.error(`Error: ${error}`));
   };
 
@@ -118,9 +151,9 @@ export default function Activity(props) {
       .then((response) => {
         if (response != null) {
           for (const [index, value] of response.data.entries()) {
-            console.log("valueCheck: ", value);
-            console.log("activity: ", activity);
-            console.log("equal: ", value["activity"] === activity);
+            // console.log("valueCheck: ", value);
+            // console.log("activity: ", activity);
+            // console.log("equal: ", value["activity"] === activity);
             let val = value["activity"];
             if (
               val["address"] === activity["address"] &&
@@ -131,16 +164,86 @@ export default function Activity(props) {
               console.log("favorited: ", isFavorited);
             }
           }
+          getFavoritedActivities(response.data);
         }
       })
       .catch(() => console.log("error in getting favorites"));
   };
 
+  const checkIfBlacklisted = (activity) => {
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    let url = `${uriBase}/activities/blacklist?token=${tk.token}`;
+    axios
+      .get(url)
+      .then((response) => {
+        if (response != null) {
+          for (const [index, value] of response.data.entries()) {
+            // console.log("valueCheck: ", value);
+            // console.log("activity: ", activity);
+            // console.log("equal: ", value["activity"] === activity);
+            let val = value["activity"];
+            if (
+              val["address"] === activity["address"] &&
+              val["name"] === activity["name"] &&
+              val["url"] === activity["url"]
+            ) {
+              // setColor("gray");
+              setIsBlacklisted(true);
+              console.log("blacklisted: ");
+            }
+          }
+        }
+      })
+      .catch(() => console.log("error in getting favorites"));
+  };
+
+  // const checkFavorite = (activity, favorited) => {
+  //   for (const [index, value] of favorited.entries()) {
+  //     // console.log("activity: ", activity);
+  //     // console.log("favorited: ", value);
+  //     // console.log(
+  //     //   "equal: ",
+  //     //   value["address"] === activity["address"] &&
+  //     //     value["name"] === activity["name"] &&
+  //     //     value["url"] === activity["url"]
+  //     // );
+  //     if (
+  //       value["address"] === activity["address"] &&
+  //       value["name"] === activity["name"] &&
+  //       value["url"] === activity["url"]
+  //     ) {
+  //       setIsFavorited(true);
+  //       console.log("isFavorited");
+  //     }
+  //   }
+  // };
+
+  const getFavoritedActivities = (favorited) => {
+    let token = localStorage.getItem("token");
+    let tk = JSON.parse(token);
+    let url = `${uriBase}/activities/favorite?token=${tk.token}`;
+    axios
+      .get(url)
+      .then((response) => {
+        if (response != null) {
+          for (const [index, value] of response.data.entries()) {
+            favorited.push(value["activity"]);
+          }
+        }
+        // props.setFavActivities(favorited);
+      })
+      .catch((err) => console.log("error favorites: ", err));
+  };
+
   React.useEffect(() => {
     checkIfFavorited(props.activity);
+    checkIfBlacklisted(props.activity);
   }, []);
 
-  // Rendering the activity information using Material UI
+  let color = "#FFF6F1";
+  if (isBlacklisted) color = "gray";
+
   return (
     <div>
       <Box
@@ -161,22 +264,7 @@ export default function Activity(props) {
           spacing={0}
           style={{ paddingTop: "10px" }}
         >
-          <Grid item xs={3} style={gridStyle}>
-            <Typography
-              style={{
-                color: "#919E6A",
-                fontSize: "15px",
-                fontWeight: "bold",
-                padding: "5px",
-                marginBottom: "0px",
-                fontFamily: "Manrope, sans-serif",
-              }}
-            >
-              {map.get(props.type)}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={5} style={gridStyle}>
+          <Grid item xs={8} style={gridStyle}>
             <Box sx={{ alignItems: "left" }} style={boxStyle}>
               {props.name}
             </Box>
@@ -193,42 +281,52 @@ export default function Activity(props) {
               {props.address}
             </Box>
           </Grid>
-          {isFavorited == false ? (
-            <Tooltip title="Add to favorites">
-              <IconButton onClick={handleFavorited}>
-                <FavoriteBorderIcon
-                  sx={{ color: "#919E6A" }}
-                ></FavoriteBorderIcon>
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Remove from favorites">
-              <IconButton onClick={handleFavorited}>
-                <FavoriteIcon sx={{ color: "#919E6A" }}></FavoriteIcon>
-              </IconButton>
-            </Tooltip>
-          )}
-          <Tooltip title="Don't show again">
-            <IconButton onClick={handleClickOpen}>
-              <BlacklistIcon sx={{ color: "#919E6A" }}></BlacklistIcon>
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Open Activity in Google Maps">
-            <IconButton>
-              <a
-                href={props.url}
-                target="_blank"
-                style={{
-                  textDecoration: "none",
-                  padding: "0px",
-                  margin: "0px",
-                }}
+          <Grid item xs={4} style={gridStyle}>
+            {isFavorited == false ? (
+              <Tooltip title="Add to favorites">
+                <IconButton
+                  onClick={handleFavorited}
+                  style={{ minHeight: 0, minWidth: 0 }}
+                >
+                  <FavoriteBorderIcon
+                    sx={{ color: "#919E6A" }}
+                  ></FavoriteBorderIcon>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Remove from favorites">
+                <IconButton
+                  onClick={handleFavorited}
+                  style={{ minHeight: 0, minWidth: 0 }}
+                >
+                  <FavoriteIcon sx={{ color: "#919E6A" }}></FavoriteIcon>
+                </IconButton>
+              </Tooltip>
+            )}
+            <Tooltip title="Don't show again">
+              <IconButton
+                onClick={handleClickOpen}
+                style={{ minHeight: 0, minWidth: 0 }}
               >
-                <OpenInNewIcon sx={{ color: "#919E6A" }}></OpenInNewIcon>
-              </a>
-            </IconButton>
-          </Tooltip>
+                <BlacklistIcon sx={{ color: "#919E6A" }}></BlacklistIcon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Open Activity in Google Maps">
+              <IconButton style={{ minHeight: 0, minWidth: 0 }}>
+                <a
+                  href={props.url}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    padding: "0px",
+                    margin: "0px",
+                  }}
+                >
+                  <OpenInNewIcon sx={{ color: "#919E6A" }}></OpenInNewIcon>
+                </a>
+              </IconButton>
+            </Tooltip>
+          </Grid>
         </Grid>
         <Dialog
           open={open}

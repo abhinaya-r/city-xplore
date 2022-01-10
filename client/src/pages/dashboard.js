@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Header from "../components/header";
+import ActivityItinerary from "../components/activityItineraryDashboard";
 import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -108,8 +109,9 @@ const Mainpage = () => {
           }
         }
         setFavActivities(favorited);
+        console.log("favActivities: ", favActivities);
       })
-      .catch(() => setFavActivities(favorited));
+      .catch(() => console.log("error getting favorites"));
   };
 
   const typeStyle = {
@@ -122,15 +124,10 @@ const Mainpage = () => {
     fontSize: "30px",
   };
 
-  const handleItineraries = () => {
-    let itins = [];
-    itins = getPastItineraries();
-  };
-
   const handleDelete = (itinerary) => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log("in delete itinerary", itinerary);
+    // console.log("in delete itinerary", itinerary);
     // console.log("token", token);
     axios
       .post(`${uriBase}/itineraries/remove`, {
@@ -138,8 +135,10 @@ const Mainpage = () => {
         itinerary: itinerary,
       })
       .then((response) => {
-        console.log("response:", response);
-        getPastItineraries();
+        // console.log("response:", response);
+        // getFavoritedActivities();
+        // getPastItineraries();
+        window.location.reload(false);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
@@ -147,7 +146,7 @@ const Mainpage = () => {
   const handleDeleteActivity = (activity) => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log("in delete activity", activity);
+    // console.log("in delete activity", activity);
 
     axios
       .post(`${uriBase}/activities/favorite/remove`, {
@@ -155,7 +154,7 @@ const Mainpage = () => {
         activity: activity,
       })
       .then((response) => {
-        console.log("response:", response);
+        // console.log("response:", response);
         getFavoritedActivities();
       })
       .catch((error) => console.error(`Error: ${error}`));
@@ -198,10 +197,14 @@ const Mainpage = () => {
       );
       for (const [indexAct, valueAct] of valueItin["itinerary"].entries()) {
         activityObjects.push(
-          <Activity
+          <ActivityItinerary
             name={valueAct["name"]}
             rating={valueAct["rating"]}
             address={valueAct["address"]}
+            url={valueAct["url"]}
+            activity={valueAct}
+            favActivities={favActivities}
+            setFavActivities={setFavActivities}
           />
         );
       }
@@ -223,13 +226,14 @@ const Mainpage = () => {
       activityObjects = [];
     }
   }
+  // console.log("past itinerary objects: ", pastItineraryObjects);
 
   let favActivityObjects = [];
-  console.log("favActivities: ", favActivities);
+  // console.log("favActivities: ", favActivities);
 
   if (favActivities.length != 0) {
-    console.log("favActivityObjects length: ", favActivityObjects.length);
-    console.log("favActivities: ", favActivities);
+    // console.log("favActivityObjects length: ", favActivityObjects.length);
+    // console.log("favActivities: ", favActivities);
     for (const [index, value] of favActivities.entries()) {
       favActivityObjects.push(
         <GridListTile
@@ -249,6 +253,10 @@ const Mainpage = () => {
             name={value["name"]}
             rating={value["rating"]}
             address={value["address"]}
+            activity={value}
+            url={value["url"]}
+            favActivities={favActivities}
+            setFavActivities={setFavActivities}
           />
           <Tooltip title="Delete activity">
             <IconButton onClick={() => handleDeleteActivity(value)}>
