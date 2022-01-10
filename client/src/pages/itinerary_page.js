@@ -398,7 +398,7 @@ const Recommendations = () => {
                 textAlign: "center",
               }}
             >
-              Starting Address, City, or Zip Code *
+              Starting Address or City *
             </Typography>
             <Typography
               style={{
@@ -432,17 +432,6 @@ const Recommendations = () => {
               }}
             >
               New York City, New York
-            </Typography>
-            <Typography
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                color: "white",
-                fontSize: "15px",
-                paddingTop: "-10px",
-                textAlign: "center",
-              }}
-            >
-              10001
             </Typography>
             <TextField
               id="filled"
