@@ -76,6 +76,7 @@ const ForgotPassword = () => {
     const token = await getToken({
       email,
     });
+<<<<<<< Updated upstream
     fetch(`${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`, {
       method: "GET",
       headers: {
@@ -86,6 +87,27 @@ const ForgotPassword = () => {
       .catch((err) => console.error("loginUser error: ", err));
     window.location.href = "/checkemail";
   };
+=======
+    if (token.token == null) {
+      setEmailIsValid(false);
+    }
+    else {
+      fetch(
+        `${uriBase}/api/forgotpassword?token=${token.token}&email=${email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((data) => data.json())
+        .catch((err) => console.error("loginUser error: ", err));
+        window.location.href = "/checkemail";
+    }
+    
+  }
+>>>>>>> Stashed changes
 
   const cardStyle = {
     fontFamily: "Manrope, sans-serif",
@@ -189,7 +211,7 @@ const ForgotPassword = () => {
                 error={emailDirty && isEmailValid === false}
                 helperText={
                   emailDirty && isEmailValid === false
-                    ? "Please enter valid email"
+                    ? "This email is either invalid or not registered"
                     : ""
                 }
                 FormHelperTextProps={{ classes: helperTestClasses }}
