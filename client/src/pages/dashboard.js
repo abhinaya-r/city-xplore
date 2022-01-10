@@ -101,7 +101,7 @@ const Dashboard = () => {
         itinerary: itinerary,
       })
       .then(() => {
-        window.location.reload(false);
+        getPastItineraries();
       })
       .catch((error) => console.error(`Error: ${error}`));
   };

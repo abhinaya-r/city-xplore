@@ -3,18 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/Button";
 import { Tooltip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-
-import axios from "axios";
-
-// Set Base URI for axios call
-let uriBase = "http://localhost:3000";
-if (process.env.NODE_ENV == "production") {
-  uriBase = "https://city-xplore.herokuapp.com";
-} else if (process.env.NODE_ENV == "prod-test") {
-  uriBase = "https://test-xplore.herokuapp.com";
-}
 
 const map = new Map();
 map.set("restaurant", "Restaurant");
@@ -26,12 +15,6 @@ map.set("cafe", "Cafe");
 map.set("park", "Park");
 map.set("book_store", "Book Store");
 map.set("tourist_attraction", "Tourist Attraction");
-
-const useStyles = makeStyles(() => ({
-  a: {
-    hover: { backgroundColor: "black" },
-  },
-}));
 
 // Activity component on Dashboard
 export default function Activity(props) {
