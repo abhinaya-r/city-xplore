@@ -125,8 +125,10 @@ const UserItinerary = () => {
   // Creates array of activity objects to display the full itinerary
   const itineraryObjects = [];
   if (itinerary) {
+    let itineraryTemp = [...itinerary.entries()];
     for (const [ind, actOrder] of activityOrder.entries()) {
-      for (const [index, value] of itinerary.entries()) {
+      let i = 0;
+      for (const [index, value] of itineraryTemp) {
         if (value["type"] === actOrder) {
           itineraryObjects.push(
             <Activity
@@ -138,7 +140,9 @@ const UserItinerary = () => {
               activity={value}
             />
           );
+          itineraryTemp.splice(i, 1);
         }
+        i++;
       }
     }
   }
