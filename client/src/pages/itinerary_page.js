@@ -171,26 +171,13 @@ const Recommendations = () => {
         .get(`${uriBase}/activities/blacklist?token=${tk.token}`)
         .then((res) => {
           let blacklist = res.data;
-          axios
-            .post("api/new_itinerary", {
-              activities: activities,
-              address: address,
-              radius: radius,
-              price: price,
-              blacklist: blacklist,
-              importance: importance,
-            })
-            .then((response) => {
-              sessionStorage.setItem("activities", JSON.stringify(activities));
-              sessionStorage.setItem("address", address);
-              sessionStorage.setItem("radius", radius);
-              sessionStorage.setItem("price", price);
-              sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
-              sessionStorage.setItem("importance", importance);
-              if (response.data["status"] == "SUCCESS") {
-                window.location.href = "/itinerary";
-              }
-            });
+          sessionStorage.setItem("activities", JSON.stringify(activities));
+          sessionStorage.setItem("address", address);
+          sessionStorage.setItem("radius", radius);
+          sessionStorage.setItem("price", price);
+          sessionStorage.setItem("blacklist", JSON.stringify(blacklist));
+          sessionStorage.setItem("importance", importance);
+          window.location.href = "/itinerary";
         });
     } else {
       if (isAddressValid === false) setAddressDirty(true);

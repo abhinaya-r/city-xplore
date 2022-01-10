@@ -1,4 +1,4 @@
-// const Pool = require("pg").Pool;
+// https://medium.com/geekculture/deploy-node-application-and-postgresql-database-to-heroku-6efaa6be3b9b
 require('dotenv').config();
 const { Pool, Client } = require("pg");
 const credentials = {

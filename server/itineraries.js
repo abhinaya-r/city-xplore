@@ -1,12 +1,10 @@
+/* https://geshan.com.np/blog/2021/01/nodejs-postgresql-tutorial/ */
 const express = require("express");
 const router = express.Router();
 const itineraries = require("../services/itineraries");
 
-/* GET quotes listing. */
+/* GET all itineraries for a user. */
 router.get("/", async function (req, res, next) {
-  console.log("hi");
-  // console.log("getting itineraries: ", req);
-  //   res.send("hello world")
   try {
     res.json(await itineraries.get(req));
   } catch (err) {
@@ -15,9 +13,8 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-/* POST quotes */
+/* POST new itinerary for a user */
 router.post("/", async function (req, res, next) {
-  console.log("posting itinerary: ", req.body);
   try {
     res.json(await itineraries.create(req.body));
   } catch (err) {
@@ -26,8 +23,8 @@ router.post("/", async function (req, res, next) {
   }
 });
 
+/* POST remove itinerary for a user */
 router.post("/remove", async function (req, res, next) {
-  console.log("posting itinerary to remove: ", req.body);
   try {
     res.json(await itineraries.remove(req.body));
   } catch (err) {

@@ -1,5 +1,4 @@
-const { Pool } = require('pg');
-const config = require('../config');
+// https://geshan.com.np/blog/2021/01/nodejs-postgresql-tutorial/
 const pool = require('../services/connect.js')
 
 /**
