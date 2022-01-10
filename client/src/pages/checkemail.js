@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import loginImage from "../images/loginImage.png";
-import Header from "../components/header";
+import Header from "../components/header2";
 
 // Renders the page after the user inputs their email to
 // indicate that the email has been sent

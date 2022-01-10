@@ -1,10 +1,10 @@
+/* https://geshan.com.np/blog/2021/01/nodejs-postgresql-tutorial/ */
 const express = require("express");
 const router = express.Router();
 const activities = require("../services/activities");
 
-/* GET quotes listing. */
+/* GET all favorite activities for a user. */
 router.get("/favorite", async function (req, res, next) {
-  console.log("getting favorite activities: ", req.query);
   try {
     res.json(await activities.getFavorites(req));
   } catch (err) {
@@ -13,8 +13,8 @@ router.get("/favorite", async function (req, res, next) {
   }
 });
 
+/* GET all blacklisted activities for a user. */
 router.get("/blacklist", async function (req, res, next) {
-  console.log("getting blacklist activities: ", req.query);
   try {
     res.json(await activities.getBlacklist(req));
   } catch (err) {
@@ -23,9 +23,8 @@ router.get("/blacklist", async function (req, res, next) {
   }
 });
 
-/* POST quotes */
+/* POST new favorites activity for a user. */
 router.post("/favorite", async function (req, res, next) {
-  console.log("posting favorite activity: ", req.body);
   try {
     res.json(await activities.addFavorite(req.body));
   } catch (err) {
@@ -34,8 +33,8 @@ router.post("/favorite", async function (req, res, next) {
   }
 });
 
+/* POST new blacklisted activity for a user. */
 router.post("/blacklist", async function (req, res, next) {
-  console.log("posting blacklist activity: ", req.body);
   try {
     res.json(await activities.addBlacklist(req.body));
   } catch (err) {
@@ -44,8 +43,8 @@ router.post("/blacklist", async function (req, res, next) {
   }
 });
 
+/* POST remove blacklisted activity for a user. */
 router.post("/blacklist/remove", async function (req, res, next) {
-  console.log("posting blacklist activity: ", req.body);
   try {
     res.json(await activities.removeBlacklist(req.body));
   } catch (err) {
@@ -54,8 +53,8 @@ router.post("/blacklist/remove", async function (req, res, next) {
   }
 });
 
+/* POST remove favorited activity for a user. */
 router.post("/favorite/remove", async function (req, res, next) {
-  console.log("posting favorite activity: ", req.body);
   try {
     res.json(await activities.removeFavorite(req.body));
   } catch (err) {
