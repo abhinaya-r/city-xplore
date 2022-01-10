@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -9,18 +8,13 @@ import ActivityItinerary from "../components/activityItineraryDashboard";
 import Activity from "../components/activityDashboard";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { letterSpacing } from "@mui/system";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -28,6 +22,7 @@ if (process.env.NODE_ENV == "production") {
   uriBase = "https://test-xplore.herokuapp.com";
 }
 
+// Styling
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -38,49 +33,21 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     flexWrap: "nowrap",
-    // position: "absolute",
   },
   gridListTile: {
     position: "relative",
-    display: "block", // In case it's not rendered with a div.
+    display: "block",
   },
 }));
 
-const Mainpage = () => {
+//
+const Dashboard = () => {
+  // States to keep track of itineraries and activities
   const [pastItineraries, setPastItineraries] = React.useState(null);
   const [favActivities, setFavActivities] = React.useState([]);
-
-  const [open, setOpen] = React.useState(false);
-  const [openActivity, setOpenActivity] = React.useState(false);
-  const [count, setCount] = React.useState(0);
-
-  // const [activity, setActivity] = React.useState(null);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleClickOpenActivity = () => {
-    setOpenActivity(true);
-  };
-  const handleCloseActivity = () => {
-    setOpenActivity(false);
-  };
   const classes = useStyles();
 
-  const cardStyle = {
-    backgroundColor: "#ACD7AB",
-    padding: "20px",
-    // marginBottom: "20px",
-    // width: "25%",
-    // height: "25%",
-    fontFamily: "Manrope, sans-serif",
-    borderRadius: "10px",
-  };
-
+  // Function to get user's saved itineraries
   const getPastItineraries = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
@@ -93,9 +60,8 @@ const Mainpage = () => {
       .catch((error) => console.error(`Error past itineraries: ${error}`));
   };
 
-  // let favActivityObjects = [];
+  // Finds and stores favorited activities
   let favorited = [];
-
   const getFavoritedActivities = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
@@ -114,6 +80,7 @@ const Mainpage = () => {
       .catch(() => console.log("error getting favorites"));
   };
 
+  // Styling
   const typeStyle = {
     font: "Manrope, sans-serif",
     fontFamily: "Manrope, sans-serif",
@@ -124,50 +91,45 @@ const Mainpage = () => {
     fontSize: "30px",
   };
 
+  // Handles deleting an itinerary
   const handleDelete = (itinerary) => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    // console.log("in delete itinerary", itinerary);
-    // console.log("token", token);
     axios
       .post(`${uriBase}/itineraries/remove`, {
         token: tk.token,
         itinerary: itinerary,
       })
-      .then((response) => {
-        // console.log("response:", response);
-        // getFavoritedActivities();
-        // getPastItineraries();
+      .then(() => {
         window.location.reload(false);
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Handles deleting an activity
   const handleDeleteActivity = (activity) => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    // console.log("in delete activity", activity);
-
     axios
       .post(`${uriBase}/activities/favorite/remove`, {
         token: tk.token,
         activity: activity,
       })
-      .then((response) => {
-        // console.log("response:", response);
+      .then(() => {
         getFavoritedActivities();
       })
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Gets Saved Itineraries and Favorited activities when page renders
   React.useEffect(() => {
     getPastItineraries();
     getFavoritedActivities();
   }, []);
 
+  // Creates itinerary objects to render later
   let activityObjects = [];
   let pastItineraryObjects = [];
-
   if (pastItineraries) {
     for (const [indexItin, valueItin] of pastItineraries.reverse().entries()) {
       let date = valueItin["date"].split("T");
@@ -226,14 +188,10 @@ const Mainpage = () => {
       activityObjects = [];
     }
   }
-  // console.log("past itinerary objects: ", pastItineraryObjects);
 
+  // Creates objects for favorited activities to render later
   let favActivityObjects = [];
-  // console.log("favActivities: ", favActivities);
-
   if (favActivities.length != 0) {
-    // console.log("favActivityObjects length: ", favActivityObjects.length);
-    // console.log("favActivities: ", favActivities);
     for (const [index, value] of favActivities.entries()) {
       favActivityObjects.push(
         <GridListTile
@@ -394,74 +352,8 @@ const Mainpage = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        PaperProps={{
-          style: {
-            backgroundColor: "#ACD7AB",
-            boxShadow: "none",
-            color: "white",
-          },
-        }}
-      >
-        <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
-          {"Confirm Delete Itinerary"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            style={{ color: "white" }}
-          >
-            Are you sure you want to delete the itinerary?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} style={{ color: "white" }}>
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} style={{ color: "white" }}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        open={openActivity}
-        onClose={handleCloseActivity}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        PaperProps={{
-          style: {
-            backgroundColor: "#ACD7AB",
-            boxShadow: "none",
-            color: "white",
-          },
-        }}
-      >
-        <DialogTitle id="alert-dialog-title" style={{ color: "white" }}>
-          {"Confirm Delete Activity"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            style={{ color: "white" }}
-          >
-            Are you sure you want to delete the activity?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseActivity} style={{ color: "white" }}>
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteActivity} style={{ color: "white" }}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
 
-export default Mainpage;
+export default Dashboard;

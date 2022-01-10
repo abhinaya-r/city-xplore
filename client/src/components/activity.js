@@ -17,6 +17,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import axios from "axios";
 
+// Set Base URI for axios call
 let uriBase = "http://localhost:3000";
 if (process.env.NODE_ENV == "production") {
   uriBase = "https://city-xplore.herokuapp.com";
@@ -57,7 +58,6 @@ export default function Activity(props) {
     marginTop: "0px",
     marginBottom: "0px",
   };
-
   const boxStyle = {
     width: "100%",
     color: "#919E6A",
@@ -69,10 +69,10 @@ export default function Activity(props) {
     fontFamily: "Manrope, sans-serif",
   };
 
+  // Function to handle favoriting or unfavoriting an activity
   const handleFavorited = () => {
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
     setIsFavorited(!isFavorited);
     if (!isFavorited) {
       axios
@@ -93,12 +93,12 @@ export default function Activity(props) {
     }
   };
 
+  // Function to blacklist activities
   const handleBlacklist = () => {
     setOpen(false);
     setColor("gray");
     let token = localStorage.getItem("token");
     let tk = JSON.parse(token);
-    console.log(token);
     axios
       .post(`${uriBase}/activities/blacklist`, {
         token: tk.token,
@@ -108,6 +108,7 @@ export default function Activity(props) {
       .catch((error) => console.error(`Error: ${error}`));
   };
 
+  // Function to check if the activity is favorited to indicate which icon to show
   const checkIfFavorited = (activity) => {
     setIsFavorited(false);
     let token = localStorage.getItem("token");
@@ -118,9 +119,6 @@ export default function Activity(props) {
       .then((response) => {
         if (response != null) {
           for (const [index, value] of response.data.entries()) {
-            console.log("valueCheck: ", value);
-            console.log("activity: ", activity);
-            console.log("equal: ", value["activity"] === activity);
             let val = value["activity"];
             if (
               val["address"] === activity["address"] &&
@@ -128,12 +126,11 @@ export default function Activity(props) {
               val["url"] === activity["url"]
             ) {
               setIsFavorited(true);
-              console.log("favorited: ", isFavorited);
             }
           }
         }
       })
-      .catch(() => console.log("error in getting favorites"));
+      .catch(() => console.error("error in getting favorites"));
   };
 
   React.useEffect(() => {
