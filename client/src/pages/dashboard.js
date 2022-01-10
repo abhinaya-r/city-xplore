@@ -202,6 +202,7 @@ const Mainpage = () => {
             name={valueAct["name"]}
             rating={valueAct["rating"]}
             address={valueAct["address"]}
+            url={valueAct["url"]}
             activity={valueAct}
             favActivities={favActivities}
             setFavActivities={setFavActivities}
@@ -254,6 +255,7 @@ const Mainpage = () => {
             rating={value["rating"]}
             address={value["address"]}
             activity={value}
+            url={value["url"]}
             favActivities={favActivities}
             setFavActivities={setFavActivities}
           />
